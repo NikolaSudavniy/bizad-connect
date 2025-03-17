@@ -74,6 +74,16 @@ const PopularVacancies = () => {
         </div>
         
         <div className="relative">
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full hidden md:flex z-10"
+            onClick={() => document.querySelector('.embla__prev')?.dispatchEvent(new MouseEvent('click'))}
+          >
+            <ChevronLeft className="h-5 w-5" />
+            <span className="sr-only">Previous slide</span>
+          </Button>
+          
           <Carousel
             opts={{
               align: "start",
@@ -91,32 +101,20 @@ const PopularVacancies = () => {
               ))}
             </CarouselContent>
             
-            {/* Mobile swipe buttons */}
-            <div className="flex justify-center mt-6 md:hidden gap-2">
-              <Button 
-                variant="outline" 
-                size="icon" 
-                className="h-9 w-9 rounded-full"
-                onClick={() => document.querySelector('.embla__prev')?.dispatchEvent(new MouseEvent('click'))}
-              >
-                <ChevronLeft className="h-5 w-5" />
-                <span className="sr-only">Previous slide</span>
-              </Button>
-              <Button 
-                variant="outline" 
-                size="icon" 
-                className="h-9 w-9 rounded-full"
-                onClick={() => document.querySelector('.embla__next')?.dispatchEvent(new MouseEvent('click'))}
-              >
-                <ChevronRight className="h-5 w-5" />
-                <span className="sr-only">Next slide</span>
-              </Button>
-            </div>
-            
-            {/* Desktop navigation arrows */}
-            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 hidden md:flex embla__prev" />
-            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 hidden md:flex embla__next" />
+            {/* Hidden carousel navigation for button references */}
+            <CarouselPrevious className="hidden embla__prev" />
+            <CarouselNext className="hidden embla__next" />
           </Carousel>
+          
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full hidden md:flex z-10"
+            onClick={() => document.querySelector('.embla__next')?.dispatchEvent(new MouseEvent('click'))}
+          >
+            <ChevronRight className="h-5 w-5" />
+            <span className="sr-only">Next slide</span>
+          </Button>
         </div>
       </div>
     </section>
