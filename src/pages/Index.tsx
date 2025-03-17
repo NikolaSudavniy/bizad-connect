@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/home/Hero';
 import CategorySelector from '@/components/home/CategorySelector';
-import FeaturedListings from '@/components/home/FeaturedListings';
+import PopularVacancies from '@/components/home/PopularVacancies';
 import { ArrowRight, MousePointer, Zap, BarChart } from 'lucide-react';
 import AuthModal from '@/components/auth/AuthModal';
 
@@ -35,8 +34,8 @@ const Index = () => {
           <CategorySelector />
         </div>
         
-        {/* Featured Listings */}
-        <FeaturedListings />
+        {/* Popular Vacancies (replaced FeaturedListings) */}
+        <PopularVacancies />
         
         {/* Features Section */}
         <section className="py-20 bg-secondary/30">
