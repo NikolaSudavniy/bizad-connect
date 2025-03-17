@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useRef } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import VacancyCard, { VacancyProps } from './VacancyCard';
 import { 
@@ -8,7 +8,8 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious
+  CarouselPrevious,
+  type CarouselApi
 } from '@/components/ui/carousel';
 
 // Sample vacancies data mimicking the image
@@ -59,6 +60,16 @@ const vacancies: VacancyProps[] = [
 ];
 
 const PopularVacancies = () => {
+  const [api, setApi] = React.useState<CarouselApi>();
+
+  const scrollPrev = React.useCallback(() => {
+    api?.scrollPrev();
+  }, [api]);
+
+  const scrollNext = React.useCallback(() => {
+    api?.scrollNext();
+  }, [api]);
+
   return (
     <section className="py-16 px-6">
       <div className="max-w-7xl mx-auto">
@@ -78,7 +89,7 @@ const PopularVacancies = () => {
             variant="outline" 
             size="icon" 
             className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full hidden md:flex z-10"
-            onClick={() => document.querySelector('.embla__prev')?.dispatchEvent(new MouseEvent('click'))}
+            onClick={scrollPrev}
           >
             <ChevronLeft className="h-5 w-5" />
             <span className="sr-only">Previous slide</span>
@@ -90,6 +101,7 @@ const PopularVacancies = () => {
               loop: true,
             }}
             className="w-full"
+            setApi={setApi}
           >
             <CarouselContent>
               {vacancies.map((vacancy) => (
@@ -100,17 +112,13 @@ const PopularVacancies = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            
-            {/* Hidden carousel navigation for button references */}
-            <CarouselPrevious className="hidden embla__prev" />
-            <CarouselNext className="hidden embla__next" />
           </Carousel>
           
           <Button 
             variant="outline" 
             size="icon" 
             className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full hidden md:flex z-10"
-            onClick={() => document.querySelector('.embla__next')?.dispatchEvent(new MouseEvent('click'))}
+            onClick={scrollNext}
           >
             <ChevronRight className="h-5 w-5" />
             <span className="sr-only">Next slide</span>
