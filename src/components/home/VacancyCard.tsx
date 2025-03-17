@@ -20,8 +20,8 @@ export interface VacancyProps {
 
 const VacancyCard = ({ vacancy }: { vacancy: VacancyProps }) => {
   return (
-    <Card className="rounded-xl overflow-hidden border border-border hover:border-primary/30 transition-all hover:shadow-sm">
-      <div className="p-5">
+    <Card className="rounded-xl overflow-hidden border border-border hover:border-primary/30 transition-all hover:shadow-sm h-full flex flex-col">
+      <div className="p-5 flex flex-col h-full">
         <div className="flex justify-between items-start mb-3">
           <div className="flex items-center">
             {vacancy.logo ? (
@@ -35,7 +35,7 @@ const VacancyCard = ({ vacancy }: { vacancy: VacancyProps }) => {
             )}
             <div>
               <h3 className="font-semibold line-clamp-1">{vacancy.title}</h3>
-              <p className="text-sm text-muted-foreground">{vacancy.company}</p>
+              <p className="text-sm text-muted-foreground line-clamp-1">{vacancy.company}</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
@@ -44,7 +44,7 @@ const VacancyCard = ({ vacancy }: { vacancy: VacancyProps }) => {
           </Button>
         </div>
 
-        <div className="space-y-2 mb-4">
+        <div className="space-y-2 mb-4 flex-grow">
           <div className="flex items-center text-sm text-muted-foreground">
             <MapPin className="h-3.5 w-3.5 mr-1.5" />
             <span>{vacancy.location}</span>
@@ -63,7 +63,7 @@ const VacancyCard = ({ vacancy }: { vacancy: VacancyProps }) => {
           )}
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-auto">
           <div className="flex items-center text-xs text-muted-foreground">
             <Clock className="h-3 w-3 mr-1" />
             <span>{vacancy.postedTime}</span>

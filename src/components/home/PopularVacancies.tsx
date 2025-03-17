@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import VacancyCard, { VacancyProps } from './VacancyCard';
 import { 
@@ -83,13 +83,39 @@ const PopularVacancies = () => {
           >
             <CarouselContent>
               {vacancies.map((vacancy) => (
-                <CarouselItem key={vacancy.id} className="pl-1 md:basis-1/2 lg:basis-1/3">
-                  <VacancyCard vacancy={vacancy} />
+                <CarouselItem key={vacancy.id} className="pl-1 md:basis-1/2 lg:basis-1/3 h-full">
+                  <div className="h-full">
+                    <VacancyCard vacancy={vacancy} />
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 hidden md:flex" />
-            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 hidden md:flex" />
+            
+            {/* Mobile swipe buttons */}
+            <div className="flex justify-center mt-6 md:hidden gap-2">
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="h-9 w-9 rounded-full"
+                onClick={() => document.querySelector('.embla__prev')?.dispatchEvent(new MouseEvent('click'))}
+              >
+                <ChevronLeft className="h-5 w-5" />
+                <span className="sr-only">Previous slide</span>
+              </Button>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="h-9 w-9 rounded-full"
+                onClick={() => document.querySelector('.embla__next')?.dispatchEvent(new MouseEvent('click'))}
+              >
+                <ChevronRight className="h-5 w-5" />
+                <span className="sr-only">Next slide</span>
+              </Button>
+            </div>
+            
+            {/* Desktop navigation arrows */}
+            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 hidden md:flex embla__prev" />
+            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 hidden md:flex embla__next" />
           </Carousel>
         </div>
       </div>
