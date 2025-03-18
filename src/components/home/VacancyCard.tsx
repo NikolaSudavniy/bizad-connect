@@ -47,7 +47,7 @@ const VacancyCard = ({ vacancy }: { vacancy: VacancyProps }) => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className={`h-8 w-8 rounded-full ${isFavorite ? 'text-rose-500 hover:text-rose-400' : 'hover:text-rose-400'}`}
+            className={`h-8 w-8 rounded-full ${isFavorite ? 'text-blue-500 hover:text-blue-400' : 'hover:text-blue-400'}`}
             onClick={toggleFavorite}
           >
             <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
