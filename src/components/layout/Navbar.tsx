@@ -39,22 +39,6 @@ const Navbar = () => {
             BizAd<span className="text-primary">Connect</span>
           </a>
           
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-              Find Ads
-            </a>
-            <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-              Post Ad
-            </a>
-            <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-              Business Solutions
-            </a>
-            <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-              Pricing
-            </a>
-          </nav>
-          
           {/* Actions */}
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="outline" size="sm" className="rounded-full">
