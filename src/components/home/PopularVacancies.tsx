@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import VacancyCard, { VacancyProps } from './VacancyCard';
@@ -7,13 +7,12 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi
+  CarouselApi
 } from '@/components/ui/carousel';
+import { useCategory } from '@/contexts/CategoryContext';
 
-// Sample vacancies data mimicking the image
-const vacancies: VacancyProps[] = [
+// Sample vacancies data with categories
+const vacancies: (VacancyProps & { categories: string[] })[] = [
   {
     id: 1,
     title: 'Front-end розробник',
@@ -22,7 +21,8 @@ const vacancies: VacancyProps[] = [
     experience: '2 роки',
     postedTime: '16 год. тому',
     progress: 6,
-    isNew: true
+    isNew: true,
+    categories: ['digital', 'social']
   },
   {
     id: 2,
@@ -31,6 +31,7 @@ const vacancies: VacancyProps[] = [
     location: 'Дніпро',
     salary: '37 000 грн',
     postedTime: '2 дні тому',
+    categories: ['digital', 'print']
   },
   {
     id: 3,
@@ -39,6 +40,7 @@ const vacancies: VacancyProps[] = [
     location: 'Київ',
     experience: '1 рік',
     postedTime: '4 дні тому',
+    categories: ['digital', 'events']
   },
   {
     id: 4,
@@ -47,6 +49,7 @@ const vacancies: VacancyProps[] = [
     location: 'Київ',
     salary: '25 000 - 33 000 грн',
     postedTime: '5 днів тому',
+    categories: ['tv', 'social']
   },
   {
     id: 5,
@@ -56,11 +59,13 @@ const vacancies: VacancyProps[] = [
     salary: '60 000 грн',
     experience: '3 роки',
     postedTime: '7 днів тому',
+    categories: ['social', 'influencer']
   },
 ];
 
 const PopularVacancies = () => {
   const [api, setApi] = React.useState<CarouselApi>();
+  const { selectedCategory } = useCategory();
 
   const scrollPrev = React.useCallback(() => {
     api?.scrollPrev();
@@ -69,6 +74,16 @@ const PopularVacancies = () => {
   const scrollNext = React.useCallback(() => {
     api?.scrollNext();
   }, [api]);
+
+  // Filter vacancies based on selected category
+  const filteredVacancies = React.useMemo(() => {
+    if (selectedCategory === 'all') {
+      return vacancies;
+    }
+    return vacancies.filter(vacancy => 
+      vacancy.categories.includes(selectedCategory)
+    );
+  }, [selectedCategory]);
 
   return (
     <section className="py-16 px-6">
@@ -104,13 +119,23 @@ const PopularVacancies = () => {
             setApi={setApi}
           >
             <CarouselContent>
-              {vacancies.map((vacancy) => (
-                <CarouselItem key={vacancy.id} className="pl-1 md:basis-1/2 lg:basis-1/3 h-full">
-                  <div className="h-full">
-                    <VacancyCard vacancy={vacancy} />
+              {filteredVacancies.length > 0 ? (
+                filteredVacancies.map((vacancy) => (
+                  <CarouselItem key={vacancy.id} className="pl-1 md:basis-1/2 lg:basis-1/3 h-full">
+                    <div className="h-full">
+                      <VacancyCard vacancy={vacancy} />
+                    </div>
+                  </CarouselItem>
+                ))
+              ) : (
+                <CarouselItem className="pl-1 basis-full h-full">
+                  <div className="h-full flex items-center justify-center p-8 border border-dashed rounded-xl border-muted-foreground/30">
+                    <p className="text-muted-foreground text-center">
+                      No vacancies found for this category.
+                    </p>
                   </div>
                 </CarouselItem>
-              ))}
+              )}
             </CarouselContent>
           </Carousel>
           

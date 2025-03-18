@@ -6,6 +6,7 @@ import CategorySelector from '@/components/home/CategorySelector';
 import PopularVacancies from '@/components/home/PopularVacancies';
 import { ArrowRight, MousePointer, Zap, BarChart } from 'lucide-react';
 import AuthModal from '@/components/auth/AuthModal';
+import { CategoryProvider } from '@/contexts/CategoryContext';
 
 const Index = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -29,13 +30,13 @@ const Index = () => {
         {/* Hero Section */}
         <Hero />
         
-        {/* Category Selector */}
-        <div className="py-10 border-y border-border">
-          <CategorySelector />
-        </div>
-        
-        {/* Popular Vacancies (replaced FeaturedListings) */}
-        <PopularVacancies />
+        {/* Category and Vacancies with shared context */}
+        <CategoryProvider>
+          <div className="py-10 border-y border-border">
+            <CategorySelector />
+          </div>
+          <PopularVacancies />
+        </CategoryProvider>
         
         {/* Features Section */}
         <section className="py-20 bg-secondary/30">

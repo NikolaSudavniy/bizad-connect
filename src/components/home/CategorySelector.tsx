@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { cn } from '@/lib/utils';
+import { useCategory } from '@/contexts/CategoryContext';
 
 // Sample category data
 const categories = [
@@ -15,7 +16,7 @@ const categories = [
 ];
 
 const CategorySelector = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const { selectedCategory, setSelectedCategory } = useCategory();
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4">
