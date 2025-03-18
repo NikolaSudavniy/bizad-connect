@@ -85,6 +85,9 @@ const PopularVacancies = () => {
     );
   }, [selectedCategory]);
 
+  // Check if there's only one vacancy to center it
+  const isSingleVacancy = filteredVacancies.length === 1;
+
   return (
     <section className="py-16 px-6">
       <div className="max-w-7xl mx-auto">
@@ -112,7 +115,7 @@ const PopularVacancies = () => {
           
           <Carousel
             opts={{
-              align: "start",
+              align: isSingleVacancy ? "center" : "start",
               loop: true,
             }}
             className="w-full"
@@ -121,7 +124,10 @@ const PopularVacancies = () => {
             <CarouselContent>
               {filteredVacancies.length > 0 ? (
                 filteredVacancies.map((vacancy) => (
-                  <CarouselItem key={vacancy.id} className="pl-1 md:basis-1/2 lg:basis-1/3 h-full">
+                  <CarouselItem 
+                    key={vacancy.id} 
+                    className={`pl-1 ${isSingleVacancy ? 'basis-full md:basis-1/2 lg:basis-1/3' : 'md:basis-1/2 lg:basis-1/3'} h-full`}
+                  >
                     <div className="h-full">
                       <VacancyCard vacancy={vacancy} />
                     </div>
