@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,12 @@ export interface VacancyProps {
 }
 
 const VacancyCard = ({ vacancy }: { vacancy: VacancyProps }) => {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
   return (
     <Card className="rounded-xl overflow-hidden border border-border hover:border-primary/30 transition-all hover:shadow-sm h-full flex flex-col">
       <div className="p-5 flex flex-col h-full">
@@ -38,8 +44,13 @@ const VacancyCard = ({ vacancy }: { vacancy: VacancyProps }) => {
               <p className="text-sm text-muted-foreground line-clamp-1">{vacancy.company}</p>
             </div>
           </div>
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-            <Heart className="h-4 w-4" />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className={`h-8 w-8 rounded-full ${isFavorite ? 'text-rose-500 hover:text-rose-400' : 'hover:text-rose-400'}`}
+            onClick={toggleFavorite}
+          >
+            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
             <span className="sr-only">Save to favorites</span>
           </Button>
         </div>
