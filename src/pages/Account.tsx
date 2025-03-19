@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Briefcase, Megaphone, Search, Building, Users, Book, Star, 
+  Briefcase, Search, Building, Users, Book, Star, 
   MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,12 +12,14 @@ import {
 } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AccountType } from '@/components/layout/Navbar';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Account = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accountType, setAccountType] = useState<AccountType | null>(null);
   const [activeTab, setActiveTab] = useState<string>('profile');
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Check authentication status
@@ -84,15 +86,15 @@ const Account = () => {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              {accountType === 'business' ? 'Business Dashboard' : 'Advertiser Dashboard'}
+              {accountType === 'business' ? t('business.dashboard') : t('agency.dashboard')}
             </h1>
             <p className="text-muted-foreground mt-1">
-              Manage your {accountType === 'business' ? 'business' : 'advertising agency'} profile and activities
+              {accountType === 'business' ? t('business.manageProfile') : t('agency.manageProfile')}
             </p>
           </div>
           <Button onClick={() => navigate('/')} variant="outline" size="sm">
             <Home className="mr-2 h-4 w-4" />
-            Back to Home
+            {accountType === 'business' ? t('business.back') : t('agency.back')}
           </Button>
         </div>
         
@@ -111,7 +113,7 @@ const Account = () => {
                   onClick={() => setActiveTab('profile')}
                 >
                   <Building className="mr-2 h-4 w-4" />
-                  Business Profile
+                  {t('business.profile')}
                 </Button>
                 <Button
                   variant={activeTab === 'search' ? 'secondary' : 'ghost'}
@@ -119,7 +121,7 @@ const Account = () => {
                   onClick={() => setActiveTab('search')}
                 >
                   <Search className="mr-2 h-4 w-4" />
-                  Ad Search
+                  {t('business.search')}
                 </Button>
                 <Button
                   variant={activeTab === 'agencies' ? 'secondary' : 'ghost'}
@@ -127,7 +129,7 @@ const Account = () => {
                   onClick={() => setActiveTab('agencies')}
                 >
                   <Users className="mr-2 h-4 w-4" />
-                  Agency Offers
+                  {t('business.agencies')}
                 </Button>
                 <Button
                   variant={activeTab === 'training' ? 'secondary' : 'ghost'}
@@ -135,7 +137,7 @@ const Account = () => {
                   onClick={() => setActiveTab('training')}
                 >
                   <GraduationCap className="mr-2 h-4 w-4" />
-                  Training
+                  {t('business.training')}
                 </Button>
                 <Button
                   variant={activeTab === 'reviews' ? 'secondary' : 'ghost'}
@@ -143,7 +145,7 @@ const Account = () => {
                   onClick={() => setActiveTab('reviews')}
                 >
                   <Star className="mr-2 h-4 w-4" />
-                  Reviews & Ratings
+                  {t('business.reviews')}
                 </Button>
                 <Button
                   variant={activeTab === 'messages' ? 'secondary' : 'ghost'}
@@ -151,7 +153,7 @@ const Account = () => {
                   onClick={() => setActiveTab('messages')}
                 >
                   <MessageSquare className="mr-2 h-4 w-4" />
-                  Messages
+                  {t('business.messages')}
                 </Button>
               </div>
             ) : (
@@ -162,7 +164,7 @@ const Account = () => {
                   onClick={() => setActiveTab('profile')}
                 >
                   <Briefcase className="mr-2 h-4 w-4" />
-                  Agency Profile
+                  {t('agency.profile')}
                 </Button>
                 <Button
                   variant={activeTab === 'offers' ? 'secondary' : 'ghost'}
@@ -170,7 +172,7 @@ const Account = () => {
                   onClick={() => setActiveTab('offers')}
                 >
                   <Edit className="mr-2 h-4 w-4" />
-                  Managing Offers
+                  {t('agency.offers')}
                 </Button>
                 <Button
                   variant={activeTab === 'requests' ? 'secondary' : 'ghost'}
@@ -178,7 +180,7 @@ const Account = () => {
                   onClick={() => setActiveTab('requests')}
                 >
                   <Bell className="mr-2 h-4 w-4" />
-                  Requests
+                  {t('agency.requests')}
                 </Button>
                 <Button
                   variant={activeTab === 'training' ? 'secondary' : 'ghost'}
@@ -186,7 +188,7 @@ const Account = () => {
                   onClick={() => setActiveTab('training')}
                 >
                   <GraduationCap className="mr-2 h-4 w-4" />
-                  Training
+                  {t('agency.training')}
                 </Button>
                 <Button
                   variant={activeTab === 'reports' ? 'secondary' : 'ghost'}
@@ -194,7 +196,7 @@ const Account = () => {
                   onClick={() => setActiveTab('reports')}
                 >
                   <ChartLine className="mr-2 h-4 w-4" />
-                  Reports
+                  {t('agency.reports')}
                 </Button>
                 <Button
                   variant={activeTab === 'reviews' ? 'secondary' : 'ghost'}
@@ -202,7 +204,7 @@ const Account = () => {
                   onClick={() => setActiveTab('reviews')}
                 >
                   <Star className="mr-2 h-4 w-4" />
-                  Reviews
+                  {t('agency.reviews')}
                 </Button>
               </div>
             )}
