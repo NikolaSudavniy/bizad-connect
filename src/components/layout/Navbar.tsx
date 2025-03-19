@@ -14,6 +14,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Link, useNavigate } from 'react-router-dom';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Define the account types
 export type AccountType = 'business' | 'advertiser';
@@ -24,6 +26,7 @@ const Navbar = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'register'>('login');
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   // Extended authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -91,6 +94,8 @@ const Navbar = () => {
               Search
             </Button>
             
+            <LanguageSwitcher />
+            
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="relative cursor-pointer">
@@ -107,7 +112,7 @@ const Navbar = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuLabel>
-                    {accountType === 'business' ? 'Business Account' : 'Advertiser Account'}
+                    {accountType === 'business' ? t('account.business') : t('account.advertiser')}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   
@@ -115,18 +120,18 @@ const Navbar = () => {
                     <>
                       <DropdownMenuItem className="cursor-pointer" onClick={goToAccount}>
                         <User className="mr-2 h-4 w-4" />
-                        <span>My Account</span>
+                        <span>{t('nav.myAccount')}</span>
                       </DropdownMenuItem>
                       
                       {accountType === 'business' ? (
                         <DropdownMenuItem className="cursor-pointer">
                           <Search className="mr-2 h-4 w-4" />
-                          <span>Find Services</span>
+                          <span>{t('nav.findServices')}</span>
                         </DropdownMenuItem>
                       ) : (
                         <DropdownMenuItem className="cursor-pointer">
                           <Megaphone className="mr-2 h-4 w-4" />
-                          <span>My Listings</span>
+                          <span>{t('nav.myListings')}</span>
                         </DropdownMenuItem>
                       )}
                     </>
@@ -139,14 +144,14 @@ const Navbar = () => {
                         onClick={() => handleAccountSelection('business')}
                       >
                         <Briefcase className="mr-2 h-4 w-4" />
-                        <span>Business Account</span>
+                        <span>{t('account.business')}</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         className="cursor-pointer"
                         onClick={() => handleAccountSelection('advertiser')}
                       >
                         <Megaphone className="mr-2 h-4 w-4" />
-                        <span>Advertiser Account</span>
+                        <span>{t('account.advertiser')}</span>
                       </DropdownMenuItem>
                     </>
                   )}
@@ -157,7 +162,7 @@ const Navbar = () => {
                     onClick={handleLogout}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                    <span>{t('nav.signOut')}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -168,18 +173,21 @@ const Navbar = () => {
                 className="rounded-full"
                 onClick={handleSignInClick}
               >
-                Sign In
+                {t('nav.signIn')}
               </Button>
             )}
           </div>
           
           {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden p-2 text-foreground"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden flex items-center space-x-2">
+            <LanguageSwitcher />
+            <button 
+              className="p-2 text-foreground"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
         
         {/* Mobile Menu */}
