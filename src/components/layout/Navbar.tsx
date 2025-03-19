@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Menu, X, Briefcase, Megaphone, User, LogOut } from 'lucide-react';
+import { Search, Menu, X, Briefcase, Megaphone, User, LogOut, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AuthModal from '@/components/auth/AuthModal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Define the account types
 export type AccountType = 'business' | 'advertiser';
@@ -22,6 +23,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'register'>('login');
+  const navigate = useNavigate();
   
   // Extended authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -64,6 +66,10 @@ const Navbar = () => {
     localStorage.removeItem('accountType');
   };
 
+  const goToAccount = () => {
+    navigate('/account');
+  };
+
   return (
     <>
       <header 
@@ -74,9 +80,9 @@ const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
-          <a href="/" className="text-2xl font-display font-bold text-foreground">
+          <Link to="/" className="text-2xl font-display font-bold text-foreground">
             BizAd<span className="text-primary">Connect</span>
-          </a>
+          </Link>
           
           {/* Actions */}
           <div className="hidden md:flex items-center space-x-4">
@@ -107,9 +113,9 @@ const Navbar = () => {
                   
                   {accountType && (
                     <>
-                      <DropdownMenuItem className="cursor-pointer">
+                      <DropdownMenuItem className="cursor-pointer" onClick={goToAccount}>
                         <User className="mr-2 h-4 w-4" />
-                        <span>Profile</span>
+                        <span>My Account</span>
                       </DropdownMenuItem>
                       
                       {accountType === 'business' ? (
@@ -216,6 +222,16 @@ const Navbar = () => {
                     <div className="ml-auto h-2.5 w-2.5 rounded-full bg-blue-500"></div>
                   </div>
                   
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="justify-start"
+                    onClick={goToAccount}
+                  >
+                    <User className="mr-2 h-4 w-4" />
+                    My Account
+                  </Button>
+                  
                   {!accountType && (
                     <div className="flex flex-col space-y-2 pt-2">
                       <Button 
@@ -274,16 +290,24 @@ const Navbar = () => {
             const authState = localStorage.getItem('isAuthenticated');
             if (authState === 'true') {
               setIsAuthenticated(true);
-              // Account type will be selected after login
+              // Get account type from localStorage if it exists
+              const storedAccountType = localStorage.getItem('accountType') as AccountType | null;
+              if (storedAccountType) {
+                setAccountType(storedAccountType);
+              }
             }
           }
         }} 
         defaultTab={authModalTab}
-        onAuthSuccess={() => {
+        onAuthSuccess={(selectedAccountType) => {
           // Set authentication state and store in localStorage
           setIsAuthenticated(true);
           localStorage.setItem('isAuthenticated', 'true');
-          // Account type will be selected later
+          // Set account type if provided (for registration)
+          if (selectedAccountType) {
+            setAccountType(selectedAccountType);
+            localStorage.setItem('accountType', selectedAccountType);
+          }
         }}
       />
     </>

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -7,8 +8,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { AtSign, EyeOff, Eye, UserPlus, LogIn, Check } from 'lucide-react';
+import { AtSign, EyeOff, Eye, UserPlus, LogIn, Check, Briefcase, Megaphone } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent } from '@/components/ui/card';
+import { AccountType } from '@/components/layout/Navbar';
 
 // Form validation schemas
 const loginSchema = z.object({
@@ -43,6 +46,9 @@ const registerSchema = z.object({
     }),
   confirmPassword: z.string()
     .min(1, { message: 'Please confirm your password' }),
+  accountType: z.enum(['business', 'advertiser'], {
+    required_error: "Please select an account type",
+  }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -55,7 +61,7 @@ interface AuthModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   defaultTab?: 'login' | 'register';
-  onAuthSuccess?: () => void;
+  onAuthSuccess?: (accountType?: AccountType) => void;
 }
 
 const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: AuthModalProps) => {
@@ -82,6 +88,7 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
       email: '',
       password: '',
       confirmPassword: '',
+      accountType: undefined,
     },
     mode: 'onChange',
   });
@@ -117,11 +124,12 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
     
     // Call the onAuthSuccess callback if provided
     if (onAuthSuccess) {
-      onAuthSuccess();
+      onAuthSuccess(data.accountType);
     }
     
     // Store auth state in localStorage for persistence
     localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('accountType', data.accountType);
     
     onOpenChange(false);
   };
@@ -369,6 +377,42 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
                     </FormItem>
                   )}
                 />
+                
+                <FormField
+                  control={registerForm.control}
+                  name="accountType"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>Account Type</FormLabel>
+                      <FormControl>
+                        <div className="grid grid-cols-2 gap-4">
+                          <Card 
+                            className={`cursor-pointer border-2 transition-all ${field.value === 'business' ? 'border-primary' : 'border-border'}`}
+                            onClick={() => field.onChange('business')}
+                          >
+                            <CardContent className="flex flex-col items-center justify-center p-6">
+                              <Briefcase className="h-12 w-12 text-blue-500 mb-2" />
+                              <h3 className="font-medium">Business</h3>
+                              <p className="text-xs text-muted-foreground text-center mt-1">Looking for advertising services</p>
+                            </CardContent>
+                          </Card>
+                          <Card 
+                            className={`cursor-pointer border-2 transition-all ${field.value === 'advertiser' ? 'border-primary' : 'border-border'}`}
+                            onClick={() => field.onChange('advertiser')}
+                          >
+                            <CardContent className="flex flex-col items-center justify-center p-6">
+                              <Megaphone className="h-12 w-12 text-primary mb-2" />
+                              <h3 className="font-medium">Advertiser</h3>
+                              <p className="text-xs text-muted-foreground text-center mt-1">Providing advertising services</p>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
                 <Button 
                   type="submit" 
                   className="w-full mt-6" 
