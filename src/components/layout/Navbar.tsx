@@ -1,18 +1,31 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, Briefcase, Megaphone, User, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AuthModal from '@/components/auth/AuthModal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+
+// Define the account types
+export type AccountType = 'business' | 'advertiser';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'register'>('login');
-  // Simulated authentication state - this would typically come from an auth context
+  
+  // Extended authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accountType, setAccountType] = useState<AccountType | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,11 +36,14 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Check localStorage for auth state on component mount
+  // Check localStorage for auth state and account type on component mount
   useEffect(() => {
     const authState = localStorage.getItem('isAuthenticated');
+    const storedAccountType = localStorage.getItem('accountType') as AccountType | null;
+    
     if (authState === 'true') {
       setIsAuthenticated(true);
+      setAccountType(storedAccountType);
     }
   }, []);
 
@@ -36,12 +52,16 @@ const Navbar = () => {
     setAuthModalOpen(true);
   };
 
-  const handleAvatarClick = () => {
-    // For demo purposes: toggle authentication state
-    if (isAuthenticated) {
-      setIsAuthenticated(false);
-      localStorage.removeItem('isAuthenticated');
-    }
+  const handleAccountSelection = (type: AccountType) => {
+    setAccountType(type);
+    localStorage.setItem('accountType', type);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setAccountType(null);
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('accountType');
   };
 
   return (
@@ -66,15 +86,75 @@ const Navbar = () => {
             </Button>
             
             {isAuthenticated ? (
-              <div className="relative cursor-pointer" onClick={handleAvatarClick}>
-                <Avatar className="h-9 w-9 border border-border">
-                  <AvatarImage src="" alt="User" />
-                  <AvatarFallback className="bg-primary/10 text-primary font-medium">
-                    U
-                  </AvatarFallback>
-                </Avatar>
-                <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-blue-500 border-2 border-background"></div>
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="relative cursor-pointer">
+                  <Avatar className="h-9 w-9 border border-border">
+                    <AvatarImage src="" alt="User" />
+                    <AvatarFallback className={cn(
+                      "text-white font-medium",
+                      accountType === 'business' ? "bg-blue-500" : "bg-primary"
+                    )}>
+                      {accountType === 'business' ? 'B' : 'A'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-blue-500 border-2 border-background"></div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    {accountType === 'business' ? 'Business Account' : 'Advertiser Account'}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  
+                  {accountType && (
+                    <>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Profile</span>
+                      </DropdownMenuItem>
+                      
+                      {accountType === 'business' ? (
+                        <DropdownMenuItem className="cursor-pointer">
+                          <Search className="mr-2 h-4 w-4" />
+                          <span>Find Services</span>
+                        </DropdownMenuItem>
+                      ) : (
+                        <DropdownMenuItem className="cursor-pointer">
+                          <Megaphone className="mr-2 h-4 w-4" />
+                          <span>My Listings</span>
+                        </DropdownMenuItem>
+                      )}
+                    </>
+                  )}
+                  
+                  {!accountType && (
+                    <>
+                      <DropdownMenuItem 
+                        className="cursor-pointer"
+                        onClick={() => handleAccountSelection('business')}
+                      >
+                        <Briefcase className="mr-2 h-4 w-4" />
+                        <span>Business Account</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        className="cursor-pointer"
+                        onClick={() => handleAccountSelection('advertiser')}
+                      >
+                        <Megaphone className="mr-2 h-4 w-4" />
+                        <span>Advertiser Account</span>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                  
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Button 
                 variant="default"
@@ -120,14 +200,54 @@ const Navbar = () => {
               </Button>
               
               {isAuthenticated ? (
-                <div className="flex items-center space-x-2 py-2" onClick={handleAvatarClick}>
-                  <Avatar className="h-8 w-8 border border-border">
-                    <AvatarFallback className="bg-primary/10 text-primary font-medium text-sm">
-                      U
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm font-medium">My Account</span>
-                  <div className="ml-auto h-2.5 w-2.5 rounded-full bg-blue-500"></div>
+                <div className="flex flex-col space-y-2">
+                  <div className="flex items-center space-x-2 py-2">
+                    <Avatar className="h-8 w-8 border border-border">
+                      <AvatarFallback className={cn(
+                        "text-white font-medium text-sm",
+                        accountType === 'business' ? "bg-blue-500" : "bg-primary"
+                      )}>
+                        {accountType === 'business' ? 'B' : 'A'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium">
+                      {accountType === 'business' ? 'Business Account' : 'Advertiser Account'}
+                    </span>
+                    <div className="ml-auto h-2.5 w-2.5 rounded-full bg-blue-500"></div>
+                  </div>
+                  
+                  {!accountType && (
+                    <div className="flex flex-col space-y-2 pt-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start"
+                        onClick={() => handleAccountSelection('business')}
+                      >
+                        <Briefcase className="mr-2 h-4 w-4" />
+                        Business Account
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start"
+                        onClick={() => handleAccountSelection('advertiser')}
+                      >
+                        <Megaphone className="mr-2 h-4 w-4" />
+                        Advertiser Account
+                      </Button>
+                    </div>
+                  )}
+                  
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="justify-start text-destructive border-destructive/20 hover:bg-destructive/10"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </Button>
                 </div>
               ) : (
                 <Button 
@@ -154,6 +274,7 @@ const Navbar = () => {
             const authState = localStorage.getItem('isAuthenticated');
             if (authState === 'true') {
               setIsAuthenticated(true);
+              // Account type will be selected after login
             }
           }
         }} 
@@ -162,6 +283,7 @@ const Navbar = () => {
           // Set authentication state and store in localStorage
           setIsAuthenticated(true);
           localStorage.setItem('isAuthenticated', 'true');
+          // Account type will be selected later
         }}
       />
     </>
