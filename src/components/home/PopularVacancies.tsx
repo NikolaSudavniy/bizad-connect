@@ -12,10 +12,7 @@ const fetchVacancies = async (): Promise<(VacancyProps & { categories: string[] 
     { id: 2, title: 'Front-end розробник', company: 'Планета, мебельна майстерня', location: 'Дніпро', salary: '37 000 грн', postedTime: '2 дні тому', categories: ['digital', 'print'] },
     { id: 3, title: 'Front-end програміст', company: 'Свідк маркетинг, ТОВ', location: 'Київ', experience: '1 рік', postedTime: '4 дні тому', categories: ['digital', 'events'] },
     { id: 4, title: 'Junior Front-end Web Developer', company: 'Atlas Digital Ventures', location: 'Київ', salary: '25 000 - 33 000 грн', postedTime: '5 днів тому', categories: ['tv', 'social'] },
-    { id: 5, title: 'Front-end розробник (React.js)', company: 'SoftServe LLC', location: 'Київ', salary: '60 000 грн', experience: '3 роки', postedTime: '7 днів тому', categories: ['social', 'influencer'] },
-    { id: 6, title: 'UI/UX Designer', company: 'Design Hub', location: 'Львів', experience: '2 роки', postedTime: '3 дні тому', categories: ['design', 'digital'] },
-    { id: 7, title: 'Back-end Developer', company: 'CodeCraft', location: 'Харків', salary: '50 000 грн', postedTime: '6 днів тому', categories: ['digital', 'backend'] },
-    { id: 8, title: 'Marketing Manager', company: 'AdStars', location: 'Київ', salary: '45 000 грн', postedTime: '2 дні тому', categories: ['marketing', 'social'] }
+    { id: 5, title: 'Front-end розробник (React.js)', company: 'SoftServe LLC', location: 'Київ', salary: '60 000 грн', experience: '3 роки', postedTime: '7 днів тому', categories: ['social', 'influencer'] }
   ];
 };
 
@@ -37,8 +34,7 @@ const PopularVacancies = () => {
   }, [selectedCategory, vacancies]);
 
   const vacanciesCount = filteredVacancies.length;
-  const isSingleOrFew = vacanciesCount > 0 && vacanciesCount < 4;
-  const isMany = vacanciesCount > 5;
+  const shouldShowButtons = vacanciesCount >= 4;
 
   return (
     <section className="py-16 px-6">
@@ -60,7 +56,7 @@ const PopularVacancies = () => {
           </div>
         ) : (
           <div className="relative">
-            {!isSingleOrFew && !isMany && (
+            {shouldShowButtons && (
               <Button 
                 variant="outline" 
                 size="icon" 
@@ -71,26 +67,35 @@ const PopularVacancies = () => {
               </Button>
             )}
 
-            <Carousel
-              opts={{ align: "center", loop: !isSingleOrFew && !isMany }}
-              className="w-full"
-              setApi={setApi}
-            >
-              <CarouselContent className={`flex ${isSingleOrFew ? 'justify-center' : ''}`}>
-                {filteredVacancies.map((vacancy) => (
-                  <CarouselItem 
-                    key={vacancy.id} 
-                    className={`pl-1 ${isSingleOrFew ? 'basis-full max-w-md' : 'md:basis-1/2 lg:basis-1/3'} h-full flex justify-center`}
-                  >
-                    <div className="h-full w-full max-w-md">
-                      <VacancyCard vacancy={vacancy} />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+						{vacanciesCount >= 4 ? (
+							<Carousel opts={{ align: "center", loop: false }} className="w-full" setApi={setApi}>
+								<CarouselContent>
+									{filteredVacancies.map((vacancy) => (
+										<CarouselItem 
+											key={vacancy.id} 
+											className="pl-1 md:basis-1/2 lg:basis-1/3 h-full flex justify-center"
+										>
+											<div className="h-full w-full max-w-md">
+												<VacancyCard vacancy={vacancy} />
+											</div>
+										</CarouselItem>
+									))}
+								</CarouselContent>
+							</Carousel>
+						) : (
+							<div className="flex justify-center gap-4">
+								{filteredVacancies.map((vacancy) => (
+									<div 
+										key={vacancy.id} 
+										className="flex-1 min-w-[250px] max-w-md"
+									>
+										<VacancyCard vacancy={vacancy} />
+									</div>
+								))}
+							</div>
+						)}
 
-            {!isSingleOrFew && !isMany && (
+            {shouldShowButtons && (
               <Button 
                 variant="outline" 
                 size="icon" 
