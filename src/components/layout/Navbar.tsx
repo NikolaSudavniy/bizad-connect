@@ -4,12 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Search, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AuthModal from '@/components/auth/AuthModal';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'register'>('login');
+  // Simulated authentication state - this would typically come from an auth context
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,9 +23,25 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Check localStorage for auth state on component mount
+  useEffect(() => {
+    const authState = localStorage.getItem('isAuthenticated');
+    if (authState === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const handleSignInClick = () => {
     setAuthModalTab('login');
     setAuthModalOpen(true);
+  };
+
+  const handleAvatarClick = () => {
+    // For demo purposes: toggle authentication state
+    if (isAuthenticated) {
+      setIsAuthenticated(false);
+      localStorage.removeItem('isAuthenticated');
+    }
   };
 
   return (
@@ -45,14 +64,27 @@ const Navbar = () => {
               <Search className="h-4 w-4 mr-2" />
               Search
             </Button>
-            <Button 
-              variant="default"
-              size="sm" 
-              className="rounded-full"
-              onClick={handleSignInClick}
-            >
-              Sign In
-            </Button>
+            
+            {isAuthenticated ? (
+              <div className="relative cursor-pointer" onClick={handleAvatarClick}>
+                <Avatar className="h-9 w-9 border border-border">
+                  <AvatarImage src="" alt="User" />
+                  <AvatarFallback className="bg-primary/10 text-primary font-medium">
+                    U
+                  </AvatarFallback>
+                </Avatar>
+                <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-blue-500 border-2 border-background"></div>
+              </div>
+            ) : (
+              <Button 
+                variant="default"
+                size="sm" 
+                className="rounded-full"
+                onClick={handleSignInClick}
+              >
+                Sign In
+              </Button>
+            )}
           </div>
           
           {/* Mobile Menu Button */}
@@ -86,14 +118,27 @@ const Navbar = () => {
                 <Search className="h-4 w-4 mr-2" />
                 Search
               </Button>
-              <Button 
-                variant="default"
-                size="sm" 
-                className="justify-center rounded-full"
-                onClick={handleSignInClick}
-              >
-                Sign In
-              </Button>
+              
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-2 py-2" onClick={handleAvatarClick}>
+                  <Avatar className="h-8 w-8 border border-border">
+                    <AvatarFallback className="bg-primary/10 text-primary font-medium text-sm">
+                      U
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm font-medium">My Account</span>
+                  <div className="ml-auto h-2.5 w-2.5 rounded-full bg-blue-500"></div>
+                </div>
+              ) : (
+                <Button 
+                  variant="default"
+                  size="sm" 
+                  className="justify-center rounded-full"
+                  onClick={handleSignInClick}
+                >
+                  Sign In
+                </Button>
+              )}
             </div>
           </div>
         )}
@@ -102,8 +147,22 @@ const Navbar = () => {
       {/* Auth Modal */}
       <AuthModal 
         open={authModalOpen} 
-        onOpenChange={setAuthModalOpen} 
-        defaultTab={authModalTab} 
+        onOpenChange={(open) => {
+          setAuthModalOpen(open);
+          // Check if user was authenticated through the modal
+          if (!open) {
+            const authState = localStorage.getItem('isAuthenticated');
+            if (authState === 'true') {
+              setIsAuthenticated(true);
+            }
+          }
+        }} 
+        defaultTab={authModalTab}
+        onAuthSuccess={() => {
+          // Set authentication state and store in localStorage
+          setIsAuthenticated(true);
+          localStorage.setItem('isAuthenticated', 'true');
+        }}
       />
     </>
   );

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -56,9 +55,10 @@ interface AuthModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   defaultTab?: 'login' | 'register';
+  onAuthSuccess?: () => void;
 }
 
-const AuthModal = ({ open, onOpenChange, defaultTab = 'login' }: AuthModalProps) => {
+const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: AuthModalProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [activeTab, setActiveTab] = useState<'login' | 'register'>(defaultTab);
@@ -88,23 +88,41 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login' }: AuthModalProps)
 
   const onLoginSubmit = (data: LoginFormValues) => {
     console.log('Login data:', data);
-    // Simulating authentication success for now
+    // Simulating authentication success
     toast({
       title: "Success!",
       description: "You have been logged in.",
       duration: 3000,
     });
+    
+    // Call the onAuthSuccess callback if provided
+    if (onAuthSuccess) {
+      onAuthSuccess();
+    }
+    
+    // Store auth state in localStorage for persistence
+    localStorage.setItem('isAuthenticated', 'true');
+    
     onOpenChange(false);
   };
 
   const onRegisterSubmit = (data: RegisterFormValues) => {
     console.log('Register data:', data);
-    // Simulating registration success for now
+    // Simulating registration success
     toast({
       title: "Account created!",
       description: "Your account has been created successfully.",
       duration: 3000,
     });
+    
+    // Call the onAuthSuccess callback if provided
+    if (onAuthSuccess) {
+      onAuthSuccess();
+    }
+    
+    // Store auth state in localStorage for persistence
+    localStorage.setItem('isAuthenticated', 'true');
+    
     onOpenChange(false);
   };
 
