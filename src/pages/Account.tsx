@@ -92,10 +92,6 @@ const Account = () => {
               {accountType === 'business' ? t('business.manageProfile') : t('agency.manageProfile')}
             </p>
           </div>
-          <Button onClick={() => navigate('/')} variant="outline" size="sm">
-            <Home className="mr-2 h-4 w-4" />
-            {accountType === 'business' ? t('business.back') : t('agency.back')}
-          </Button>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-8">

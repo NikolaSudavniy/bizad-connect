@@ -42,7 +42,6 @@ const translations: Record<Language, Record<string, string>> = {
     'business.training': 'Training',
     'business.reviews': 'Reviews & Ratings',
     'business.messages': 'Messages',
-    'business.back': 'Back to Home',
     
     // Agency Dashboard
     'agency.dashboard': 'Advertiser Dashboard',
@@ -53,7 +52,6 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Training',
     'agency.reports': 'Reports',
     'agency.reviews': 'Reviews',
-    'agency.back': 'Back to Home',
     
     // Language selection
     'language': 'Language',
@@ -79,7 +77,8 @@ const translations: Record<Language, Record<string, string>> = {
     'offers.loading': 'Loading offers...',
     
     // Hero Section
-    'hero.heading': 'Where Business Meets Advertising',
+    'hero.heading': 'Where Business Meets',
+		'hero.blueheading': ' Advertising',
     'hero.subheading': 'The most intuitive platform to connect businesses with the perfect advertising opportunities.',
     'hero.button.postAd': 'Post an Ad',
     'hero.button.browse': 'Browse Listings',
@@ -139,7 +138,7 @@ const translations: Record<Language, Record<string, string>> = {
     'search.button': 'Search',
     
     // Vacancies Page
-    'vacancies.allVacancies': 'All Vacancies',
+    'vacancies.allVacancies': 'Offers',
     'vacancies.browseDescription': 'Browse through all available job opportunities',
     'vacancies.searchPlaceholder': 'Search by title, company or location',
     'vacancies.noVacanciesFound': 'No vacancies found',
@@ -176,7 +175,6 @@ const translations: Record<Language, Record<string, string>> = {
     'business.training': 'Обучение',
     'business.reviews': 'Отзывы и рейтинги',
     'business.messages': 'Сообщения',
-    'business.back': 'Вернуться на главную',
     
     // Agency Dashboard
     'agency.dashboard': 'Панель рекламодателя',
@@ -187,7 +185,6 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Обучение',
     'agency.reports': 'Отчеты',
     'agency.reviews': 'Отзывы',
-    'agency.back': 'Вернуться на главную',
     
     // Language selection
     'language': 'Язык',
@@ -213,7 +210,8 @@ const translations: Record<Language, Record<string, string>> = {
     'offers.loading': 'Загрузка предложений...',
     
     // Hero Section
-    'hero.heading': 'Где бизнес встречается с рекламой',
+    'hero.heading': 'Где бизнес встречается с',
+		'hero.blueheading': ' рекламой',
     'hero.subheading': 'Самая интуитивно понятная платформа для связи бизнеса с идеальными рекламными возможностями.',
     'hero.button.postAd': 'Разместить объявление',
     'hero.button.browse': 'Просмотреть объявления',
@@ -248,7 +246,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Footer
     'footer.description': 'Самая удобная платформа для взаимодействия бизнеса и рекламы.',
     'footer.platform': 'Платформа',
-    'footer.platform.browse': 'Просмотр объ��вления',
+    'footer.platform.browse': 'Просмотр объявления',
     'footer.platform.post': 'Разместить объявление',
     'footer.platform.pricing': 'Цены',
     'footer.platform.stories': 'Истории успеха',
@@ -273,7 +271,7 @@ const translations: Record<Language, Record<string, string>> = {
     'search.button': 'Поиск',
     
     // Vacancies Page
-    'vacancies.allVacancies': 'Все вакансии',
+    'vacancies.allVacancies': 'Объявления',
     'vacancies.browseDescription': 'Просмотрите все доступные вакансии',
     'vacancies.searchPlaceholder': 'Поиск по названию, компании или месту',
     'vacancies.noVacanciesFound': 'Вакансии не найдены',
@@ -310,7 +308,6 @@ const translations: Record<Language, Record<string, string>> = {
     'business.training': 'Навчання',
     'business.reviews': 'Відгуки та рейтинги',
     'business.messages': 'Повідомлення',
-    'business.back': 'Повернутися на головну',
     
     // Agency Dashboard
     'agency.dashboard': 'Панель рекламодавця',
@@ -321,7 +318,6 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Навчання',
     'agency.reports': 'Звіти',
     'agency.reviews': 'Відгуки',
-    'agency.back': 'Повернутися на головну',
     
     // Language selection
     'language': 'Мова',
@@ -332,7 +328,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Categories
     'categories.all': 'Всі категорії',
     'categories.digital': 'Цифровий маркетинг',
-    'categories.print': 'Друков��ні ЗМІ',
+    'categories.print': 'Друковані ЗМІ',
     'categories.outdoor': 'Зовнішня реклама',
     'categories.social': 'Соціальні мережі',
     'categories.tv': 'ТБ та Радіо',
@@ -347,7 +343,8 @@ const translations: Record<Language, Record<string, string>> = {
     'offers.loading': 'Завантаження пропозицій...',
     
     // Hero Section
-    'hero.heading': 'Де бізнес зустрічається з рекламою',
+    'hero.heading': 'Де бізнес зустрічається з',
+		'hero.blueheading': ' рекламою',
     'hero.subheading': 'Найбільш інтуїтивно зрозуміла платформа для зв\'язку бізнесу з ідеальними рекламними можливостями.',
     'hero.button.postAd': 'Розмістити оголошення',
     'hero.button.browse': 'Переглянути оголошення',
@@ -385,7 +382,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.platform.browse': 'Перегляд оголошень',
     'footer.platform.post': 'Розмістити оголошення',
     'footer.platform.pricing': 'Ціни',
-    'footer.platform.stories': 'Істо��ії успіху',
+    'footer.platform.stories': 'Історії успіху',
     'footer.company': 'Компанія',
     'footer.company.about': 'Про нас',
     'footer.company.careers': 'Кар\'єра',
@@ -407,7 +404,7 @@ const translations: Record<Language, Record<string, string>> = {
     'search.button': 'Пошук',
     
     // Vacancies Page
-    'vacancies.allVacancies': 'Всі вакансії',
+    'vacancies.allVacancies': 'Оголошення',
     'vacancies.browseDescription': 'Перегляньте всі доступні вакансії',
     'vacancies.searchPlaceholder': 'Пошук за назвою, компанією або місцем',
     'vacancies.noVacanciesFound': 'Вакансії не знайдено',

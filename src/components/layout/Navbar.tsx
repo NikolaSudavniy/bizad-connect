@@ -136,8 +136,8 @@ const Navbar = () => {
                       
                       {accountType === 'business' ? (
                         <DropdownMenuItem className="cursor-pointer">
-                          <Search className="mr-2 h-4 w-4" />
-                          <span>{t('nav.findServices')}</span>
+                          {/* <Search className="mr-2 h-4 w-4" />
+                          <span>{t('nav.findServices')}</span> */}
                         </DropdownMenuItem>
                       ) : (
                         <DropdownMenuItem className="cursor-pointer">

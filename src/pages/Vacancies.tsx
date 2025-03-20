@@ -115,7 +115,7 @@ const VacanciesContent = () => {
   };
 
   return (
-    <div className="py-10 px-6">
+    <div className="mt-10 py-10 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-10">
           <h1 className="text-3xl md:text-4xl font-display font-bold mb-3">{t('vacancies.allVacancies')}</h1>
