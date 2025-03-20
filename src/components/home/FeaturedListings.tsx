@@ -3,6 +3,7 @@ import React from 'react';
 import { ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Sample listings data
 const listings = [
@@ -49,6 +50,8 @@ const listings = [
 ];
 
 const ListingCard = ({ listing }) => {
+  const { t } = useLanguage();
+  
   return (
     <div className="group rounded-xl overflow-hidden border border-border bg-card transition-all hover:shadow-md hover:border-primary/20">
       <div className="relative h-48 overflow-hidden">
@@ -61,7 +64,7 @@ const ListingCard = ({ listing }) => {
         {listing.featured && (
           <div className="absolute top-3 right-3 bg-primary text-white text-xs px-2 py-1 rounded-full flex items-center">
             <Star className="h-3 w-3 mr-1 fill-white" />
-            Featured
+            {t('listings.featured.label')}
           </div>
         )}
       </div>
@@ -83,7 +86,7 @@ const ListingCard = ({ listing }) => {
             size="sm" 
             className="px-0 hover:bg-transparent hover:text-primary"
           >
-            View Details
+            {t('listings.viewDetails')}
             <ArrowRight className="ml-1 h-3 w-3" />
           </Button>
         </div>
@@ -93,16 +96,18 @@ const ListingCard = ({ listing }) => {
 };
 
 const FeaturedListings = () => {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-16 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
           <div>
-            <h2 className="text-3xl font-display font-bold mb-2">Featured Listings</h2>
-            <p className="text-muted-foreground">Discover the best advertising opportunities</p>
+            <h2 className="text-3xl font-display font-bold mb-2">{t('listings.featured')}</h2>
+            <p className="text-muted-foreground">{t('listings.discover')}</p>
           </div>
           <Button variant="outline" className="rounded-full mt-4 md:mt-0">
-            View All Listings
+            {t('listings.viewAll')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>

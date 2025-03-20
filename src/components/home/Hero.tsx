@@ -2,8 +2,11 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import SearchBar from '@/components/ui/SearchBar';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Hero = () => {
+  const { t } = useLanguage();
+  
   return (
     <section className="relative pt-32 pb-24 overflow-hidden">
       {/* Background gradient */}
@@ -17,10 +20,10 @@ const Hero = () => {
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <div className="space-y-2">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight animate-slide-down">
-              Where Business Meets <span className="text-primary">Advertising</span>
+              {t('hero.heading')} <span className="text-primary">Advertising</span>
             </h1>
             <p className="text-xl text-muted-foreground mt-6 max-w-2xl mx-auto animate-slide-down animate-delay-100">
-              The most intuitive platform to connect businesses with the perfect advertising opportunities.
+              {t('hero.subheading')}
             </p>
           </div>
           
@@ -30,10 +33,10 @@ const Hero = () => {
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-slide-down animate-delay-300">
             <Button size="lg" className="rounded-full min-w-[140px]">
-              Post an Ad
+              {t('hero.button.postAd')}
             </Button>
             <Button variant="outline" size="lg" className="rounded-full min-w-[140px]">
-              Browse Listings
+              {t('hero.button.browse')}
             </Button>
           </div>
           
@@ -42,19 +45,19 @@ const Hero = () => {
               <div className="h-5 w-5 bg-primary/10 rounded-full flex items-center justify-center mr-2">
                 <div className="h-2 w-2 bg-primary rounded-full" />
               </div>
-              <span>10,000+ Active Listings</span>
+              <span>{t('hero.stats.listings')}</span>
             </div>
             <div className="flex items-center">
               <div className="h-5 w-5 bg-primary/10 rounded-full flex items-center justify-center mr-2">
                 <div className="h-2 w-2 bg-primary rounded-full" />
               </div>
-              <span>5,000+ Companies</span>
+              <span>{t('hero.stats.companies')}</span>
             </div>
             <div className="flex items-center">
               <div className="h-5 w-5 bg-primary/10 rounded-full flex items-center justify-center mr-2">
                 <div className="h-2 w-2 bg-primary rounded-full" />
               </div>
-              <span>24/7 Support</span>
+              <span>{t('hero.stats.support')}</span>
             </div>
           </div>
         </div>
