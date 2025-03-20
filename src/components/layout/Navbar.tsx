@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Menu, X, Briefcase, Megaphone, User, LogOut, Home } from 'lucide-react';
+import { Menu, X, Briefcase, Megaphone, User, LogOut, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AuthModal from '@/components/auth/AuthModal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -26,7 +26,11 @@ const Navbar = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'register'>('login');
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useLanguage();
+  
+  // Check if we are on homepage
+  const isHomePage = location.pathname === '/';
   
   // Extended authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -89,10 +93,17 @@ const Navbar = () => {
           
           {/* Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" size="sm" className="rounded-full">
-              <Search className="h-4 w-4 mr-2" />
-              Search
-            </Button>
+            {!isHomePage && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="rounded-full"
+                onClick={() => navigate('/')}
+              >
+                <Home className="h-4 w-4 mr-2" />
+                {t('nav.home')}
+              </Button>
+            )}
             
             <LanguageSwitcher />
             
@@ -194,6 +205,12 @@ const Navbar = () => {
         {mobileMenuOpen && (
           <div className="absolute top-full left-0 right-0 glass animate-fade-in py-5 px-6 md:hidden">
             <nav className="flex flex-col space-y-4 mb-5">
+              {!isHomePage && (
+                <Link to="/" className="flex items-center text-foreground/80 hover:text-foreground py-2 transition-colors">
+                  <Home className="h-4 w-4 mr-2" />
+                  {t('nav.home')}
+                </Link>
+              )}
               <a href="#" className="text-foreground/80 hover:text-foreground py-2 transition-colors">
                 Find Ads
               </a>
@@ -208,10 +225,6 @@ const Navbar = () => {
               </a>
             </nav>
             <div className="flex flex-col space-y-3">
-              <Button variant="outline" size="sm" className="justify-start rounded-full">
-                <Search className="h-4 w-4 mr-2" />
-                Search
-              </Button>
               
               {isAuthenticated ? (
                 <div className="flex flex-col space-y-2">
