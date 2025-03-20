@@ -18,11 +18,20 @@ export interface VacancyProps {
   progress?: number;
 }
 
-const VacancyCard = ({ vacancy }: { vacancy: VacancyProps }) => {
+interface VacancyCardProps {
+  vacancy: VacancyProps;
+  onFavoriteToggle?: (isFavorite: boolean) => void;
+}
+
+const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+    const newValue = !isFavorite;
+    setIsFavorite(newValue);
+    if (onFavoriteToggle) {
+      onFavoriteToggle(newValue);
+    }
   };
 
   return (

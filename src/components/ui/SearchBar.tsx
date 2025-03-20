@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const SearchBar = () => {
   const [focused, setFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const { t } = useLanguage();
   
   return (
     <div 
@@ -20,7 +22,7 @@ const SearchBar = () => {
         <Search className="h-5 w-5 text-muted-foreground mr-3" />
         <input
           type="text"
-          placeholder="Search for ads, companies, or keywords..."
+          placeholder={t('search.placeholder')}
           className="w-full py-3 bg-transparent outline-none text-foreground placeholder:text-muted-foreground"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -34,7 +36,7 @@ const SearchBar = () => {
           className="rounded-full"
           size="sm"
         >
-          Search
+          {t('search.button')}
         </Button>
       </div>
     </div>

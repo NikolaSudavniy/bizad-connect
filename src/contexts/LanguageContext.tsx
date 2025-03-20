@@ -132,6 +132,25 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.social.linkedin': 'LinkedIn',
     'footer.social.instagram': 'Instagram',
     'footer.social.facebook': 'Facebook',
+    
+    // Search
+    'search.placeholder': 'Search for ads, companies, or keywords...',
+    'search.button': 'Search',
+    
+    // Vacancies Page
+    'vacancies.allVacancies': 'All Vacancies',
+    'vacancies.browseDescription': 'Browse through all available job opportunities',
+    'vacancies.searchPlaceholder': 'Search by title, company or location',
+    'vacancies.noVacanciesFound': 'No vacancies found',
+    'vacancies.tryDifferentSearch': 'Try different search terms or browse all categories',
+    'vacancies.loading': 'Loading vacancies...',
+    
+    // Pagination
+    'pagination.previous': 'Previous',
+    'pagination.next': 'Next',
+    
+    // Categories
+    'categories.filterBy': 'Filter by category',
   },
   ru: {
     // Navbar
@@ -222,7 +241,7 @@ const translations: Record<Language, Record<string, string>> = {
     'cta.heading': 'Готовы связать свой бизнес?',
     'cta.subheading': 'Присоединяйтесь к тысячам предприятий и рекламных платформ, которые уже используют BizAdConnect для расширения своего охвата.',
     'cta.getStarted': 'Начать сейчас',
-    'cta.demo': 'Запла��ировать демонстрацию',
+    'cta.demo': 'Запланировать демонстрацию',
     
     // Footer
     'footer.description': 'Самая удобная платформа для взаимодействия бизнеса и рекламы.',
@@ -246,6 +265,25 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.social.linkedin': 'LinkedIn',
     'footer.social.instagram': 'Instagram',
     'footer.social.facebook': 'Facebook',
+    
+    // Search
+    'search.placeholder': 'Поиск объявлений, компаний или ключевых слов...',
+    'search.button': 'Поиск',
+    
+    // Vacancies Page
+    'vacancies.allVacancies': 'Все вакансии',
+    'vacancies.browseDescription': 'Просмотрите все доступные вакансии',
+    'vacancies.searchPlaceholder': 'Поиск по названию, компании или месту',
+    'vacancies.noVacanciesFound': 'Вакансии не найдены',
+    'vacancies.tryDifferentSearch': 'Попробуйте другие условия поиска или просмотрите все категории',
+    'vacancies.loading': 'Загрузка вакансий...',
+    
+    // Pagination
+    'pagination.previous': 'Предыдущая',
+    'pagination.next': 'Следующая',
+    
+    // Categories
+    'categories.filterBy': 'Фильтровать по категории',
   },
   ua: {
     // Navbar
@@ -360,6 +398,25 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.social.linkedin': 'LinkedIn',
     'footer.social.instagram': 'Instagram',
     'footer.social.facebook': 'Facebook',
+    
+    // Search
+    'search.placeholder': 'Пошук оголошень, компаній або ключових слів...',
+    'search.button': 'Пошук',
+    
+    // Vacancies Page
+    'vacancies.allVacancies': 'Всі вакансії',
+    'vacancies.browseDescription': 'Перегляньте всі доступні вакансії',
+    'vacancies.searchPlaceholder': 'Пошук за назвою, компанією або місцем',
+    'vacancies.noVacanciesFound': 'Вакансії не знайдено',
+    'vacancies.tryDifferentSearch': 'Спробуйте інші умови пошуку або перегляньте всі категорії',
+    'vacancies.loading': 'Завантаження вакансій...',
+    
+    // Pagination
+    'pagination.previous': 'Попередня',
+    'pagination.next': 'Наступна',
+    
+    // Categories
+    'categories.filterBy': 'Фільтрувати за категорією',
   }
 };
 
