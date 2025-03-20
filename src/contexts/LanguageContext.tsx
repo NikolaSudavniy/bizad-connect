@@ -61,6 +61,22 @@ const translations: Record<Language, Record<string, string>> = {
     'language.en': 'English',
     'language.ru': 'Russian',
     'language.ua': 'Ukrainian',
+    
+    // Categories
+    'categories.all': 'All Categories',
+    'categories.digital': 'Digital Marketing',
+    'categories.print': 'Print Media',
+    'categories.outdoor': 'Outdoor',
+    'categories.social': 'Social Media',
+    'categories.tv': 'TV & Radio',
+    'categories.events': 'Events',
+    'categories.influencer': 'Influencer',
+    
+    // Vacancies
+    'vacancies.popular': 'Popular Vacancies',
+    'vacancies.discover': 'Discover the most in-demand job opportunities',
+    'vacancies.viewAll': 'View All Vacancies',
+    'vacancies.noVacancies': 'No vacancies found for this category.',
   },
   ru: {
     // Navbar
@@ -103,6 +119,22 @@ const translations: Record<Language, Record<string, string>> = {
     'language.en': 'Английский',
     'language.ru': 'Русский',
     'language.ua': 'Украинский',
+    
+    // Categories
+    'categories.all': 'Все категории',
+    'categories.digital': 'Цифровой маркетинг',
+    'categories.print': 'Печатные СМИ',
+    'categories.outdoor': 'Наружная реклама',
+    'categories.social': 'Социальные сети',
+    'categories.tv': 'ТВ и Радио',
+    'categories.events': 'Мероприятия',
+    'categories.influencer': 'Инфлюенсеры',
+    
+    // Vacancies
+    'vacancies.popular': 'Популярные вакансии',
+    'vacancies.discover': 'Откройте для себя наиболее востребованные вакансии',
+    'vacancies.viewAll': 'Смотреть все вакансии',
+    'vacancies.noVacancies': 'В этой категории вакансий не найдено.',
   },
   ua: {
     // Navbar
@@ -145,6 +177,22 @@ const translations: Record<Language, Record<string, string>> = {
     'language.en': 'Англійська',
     'language.ru': 'Російська',
     'language.ua': 'Українська',
+    
+    // Categories
+    'categories.all': 'Всі категорії',
+    'categories.digital': 'Цифровий маркетинг',
+    'categories.print': 'Друковані ЗМІ',
+    'categories.outdoor': 'Зовнішня реклама',
+    'categories.social': 'Соціальні мережі',
+    'categories.tv': 'ТБ та Радіо',
+    'categories.events': 'Заходи',
+    'categories.influencer': 'Інфлюенсери',
+    
+    // Vacancies
+    'vacancies.popular': 'Популярні вакансії',
+    'vacancies.discover': 'Відкрийте для себе найбільш затребувані вакансії',
+    'vacancies.viewAll': 'Переглянути всі вакансії',
+    'vacancies.noVacancies': 'У цій категорії вакансій не знайдено.',
   }
 };
 

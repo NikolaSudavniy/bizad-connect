@@ -2,21 +2,23 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { useCategory } from '@/contexts/CategoryContext';
-
-// Sample category data
-const categories = [
-  { id: 'all', name: 'All Categories' },
-  { id: 'digital', name: 'Digital Marketing' },
-  { id: 'print', name: 'Print Media' },
-  { id: 'outdoor', name: 'Outdoor' },
-  { id: 'social', name: 'Social Media' },
-  { id: 'tv', name: 'TV & Radio' },
-  { id: 'events', name: 'Events' },
-  { id: 'influencer', name: 'Influencer' },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CategorySelector = () => {
   const { selectedCategory, setSelectedCategory } = useCategory();
+  const { t } = useLanguage();
+  
+  // Sample category data with translation keys
+  const categories = [
+    { id: 'all', name: t('categories.all') },
+    { id: 'digital', name: t('categories.digital') },
+    { id: 'print', name: t('categories.print') },
+    { id: 'outdoor', name: t('categories.outdoor') },
+    { id: 'social', name: t('categories.social') },
+    { id: 'tv', name: t('categories.tv') },
+    { id: 'events', name: t('categories.events') },
+    { id: 'influencer', name: t('categories.influencer') },
+  ];
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4">

@@ -1,9 +1,11 @@
+
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import VacancyCard, { VacancyProps } from './VacancyCard';
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from '@/components/ui/carousel';
 import { useCategory } from '@/contexts/CategoryContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // TODO: Fetch vacancies from database
 const fetchVacancies = async (): Promise<(VacancyProps & { categories: string[] })[]> => {
@@ -20,6 +22,7 @@ const PopularVacancies = () => {
   const [api, setApi] = useState<CarouselApi>();
   const { selectedCategory } = useCategory();
   const [vacancies, setVacancies] = useState<(VacancyProps & { categories: string[] })[]>([]);
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetchVacancies().then(setVacancies);
@@ -41,18 +44,18 @@ const PopularVacancies = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
           <div>
-            <h2 className="text-3xl font-display font-bold mb-2">Popular Vacancies</h2>
-            <p className="text-muted-foreground">Discover the most in-demand job opportunities</p>
+            <h2 className="text-3xl font-display font-bold mb-2">{t('vacancies.popular')}</h2>
+            <p className="text-muted-foreground">{t('vacancies.discover')}</p>
           </div>
           <Button variant="outline" className="rounded-full mt-4 md:mt-0">
-            View All Vacancies
+            {t('vacancies.viewAll')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
 
         {vacanciesCount === 0 ? (
           <div className="flex items-center justify-center p-8 border border-dashed rounded-xl border-muted-foreground/30">
-            <p className="text-muted-foreground text-center">No vacancies found for this category.</p>
+            <p className="text-muted-foreground text-center">{t('vacancies.noVacancies')}</p>
           </div>
         ) : (
           <div className="relative">
@@ -67,33 +70,33 @@ const PopularVacancies = () => {
               </Button>
             )}
 
-						{vacanciesCount >= 4 ? (
-							<Carousel opts={{ align: "center", loop: false }} className="w-full" setApi={setApi}>
-								<CarouselContent>
-									{filteredVacancies.map((vacancy) => (
-										<CarouselItem 
-											key={vacancy.id} 
-											className="pl-1 md:basis-1/2 lg:basis-1/3 h-full flex justify-center"
-										>
-											<div className="h-full w-full max-w-md">
-												<VacancyCard vacancy={vacancy} />
-											</div>
-										</CarouselItem>
-									))}
-								</CarouselContent>
-							</Carousel>
-						) : (
-							<div className="flex justify-center gap-4">
-								{filteredVacancies.map((vacancy) => (
-									<div 
-										key={vacancy.id} 
-										className="flex-1 min-w-[250px] max-w-md"
-									>
-										<VacancyCard vacancy={vacancy} />
-									</div>
-								))}
-							</div>
-						)}
+			{vacanciesCount >= 4 ? (
+				<Carousel opts={{ align: "center", loop: false }} className="w-full" setApi={setApi}>
+					<CarouselContent>
+						{filteredVacancies.map((vacancy) => (
+							<CarouselItem 
+								key={vacancy.id} 
+								className="pl-1 md:basis-1/2 lg:basis-1/3 h-full flex justify-center"
+							>
+								<div className="h-full w-full max-w-md">
+									<VacancyCard vacancy={vacancy} />
+								</div>
+							</CarouselItem>
+						))}
+					</CarouselContent>
+				</Carousel>
+			) : (
+				<div className="flex justify-center gap-4">
+					{filteredVacancies.map((vacancy) => (
+						<div 
+							key={vacancy.id} 
+							className="flex-1 min-w-[250px] max-w-md"
+						>
+							<VacancyCard vacancy={vacancy} />
+						</div>
+					))}
+				</div>
+			)}
 
             {shouldShowButtons && (
               <Button 
