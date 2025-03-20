@@ -71,11 +71,12 @@ const translations: Record<Language, Record<string, string>> = {
     'categories.events': 'Events',
     'categories.influencer': 'Influencer',
     
-    // Vacancies
-    'vacancies.popular': 'Popular Vacancies',
-    'vacancies.discover': 'Discover the most in-demand job opportunities',
-    'vacancies.viewAll': 'View All Vacancies',
-    'vacancies.noVacancies': 'No vacancies found for this category.',
+    // Offers (previously Vacancies)
+    'offers.popular': 'Popular Offers',
+    'offers.discover': 'Discover the most in-demand opportunities',
+    'offers.viewAll': 'View All Offers',
+    'offers.noOffers': 'No offers found for this category.',
+    'offers.loading': 'Loading offers...',
     
     // Hero Section
     'hero.heading': 'Where Business Meets Advertising',
@@ -204,11 +205,12 @@ const translations: Record<Language, Record<string, string>> = {
     'categories.events': 'Мероприятия',
     'categories.influencer': 'Инфлюенсеры',
     
-    // Vacancies
-    'vacancies.popular': 'Популярные вакансии',
-    'vacancies.discover': 'Откройте для себя наиболее востребованные вакансии',
-    'vacancies.viewAll': 'Смотреть все вакансии',
-    'vacancies.noVacancies': 'В этой категории вакансий не найдено.',
+    // Offers (previously Vacancies)
+    'offers.popular': 'Популярные предложения',
+    'offers.discover': 'Откройте для себя наиболее востребованные предложения',
+    'offers.viewAll': 'Смотреть все предложения',
+    'offers.noOffers': 'В этой категории предложений не найдено.',
+    'offers.loading': 'Загрузка предложений...',
     
     // Hero Section
     'hero.heading': 'Где бизнес встречается с рекламой',
@@ -246,7 +248,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Footer
     'footer.description': 'Самая удобная платформа для взаимодействия бизнеса и рекламы.',
     'footer.platform': 'Платформа',
-    'footer.platform.browse': 'Просмотр объявлений',
+    'footer.platform.browse': 'Просмотр объ��вления',
     'footer.platform.post': 'Разместить объявление',
     'footer.platform.pricing': 'Цены',
     'footer.platform.stories': 'Истории успеха',
@@ -330,18 +332,19 @@ const translations: Record<Language, Record<string, string>> = {
     // Categories
     'categories.all': 'Всі категорії',
     'categories.digital': 'Цифровий маркетинг',
-    'categories.print': 'Друковані ЗМІ',
+    'categories.print': 'Друков��ні ЗМІ',
     'categories.outdoor': 'Зовнішня реклама',
     'categories.social': 'Соціальні мережі',
     'categories.tv': 'ТБ та Радіо',
     'categories.events': 'Заходи',
     'categories.influencer': 'Інфлюенсери',
     
-    // Vacancies
-    'vacancies.popular': 'Популярні вакансії',
-    'vacancies.discover': 'Відкрийте для себе найбільш затребувані вакансії',
-    'vacancies.viewAll': 'Переглянути всі вакансії',
-    'vacancies.noVacancies': 'У цій категорії вакансій не знайдено.',
+    // Offers (previously Vacancies)
+    'offers.popular': 'Популярні пропозиції',
+    'offers.discover': 'Відкрийте для себе найбільш затребувані пропозиції',
+    'offers.viewAll': 'Переглянути всі пропозиції',
+    'offers.noOffers': 'У цій категорії пропозицій не знайдено.',
+    'offers.loading': 'Завантаження пропозицій...',
     
     // Hero Section
     'hero.heading': 'Де бізнес зустрічається з рекламою',
@@ -382,7 +385,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.platform.browse': 'Перегляд оголошень',
     'footer.platform.post': 'Розмістити оголошення',
     'footer.platform.pricing': 'Ціни',
-    'footer.platform.stories': 'Історії успіху',
+    'footer.platform.stories': 'Істо��ії успіху',
     'footer.company': 'Компанія',
     'footer.company.about': 'Про нас',
     'footer.company.careers': 'Кар\'єра',

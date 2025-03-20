@@ -20,7 +20,7 @@ const Hero = () => {
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <div className="space-y-2">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight animate-slide-down">
-              {t('hero.heading')} <span className="text-primary">Advertising</span>
+              {t('hero.heading')}
             </h1>
             <p className="text-xl text-muted-foreground mt-6 max-w-2xl mx-auto animate-slide-down animate-delay-100">
               {t('hero.subheading')}

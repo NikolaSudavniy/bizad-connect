@@ -72,12 +72,12 @@ const PopularVacancies = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
           <div>
-            <h2 className="text-3xl font-display font-bold mb-2">{t('vacancies.popular')}</h2>
-            <p className="text-muted-foreground">{t('vacancies.discover')}</p>
+            <h2 className="text-3xl font-display font-bold mb-2">{t('offers.popular')}</h2>
+            <p className="text-muted-foreground">{t('offers.discover')}</p>
           </div>
           <Link to="/vacancies">
             <Button variant="outline" className="rounded-full mt-4 md:mt-0">
-              {t('vacancies.viewAll')}
+              {t('offers.viewAll')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
@@ -85,11 +85,11 @@ const PopularVacancies = () => {
 
         {isLoading ? (
           <div className="flex items-center justify-center p-8">
-            <p className="text-muted-foreground">{t('vacancies.loading')}</p>
+            <p className="text-muted-foreground">{t('offers.loading')}</p>
           </div>
         ) : vacanciesCount === 0 ? (
           <div className="flex items-center justify-center p-8 border border-dashed rounded-xl border-muted-foreground/30">
-            <p className="text-muted-foreground text-center">{t('vacancies.noVacancies')}</p>
+            <p className="text-muted-foreground text-center">{t('offers.noOffers')}</p>
           </div>
         ) : (
           <div className="relative">
