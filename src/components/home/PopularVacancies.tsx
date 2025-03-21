@@ -49,12 +49,35 @@ const PopularVacancies = () => {
   const [api, setApi] = useState<CarouselApi>();
   const { selectedCategory } = useCategory();
   const { t } = useLanguage();
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
 
   // Use React Query to fetch vacancies
   const { data: vacancies = [], isLoading } = useQuery({
     queryKey: ['vacancies', selectedCategory],
     queryFn: () => fetchVacanciesFromServer(selectedCategory === 'all' ? undefined : selectedCategory),
   });
+
+  // Track carousel navigation state
+  useEffect(() => {
+    if (!api) return;
+
+    const onSelect = () => {
+      setCanScrollPrev(api.canScrollPrev());
+      setCanScrollNext(api.canScrollNext());
+    };
+
+    api.on("select", onSelect);
+    api.on("reInit", onSelect);
+    
+    // Initial check
+    onSelect();
+
+    return () => {
+      api.off("select", onSelect);
+      api.off("reInit", onSelect);
+    };
+  }, [api]);
 
   const scrollPrev = useCallback(() => api?.scrollPrev(), [api]);
   const scrollNext = useCallback(() => api?.scrollNext(), [api]);
@@ -65,10 +88,10 @@ const PopularVacancies = () => {
   }, [selectedCategory, vacancies]);
 
   const vacanciesCount = filteredVacancies.length;
-  const shouldShowButtons = vacanciesCount >= 4;
+  const shouldShowButtons = vacanciesCount >= 3;
 
   return (
-    <section className="py-16 px-6">
+    <section className="py-16 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
           <div>
@@ -97,22 +120,27 @@ const PopularVacancies = () => {
               <Button 
                 variant="outline" 
                 size="icon" 
-                className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full z-10 flex items-center justify-center bg-background"
+                className={`absolute -left-2 sm:-left-4 lg:-left-8 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full z-10 flex items-center justify-center bg-background ${!canScrollPrev && 'opacity-50 cursor-not-allowed'}`}
                 onClick={scrollPrev}
+                disabled={!canScrollPrev}
               >
                 <ChevronLeft className="h-5 w-5" />
               </Button>
             )}
 
-            {vacanciesCount >= 4 ? (
-              <Carousel opts={{ align: "center", loop: false }} className="w-full" setApi={setApi}>
+            {vacanciesCount >= 3 ? (
+              <Carousel 
+                opts={{ align: "start", loop: false }} 
+                className="w-full px-4 sm:px-0" 
+                setApi={setApi}
+              >
                 <CarouselContent>
                   {filteredVacancies.map((vacancy) => (
                     <CarouselItem 
                       key={vacancy.id} 
-                      className="pl-1 md:basis-1/2 lg:basis-1/3 h-full flex justify-center"
+                      className="pl-1 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 h-full flex"
                     >
-                      <div className="h-full w-full max-w-md">
+                      <div className="h-full w-full">
                         <VacancyCard vacancy={vacancy} onFavoriteToggle={(isFavorite) => saveVacancy(vacancy.id, isFavorite)} />
                       </div>
                     </CarouselItem>
@@ -120,11 +148,11 @@ const PopularVacancies = () => {
                 </CarouselContent>
               </Carousel>
             ) : (
-              <div className="flex justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
                 {filteredVacancies.map((vacancy) => (
                   <div 
                     key={vacancy.id} 
-                    className="flex-1 min-w-[250px] max-w-md"
+                    className="flex-1 min-w-[250px] max-w-md mx-auto"
                   >
                     <VacancyCard vacancy={vacancy} onFavoriteToggle={(isFavorite) => saveVacancy(vacancy.id, isFavorite)} />
                   </div>
@@ -136,8 +164,9 @@ const PopularVacancies = () => {
               <Button 
                 variant="outline" 
                 size="icon" 
-                className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full z-10 flex items-center justify-center bg-background"
+                className={`absolute -right-2 sm:-right-4 lg:-right-8 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full z-10 flex items-center justify-center bg-background ${!canScrollNext && 'opacity-50 cursor-not-allowed'}`}
                 onClick={scrollNext}
+                disabled={!canScrollNext}
               >
                 <ChevronRight className="h-5 w-5" />
               </Button>

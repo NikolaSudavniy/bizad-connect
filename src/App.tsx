@@ -11,7 +11,15 @@ import Vacancies from "./pages/Vacancies";
 import VacancyDetail from "./pages/VacancyDetail";
 import { LanguageProvider } from "./contexts/LanguageContext";
 
-const queryClient = new QueryClient();
+// Create a new query client with default settings
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

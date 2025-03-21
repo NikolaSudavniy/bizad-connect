@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Clock, Briefcase, Heart } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export interface VacancyProps {
   id: number;
@@ -27,6 +28,7 @@ interface VacancyCardProps {
 const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
+  const { toast } = useToast();
   
   // Check if this vacancy is in favorites
   useEffect(() => {
@@ -42,8 +44,16 @@ const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
     let newFavorites;
     if (favorites.includes(vacancy.id)) {
       newFavorites = favorites.filter(id => id !== vacancy.id);
+      toast({
+        description: "Removed from favorites",
+        duration: 2000,
+      });
     } else {
       newFavorites = [...favorites, vacancy.id];
+      toast({
+        description: "Added to favorites",
+        duration: 2000,
+      });
     }
     
     localStorage.setItem('favoriteVacancies', JSON.stringify(newFavorites));
@@ -85,6 +95,7 @@ const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
             size="icon" 
             className={`h-8 w-8 rounded-full ${isFavorite ? 'text-primary hover:text-primary/80' : 'hover:text-primary'}`}
             onClick={toggleFavorite}
+            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
           >
             <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
             <span className="sr-only">Save to favorites</span>
