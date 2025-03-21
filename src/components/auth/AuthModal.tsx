@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -13,7 +12,6 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { AccountType } from '@/components/layout/Navbar';
 
-// Form validation schemas
 const loginSchema = z.object({
   email: z.string()
     .min(1, { message: 'Email is required' })
@@ -70,7 +68,6 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
   const [activeTab, setActiveTab] = useState<'login' | 'register'>(defaultTab);
   const { toast } = useToast();
 
-  // Login form
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -80,7 +77,6 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
     mode: 'onChange',
   });
 
-  // Register form
   const registerForm = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -95,19 +91,16 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
 
   const onLoginSubmit = (data: LoginFormValues) => {
     console.log('Login data:', data);
-    // Simulating authentication success
     toast({
       title: "Success!",
       description: "You have been logged in.",
       duration: 3000,
     });
     
-    // Call the onAuthSuccess callback if provided
     if (onAuthSuccess) {
       onAuthSuccess();
     }
     
-    // Store auth state in localStorage for persistence
     localStorage.setItem('isAuthenticated', 'true');
     
     onOpenChange(false);
@@ -115,26 +108,22 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
 
   const onRegisterSubmit = (data: RegisterFormValues) => {
     console.log('Register data:', data);
-    // Simulating registration success
     toast({
       title: "Account created!",
       description: "Your account has been created successfully.",
       duration: 3000,
     });
     
-    // Call the onAuthSuccess callback if provided
     if (onAuthSuccess) {
       onAuthSuccess(data.accountType);
     }
     
-    // Store auth state in localStorage for persistence
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('accountType', data.accountType);
     
     onOpenChange(false);
   };
 
-  // Reset forms when tab changes
   const handleTabChange = (value: string) => {
     setActiveTab(value as 'login' | 'register');
     if (value === 'login') {
@@ -146,7 +135,7 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center">
             {activeTab === 'login' ? 'Welcome back' : 'Create an account'}
@@ -159,7 +148,7 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
         </DialogHeader>
 
         <Tabs defaultValue={defaultTab} value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsList className="grid w-full grid-cols-2 mb-4">
             <TabsTrigger value="login">Sign In</TabsTrigger>
             <TabsTrigger value="register">Register</TabsTrigger>
           </TabsList>
@@ -254,9 +243,9 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
             </div>
           </TabsContent>
 
-          <TabsContent value="register" className="space-y-4">
+          <TabsContent value="register" className="space-y-3">
             <Form {...registerForm}>
-              <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
+              <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-3">
                 <FormField
                   control={registerForm.control}
                   name="name"
@@ -382,16 +371,16 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
                   control={registerForm.control}
                   name="accountType"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
+                    <FormItem className="space-y-2">
                       <FormLabel>Account Type</FormLabel>
                       <FormControl>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-3">
                           <Card 
                             className={`cursor-pointer border-2 transition-all ${field.value === 'business' ? 'border-primary' : 'border-border'}`}
                             onClick={() => field.onChange('business')}
                           >
-                            <CardContent className="flex flex-col items-center justify-center p-6">
-                              <Briefcase className="h-12 w-12 text-blue-500 mb-2" />
+                            <CardContent className="flex flex-col items-center justify-center p-4">
+                              <Briefcase className="h-10 w-10 text-blue-500 mb-1" />
                               <h3 className="font-medium">Business</h3>
                               <p className="text-xs text-muted-foreground text-center mt-1">Looking for advertising services</p>
                             </CardContent>
@@ -400,8 +389,8 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
                             className={`cursor-pointer border-2 transition-all ${field.value === 'advertiser' ? 'border-primary' : 'border-border'}`}
                             onClick={() => field.onChange('advertiser')}
                           >
-                            <CardContent className="flex flex-col items-center justify-center p-6">
-                              <Megaphone className="h-12 w-12 text-primary mb-2" />
+                            <CardContent className="flex flex-col items-center justify-center p-4">
+                              <Megaphone className="h-10 w-10 text-primary mb-1" />
                               <h3 className="font-medium">Advertiser</h3>
                               <p className="text-xs text-muted-foreground text-center mt-1">Providing advertising services</p>
                             </CardContent>
@@ -415,7 +404,7 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
                 
                 <Button 
                   type="submit" 
-                  className="w-full mt-6" 
+                  className="w-full mt-4" 
                   size="lg"
                   disabled={!registerForm.formState.isValid || registerForm.formState.isSubmitting}
                 >

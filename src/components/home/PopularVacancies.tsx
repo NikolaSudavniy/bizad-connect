@@ -97,7 +97,7 @@ const PopularVacancies = () => {
               <Button 
                 variant="outline" 
                 size="icon" 
-                className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full hidden md:flex z-10"
+                className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full flex md:flex z-10"
                 onClick={scrollPrev}
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -136,7 +136,7 @@ const PopularVacancies = () => {
               <Button 
                 variant="outline" 
                 size="icon" 
-                className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full hidden md:flex z-10"
+                className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full flex md:flex z-10"
                 onClick={scrollNext}
               >
                 <ChevronRight className="h-5 w-5" />

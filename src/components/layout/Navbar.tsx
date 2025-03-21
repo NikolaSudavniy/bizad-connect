@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Briefcase, Megaphone, User, LogOut, Home } from 'lucide-react';
+import { Menu, X, Briefcase, Megaphone, User, LogOut, Home, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AuthModal from '@/components/auth/AuthModal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
