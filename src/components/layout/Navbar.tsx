@@ -211,7 +211,7 @@ const Navbar = () => {
                   {t('nav.home')}
                 </Link>
               )}
-              <a href="#" className="text-foreground/80 hover:text-foreground py-2 transition-colors">
+              {/* <a href="#" className="text-foreground/80 hover:text-foreground py-2 transition-colors">
                 Find Ads
               </a>
               <a href="#" className="text-foreground/80 hover:text-foreground py-2 transition-colors">
@@ -222,7 +222,7 @@ const Navbar = () => {
               </a>
               <a href="#" className="text-foreground/80 hover:text-foreground py-2 transition-colors">
                 Pricing
-              </a>
+              </a> */}
             </nav>
             <div className="flex flex-col space-y-3">
               

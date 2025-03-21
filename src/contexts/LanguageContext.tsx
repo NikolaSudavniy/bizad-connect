@@ -80,7 +80,7 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.heading': 'Where Business Meets',
 		'hero.blueheading': ' Advertising',
     'hero.subheading': 'The most intuitive platform to connect businesses with the perfect advertising opportunities.',
-    'hero.button.postAd': 'Post an Ad',
+    'hero.button.postAd': 'Post Offer',
     'hero.button.browse': 'Browse Listings',
     'hero.stats.listings': '10,000+ Active Listings',
     'hero.stats.companies': '5,000+ Companies',
@@ -144,6 +144,16 @@ const translations: Record<Language, Record<string, string>> = {
     'vacancies.noVacanciesFound': 'No vacancies found',
     'vacancies.tryDifferentSearch': 'Try different search terms or browse all categories',
     'vacancies.loading': 'Loading vacancies...',
+
+		// Vacancy Section
+		"vacancy.description": "Description",
+		"vacancy.requirements": "Requirements",
+		"vacancy.categories": "Categories",
+		"vacancy.contactInfo": "Contacts",
+		"contact.chatInitiated": "You started a chat",
+		"contact.responseInitiated": "You applied for the vacancy",
+		"vacancy.startChat": "Start Chat",
+		"vacancy.respond": "Apply",
     
     // Pagination
     'pagination.previous': 'Previous',
@@ -151,6 +161,18 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Categories
     'categories.filterBy': 'Filter by category',
+
+		//Favorites
+		"agency.favorites": "Favorite Offers",
+		"business.favorites": "Favorite Proposals",
+		"favorites.title": "Favorite Vacancies",
+		"favorites.description": "Saved vacancies",
+		"favorites.loading": "Loading favorite vacancies...",
+		"favorites.noFavorites": "You have no favorite vacancies",
+		"favorites.noFavoritesDescription": "Save vacancies you are interested in to return to them later.",
+		"favorites.browseVacancies": "Browse vacancies",
+		"favorites.addedToFavorites": "Added to favorites",
+  	"favorites.removedFromFavorites": "Remove frome favorites"
   },
   ru: {
     // Navbar
@@ -277,6 +299,16 @@ const translations: Record<Language, Record<string, string>> = {
     'vacancies.noVacanciesFound': 'Вакансии не найдены',
     'vacancies.tryDifferentSearch': 'Попробуйте другие условия поиска или просмотрите все категории',
     'vacancies.loading': 'Загрузка вакансий...',
+
+		// Vacancy Section
+		"vacancy.description": "Описание",
+		"vacancy.requirements": "Требования",
+		"vacancy.categories": "Категории",
+		"vacancy.contactInfo": "Контакты",
+		"contact.chatInitiated": "Вы начали чат",
+		"contact.responseInitiated": "Вы откликнулись на вакансию",
+		"vacancy.startChat": "Начать чат",
+		"vacancy.respond": "Откликнуться",
     
     // Pagination
     'pagination.previous': 'Предыдущая',
@@ -284,6 +316,18 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Categories
     'categories.filterBy': 'Фильтровать по категории',
+
+		//Favorites
+		"agency.favorites": "Избранные офферы",
+		"business.favorites": "Избранные предложения",
+		"favorites.title": "Избранные вакансии",
+		"favorites.description": "Сохраненные вами вакансии",
+		"favorites.loading": "Загрузка избранных вакансий...",
+		"favorites.noFavorites": "У вас нет избранных вакансий",
+		"favorites.noFavoritesDescription": "Сохраняйте интересующие вас вакансии, чтобы вернуться к ним позже.",
+		"favorites.browseVacancies": "Посмотреть вакансии",
+		"favorites.addedToFavorites": "Добавлено в избранное",
+  	"favorites.removedFromFavorites": "Удалено из избранного"
   },
   ua: {
     // Navbar
@@ -410,6 +454,17 @@ const translations: Record<Language, Record<string, string>> = {
     'vacancies.noVacanciesFound': 'Вакансії не знайдено',
     'vacancies.tryDifferentSearch': 'Спробуйте інші умови пошуку або перегляньте всі категорії',
     'vacancies.loading': 'Завантаження вакансій...',
+
+		// Vacancy Section
+		"vacancy.description": "Опис",
+		"vacancy.requirements": "Вимоги",
+		"vacancy.categories": "Категорії",
+		"vacancy.aboutCompany": "🛈",
+		"vacancy.contactInfo": "Контакти",
+		"contact.chatInitiated": "Ви почали чат",
+		"contact.responseInitiated": "Ви відгукнулися на вакансію",
+		"vacancy.startChat": "Почати чат",
+		"vacancy.respond": "Відгукнутися",
     
     // Pagination
     'pagination.previous': 'Попередня',
@@ -417,6 +472,18 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Categories
     'categories.filterBy': 'Фільтрувати за категорією',
+
+		//Favorites
+		"agency.favorites": "Обрані оффери",
+		"business.favorites": "Обрані пропозиції",
+		"favorites.title": "Обрані вакансії",
+		"favorites.description": "Збережені вами вакансії",
+		"favorites.loading": "Завантаження обраних вакансій...",
+		"favorites.noFavorites": "У вас немає обраних вакансій",
+		"favorites.noFavoritesDescription": "Зберігайте вакансії, які вас цікавлять, щоб повернутися до них пізніше.",
+		"favorites.browseVacancies": "Переглянути вакансії",
+		"favorites.addedToFavorites": "Додано до обраних",
+  	"favorites.removedFromFavorites": "Видалено з обраних"
   }
 };
 

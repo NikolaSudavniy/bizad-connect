@@ -55,7 +55,7 @@ const fetchVacancyDetails = async (id: string): Promise<VacancyProps & {
   
   // For demo, if id is not 1, modify some details to show different data
   if (parseInt(id) !== 1) {
-    vacancyDetails.title = `${vacancyDetails.title} (ID: ${id})`;
+    vacancyDetails.title = `${vacancyDetails.title}`;
     vacancyDetails.company = parseInt(id) % 2 === 0 ? 'SoftServe LLC' : 'Планета, мебельна майстерня';
     vacancyDetails.location = parseInt(id) % 2 === 0 ? 'Київ' : 'Львів';
     vacancyDetails.rating = parseInt(id) % 2 === 0 ? 4.2 : 4.9;
@@ -126,9 +126,9 @@ const VacancyDetail = () => {
   
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col ">
         <Navbar />
-        <main className="flex-grow py-16 px-6">
+        <main className="flex-grow pt-32 py-16 px-6">
           <div className="max-w-4xl mx-auto">
             <Skeleton className="h-10 w-3/4 mb-4" />
             <Skeleton className="h-6 w-1/2 mb-8" />
@@ -163,7 +163,7 @@ const VacancyDetail = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow py-16 px-6">
+      <main className="flex-grow py-16 pt-[6rem] px-6">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
             <div className="flex flex-wrap items-start justify-between gap-4 mb-2">
@@ -203,7 +203,7 @@ const VacancyDetail = () => {
             
             {vacancy.isNew && (
               <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
-                {t('vacancy.new')}
+                New
               </Badge>
             )}
           </div>
@@ -248,7 +248,7 @@ const VacancyDetail = () => {
               <Card>
                 <CardContent className="p-6 space-y-5">
                   <div>
-                    <h2 className="text-lg font-semibold mb-2">{t('vacancy.aboutCompany')}</h2>
+                    <h2 className="text-lg font-semibold mb-2"><img src="/public/info-icon.svg" alt="About company" className="inline-block w-6 h-6" /></h2>
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-12 h-12 rounded-md bg-primary/10 flex items-center justify-center text-primary">
                         <Briefcase className="h-6 w-6" />

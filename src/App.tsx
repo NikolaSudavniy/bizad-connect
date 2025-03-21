@@ -1,17 +1,11 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import Account from "./pages/Account";
-import Vacancies from "./pages/Vacancies";
-import VacancyDetail from "./pages/VacancyDetail";
+import { BrowserRouter } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import AppRoutes from "./AppRoutes"; // Вынесли маршруты в отдельный компонент
 
-// Create a new query client with default settings
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -28,14 +22,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/vacancies" element={<Vacancies />} />
-            <Route path="/vacancy/:id" element={<VacancyDetail />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>

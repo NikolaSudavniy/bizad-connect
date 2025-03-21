@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,15 +10,9 @@ import { useQuery } from '@tanstack/react-query';
 
 // API functions for server interaction
 const fetchVacanciesFromServer = async (category?: string): Promise<(VacancyProps & { categories: string[] })[]> => {
-  // In a real app, this would be an API call to your backend
-  // Example: return await fetch(`/api/vacancies?category=${category || 'all'}`).then(res => res.json());
-  
-  // For demonstration, we're using mock data
   console.log('Fetching vacancies from server, category:', category);
-  
-  // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 500));
-  
+
   return [
     { id: 1, title: 'Front-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '2 роки', postedTime: '16 год. тому', progress: 6, isNew: true, categories: ['digital', 'social'] },
     { id: 2, title: 'Front-end розробник', company: 'Планета, мебельна майстерня', location: 'Дніпро', salary: '37 000 грн', postedTime: '2 дні тому', categories: ['digital', 'print'] },
@@ -29,22 +22,6 @@ const fetchVacanciesFromServer = async (category?: string): Promise<(VacancyProp
   ];
 };
 
-// Function to save a vacancy (e.g., when marking as favorite)
-const saveVacancy = async (vacancyId: number, isFavorite: boolean): Promise<boolean> => {
-  // In a real app, this would be an API call to your backend
-  // Example: return await fetch(`/api/vacancies/${vacancyId}/favorite`, { 
-  //   method: 'POST', 
-  //   body: JSON.stringify({ isFavorite }) 
-  // }).then(res => res.json());
-  
-  console.log(`Saving vacancy ${vacancyId} as favorite: ${isFavorite}`);
-  
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  return true; // Success
-};
-
 const PopularVacancies = () => {
   const [api, setApi] = useState<CarouselApi>();
   const { selectedCategory } = useCategory();
@@ -52,13 +29,19 @@ const PopularVacancies = () => {
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 
-  // Use React Query to fetch vacancies
+  // ✅ отслеживаем ширину экрана
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const { data: vacancies = [], isLoading } = useQuery({
     queryKey: ['vacancies', selectedCategory],
     queryFn: () => fetchVacanciesFromServer(selectedCategory === 'all' ? undefined : selectedCategory),
   });
 
-  // Track carousel navigation state
   useEffect(() => {
     if (!api) return;
 
@@ -69,8 +52,7 @@ const PopularVacancies = () => {
 
     api.on("select", onSelect);
     api.on("reInit", onSelect);
-    
-    // Initial check
+
     onSelect();
 
     return () => {
@@ -88,10 +70,10 @@ const PopularVacancies = () => {
   }, [selectedCategory, vacancies]);
 
   const vacanciesCount = filteredVacancies.length;
-  const shouldShowButtons = vacanciesCount >= 3;
+  const shouldShowButtons = vacanciesCount >= 4;
 
   return (
-    <section className="py-16 px-4 sm:px-6">
+    <section className="py-16 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
           <div>
@@ -115,12 +97,12 @@ const PopularVacancies = () => {
             <p className="text-muted-foreground text-center">{t('offers.noOffers')}</p>
           </div>
         ) : (
-          <div className="relative">
+          <div className="relative px-6 md:px-12">
             {shouldShowButtons && (
               <Button 
                 variant="outline" 
                 size="icon" 
-                className={`absolute -left-2 sm:-left-4 lg:-left-8 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full z-10 flex items-center justify-center bg-background ${!canScrollPrev && 'opacity-50 cursor-not-allowed'}`}
+                className={`absolute left-0 md:left-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full hidden md:flex z-10 bg-background ${!canScrollPrev && 'opacity-50 cursor-not-allowed'}`}
                 onClick={scrollPrev}
                 disabled={!canScrollPrev}
               >
@@ -128,33 +110,29 @@ const PopularVacancies = () => {
               </Button>
             )}
 
-            {vacanciesCount >= 3 ? (
-              <Carousel 
-                opts={{ align: "start", loop: false }} 
-                className="w-full px-4 sm:px-0" 
-                setApi={setApi}
-              >
+            {(vacanciesCount > 1 || (isMobile && vacanciesCount > 1)) ? (
+              <Carousel opts={{ align: "center", loop: false }} className="w-full" setApi={setApi}>
                 <CarouselContent>
                   {filteredVacancies.map((vacancy) => (
                     <CarouselItem 
                       key={vacancy.id} 
-                      className="pl-1 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 h-full flex"
+                      className="pl-1 basis-[90%] sm:basis-[45%] lg:basis-[30%] xl:basis-[28%] h-full flex justify-center"
                     >
-                      <div className="h-full w-full">
-                        <VacancyCard vacancy={vacancy} onFavoriteToggle={(isFavorite) => saveVacancy(vacancy.id, isFavorite)} />
+                      <div className="h-full w-full max-w-md">
+                        <VacancyCard vacancy={vacancy} />
                       </div>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
               </Carousel>
             ) : (
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <div className="flex justify-center gap-4">
                 {filteredVacancies.map((vacancy) => (
                   <div 
                     key={vacancy.id} 
-                    className="flex-1 min-w-[250px] max-w-md mx-auto"
+                    className="flex-1 min-w-[250px] max-w-md"
                   >
-                    <VacancyCard vacancy={vacancy} onFavoriteToggle={(isFavorite) => saveVacancy(vacancy.id, isFavorite)} />
+                    <VacancyCard vacancy={vacancy} />
                   </div>
                 ))}
               </div>
@@ -164,7 +142,7 @@ const PopularVacancies = () => {
               <Button 
                 variant="outline" 
                 size="icon" 
-                className={`absolute -right-2 sm:-right-4 lg:-right-8 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full z-10 flex items-center justify-center bg-background ${!canScrollNext && 'opacity-50 cursor-not-allowed'}`}
+                className={`absolute right-0 md:right-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full hidden md:flex z-10 bg-background ${!canScrollNext && 'opacity-50 cursor-not-allowed'}`}
                 onClick={scrollNext}
                 disabled={!canScrollNext}
               >

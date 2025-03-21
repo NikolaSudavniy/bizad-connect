@@ -379,20 +379,20 @@ const AuthModal = ({ open, onOpenChange, defaultTab = 'login', onAuthSuccess }: 
                             className={`cursor-pointer border-2 transition-all ${field.value === 'business' ? 'border-primary' : 'border-border'}`}
                             onClick={() => field.onChange('business')}
                           >
-                            <CardContent className="flex flex-col items-center justify-center p-4">
-                              <Briefcase className="h-10 w-10 text-blue-500 mb-1" />
-                              <h3 className="font-medium">Business</h3>
-                              <p className="text-xs text-muted-foreground text-center mt-1">Looking for advertising services</p>
+                            <CardContent className="flex flex-col items-center justify-center p-2">
+                              <Briefcase className="h-5 w-5 text-blue-500 mb-1" />
+                              <h3 className="text-sm font-medium">Business</h3>
+                              <p className="text-xs text-muted-foreground text-center mt-0.5">Looking for advertising services</p>
                             </CardContent>
                           </Card>
                           <Card 
                             className={`cursor-pointer border-2 transition-all ${field.value === 'advertiser' ? 'border-primary' : 'border-border'}`}
                             onClick={() => field.onChange('advertiser')}
                           >
-                            <CardContent className="flex flex-col items-center justify-center p-4">
-                              <Megaphone className="h-10 w-10 text-primary mb-1" />
-                              <h3 className="font-medium">Advertiser</h3>
-                              <p className="text-xs text-muted-foreground text-center mt-1">Providing advertising services</p>
+                            <CardContent className="flex flex-col items-center justify-center p-2">
+                              <Megaphone className="h-5 w-5 text-primary mb-1" />
+                              <h3 className="text-sm font-medium">Advertiser</h3>
+                              <p className="text-xs text-muted-foreground text-center mt-0.5">Providing advertising services</p>
                             </CardContent>
                           </Card>
                         </div>
