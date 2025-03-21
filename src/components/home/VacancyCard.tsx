@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -24,18 +25,44 @@ interface VacancyCardProps {
 }
 
 const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
+  const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
+  
+  // Check if this vacancy is in favorites
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
+    setIsFavorite(favorites.includes(vacancy.id));
+  }, [vacancy.id]);
 
-  const toggleFavorite = () => {
-    const newValue = !isFavorite;
-    setIsFavorite(newValue);
-    if (onFavoriteToggle) {
-      onFavoriteToggle(newValue);
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when clicking the favorite button
+    
+    const favorites = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
+    
+    let newFavorites;
+    if (favorites.includes(vacancy.id)) {
+      newFavorites = favorites.filter(id => id !== vacancy.id);
+    } else {
+      newFavorites = [...favorites, vacancy.id];
     }
+    
+    localStorage.setItem('favoriteVacancies', JSON.stringify(newFavorites));
+    setIsFavorite(!isFavorite);
+    
+    if (onFavoriteToggle) {
+      onFavoriteToggle(!isFavorite);
+    }
+  };
+  
+  const handleCardClick = () => {
+    navigate(`/vacancy/${vacancy.id}`);
   };
 
   return (
-    <Card className="rounded-xl overflow-hidden border border-border hover:border-primary/30 transition-all hover:shadow-sm h-full flex flex-col">
+    <Card 
+      className="rounded-xl overflow-hidden border border-border hover:border-primary/30 transition-all hover:shadow-sm h-full flex flex-col cursor-pointer"
+      onClick={handleCardClick}
+    >
       <div className="p-5 flex flex-col h-full">
         <div className="flex justify-between items-start mb-3">
           <div className="flex items-center">
@@ -56,7 +83,7 @@ const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className={`h-8 w-8 rounded-full ${isFavorite ? 'text-blue-500 hover:text-blue-400' : 'hover:text-blue-400'}`}
+            className={`h-8 w-8 rounded-full ${isFavorite ? 'text-primary hover:text-primary/80' : 'hover:text-primary'}`}
             onClick={toggleFavorite}
           >
             <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />

@@ -1,9 +1,8 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Briefcase, Search, Building, Users, Book, Star, 
-  MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home
+  MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
@@ -13,6 +12,34 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AccountType } from '@/components/layout/Navbar';
 import { useLanguage } from '@/contexts/LanguageContext';
+import VacancyCard, { VacancyProps } from '@/components/home/VacancyCard';
+import { useQuery } from '@tanstack/react-query';
+
+const fetchFavoriteVacancies = async (): Promise<VacancyProps[]> => {
+  const favoriteIds = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
+  
+  if (favoriteIds.length === 0) {
+    return [];
+  }
+  
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  const allVacancies = [
+    { id: 1, title: 'Front-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '2 роки', postedTime: '16 год. тому', progress: 6, isNew: true },
+    { id: 2, title: 'Front-end розробник', company: 'Планета, мебельна майстерня', location: 'Дніпро', salary: '37 000 грн', postedTime: '2 дні тому' },
+    { id: 3, title: 'Front-end програміст', company: 'Свідк маркетинг, ТОВ', location: 'Київ', experience: '1 рік', postedTime: '4 дні тому' },
+    { id: 4, title: 'Junior Front-end Web Developer', company: 'Atlas Digital Ventures', location: 'Київ', salary: '25 000 - 33 000 грн', postedTime: '5 днів тому' },
+    { id: 5, title: 'Front-end розробник (React.js)', company: 'SoftServe LLC', location: 'Київ', salary: '60 000 грн', experience: '3 роки', postedTime: '7 днів тому' }
+  ];
+  
+  return allVacancies.filter(vacancy => favoriteIds.includes(vacancy.id));
+};
+
+const removeFavorite = (vacancyId: number): void => {
+  const favorites = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
+  const newFavorites = favorites.filter(id => id !== vacancyId);
+  localStorage.setItem('favoriteVacancies', JSON.stringify(newFavorites));
+};
 
 const Account = () => {
   const navigate = useNavigate();
@@ -22,12 +49,10 @@ const Account = () => {
   const { t } = useLanguage();
 
   useEffect(() => {
-    // Check authentication status
     const authState = localStorage.getItem('isAuthenticated');
     const storedAccountType = localStorage.getItem('accountType') as AccountType | null;
     
     if (authState !== 'true') {
-      // Redirect to home if not authenticated
       navigate('/');
       return;
     }
@@ -37,7 +62,7 @@ const Account = () => {
   }, [navigate]);
 
   if (!isAuthenticated || !accountType) {
-    return null; // Will redirect in useEffect
+    return null;
   }
 
   const getTabContent = () => {
@@ -49,6 +74,8 @@ const Account = () => {
           return <AdSearch />;
         case 'agencies':
           return <AgencyOffers />;
+        case 'favorites':
+          return <Favorites />;
         case 'training':
           return <BusinessTraining />;
         case 'reviews':
@@ -66,6 +93,8 @@ const Account = () => {
           return <ManagingOffers />;
         case 'requests':
           return <Requests />;
+        case 'favorites':
+          return <Favorites />;
         case 'training':
           return <AgencyTraining />;
         case 'reports':
@@ -95,7 +124,6 @@ const Account = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-8">
-          {/* Sidebar Navigation */}
           <div className="space-y-4">
             <div className="font-medium text-muted-foreground text-sm mb-2">
               DASHBOARD
@@ -126,6 +154,14 @@ const Account = () => {
                 >
                   <Users className="mr-2 h-4 w-4" />
                   {t('business.agencies')}
+                </Button>
+                <Button
+                  variant={activeTab === 'favorites' ? 'secondary' : 'ghost'}
+                  className="w-full justify-start"
+                  onClick={() => setActiveTab('favorites')}
+                >
+                  <Heart className="mr-2 h-4 w-4" />
+                  {t('business.favorites')}
                 </Button>
                 <Button
                   variant={activeTab === 'training' ? 'secondary' : 'ghost'}
@@ -179,6 +215,14 @@ const Account = () => {
                   {t('agency.requests')}
                 </Button>
                 <Button
+                  variant={activeTab === 'favorites' ? 'secondary' : 'ghost'}
+                  className="w-full justify-start"
+                  onClick={() => setActiveTab('favorites')}
+                >
+                  <Heart className="mr-2 h-4 w-4" />
+                  {t('agency.favorites')}
+                </Button>
+                <Button
                   variant={activeTab === 'training' ? 'secondary' : 'ghost'}
                   className="w-full justify-start"
                   onClick={() => setActiveTab('training')}
@@ -206,7 +250,6 @@ const Account = () => {
             )}
           </div>
           
-          {/* Main Content Area */}
           <div className="bg-card rounded-lg border shadow-sm p-6">
             {getTabContent()}
           </div>
@@ -216,7 +259,54 @@ const Account = () => {
   );
 };
 
-// Business Account Components
+const Favorites = () => {
+  const { t } = useLanguage();
+  
+  const { data: favorites = [], isLoading, refetch } = useQuery({
+    queryKey: ['favorites'],
+    queryFn: fetchFavoriteVacancies,
+  });
+  
+  const handleRemoveFromFavorites = (vacancyId: number) => {
+    removeFavorite(vacancyId);
+    refetch();
+  };
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('favorites.title')}</h2>
+      <p className="text-muted-foreground">{t('favorites.description')}</p>
+      
+      {isLoading ? (
+        <div className="flex items-center justify-center p-8">
+          <p className="text-muted-foreground">{t('favorites.loading')}</p>
+        </div>
+      ) : favorites.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <Heart className="h-12 w-12 text-muted-foreground/50 mb-4" />
+          <h3 className="text-xl font-medium mb-2">{t('favorites.noFavorites')}</h3>
+          <p className="text-muted-foreground max-w-md mb-6">
+            {t('favorites.noFavoritesDescription')}
+          </p>
+          <Button onClick={() => window.location.href = '/vacancies'}>
+            {t('favorites.browseVacancies')}
+          </Button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {favorites.map(vacancy => (
+            <VacancyCard 
+              key={vacancy.id} 
+              vacancy={vacancy} 
+              onFavoriteToggle={() => handleRemoveFromFavorites(vacancy.id)} 
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const BusinessProfile = () => (
   <div className="space-y-6">
     <h2 className="text-2xl font-bold">Business Profile</h2>
@@ -478,7 +568,6 @@ const Messages = () => (
   </div>
 );
 
-// Advertiser Account Components
 const AgencyProfile = () => (
   <div className="space-y-6">
     <h2 className="text-2xl font-bold">Agency Profile</h2>
