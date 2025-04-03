@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -359,7 +360,7 @@ const AdSearch = () => {
           <CardContent>
             <p className="text-sm text-muted-foreground">{t('business.digitalMarketing')}</p>
             <div className="flex justify-between items-center mt-4">
-              <span className="font-semibold">{t('business.pricePerMonth', { price: '$1,200' })}</span>
+              <span className="font-semibold">{t('business.pricePerMonth')}</span>
               <Button size="sm">{t('business.viewDetails')}</Button>
             </div>
           </CardContent>
@@ -372,7 +373,7 @@ const AdSearch = () => {
           <CardContent>
             <p className="text-sm text-muted-foreground">{t('business.videoDesc')}</p>
             <div className="flex justify-between items-center mt-4">
-              <span className="font-semibold">{t('business.pricePerProject', { price: '$800' })}</span>
+              <span className="font-semibold">{t('business.pricePerProject')}</span>
               <Button size="sm">{t('business.viewDetails')}</Button>
             </div>
           </CardContent>
@@ -509,7 +510,7 @@ const Reviews = () => {
                     <Star className="h-4 w-4 text-muted-foreground" />
                   </div>
                 </div>
-                <span className="text-xs text-muted-foreground">{t('business.daysAgo', { days: 2 })}</span>
+                <span className="text-xs text-muted-foreground">{t('business.daysAgo')}</span>
               </div>
               <p className="text-sm mt-2">{t('business.growthEngagement')}</p>
             </div>
@@ -526,7 +527,7 @@ const Reviews = () => {
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                   </div>
                 </div>
-                <span className="text-xs text-muted-foreground">{t('business.weekAgo', { weeks: 1 })}</span>
+                <span className="text-xs text-muted-foreground">{t('business.weekAgo')}</span>
               </div>
               <p className="text-sm mt-2">{t('business.exceptionalQuality')}</p>
             </div>
@@ -563,7 +564,7 @@ const Messages = () => {
                     <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
                   </div>
                 </div>
-                <span className="text-xs text-muted-foreground">{t('business.hoursAgo', { hours: 2 })}</span>
+                <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
               </div>
               <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
               <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
@@ -676,7 +677,7 @@ const ManagingOffers = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium">{t('agency.duration')}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">{t('agency.minimumMonths', { months: 3 })}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.minimumMonths')}</p>
                 </div>
               </div>
               
@@ -713,7 +714,7 @@ const ManagingOffers = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium">{t('agency.duration')}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">{t('agency.weeksPerProject', { weeks: 2, maxWeeks: 4 })}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.weeksPerProject')}</p>
                 </div>
               </div>
               
@@ -742,8 +743,8 @@ const Requests = () => {
       
       <Tabs defaultValue="new">
         <TabsList className="mb-4">
-          <TabsTrigger value="new">{t('agency.newRequests', { count: 2 })}</TabsTrigger>
-          <TabsTrigger value="inProgress">{t('agency.inProgress', { count: 1 })}</TabsTrigger>
+          <TabsTrigger value="new">{t('agency.newRequests')}</TabsTrigger>
+          <TabsTrigger value="inProgress">{t('agency.inProgress')}</TabsTrigger>
           <TabsTrigger value="completed">{t('agency.completed')}</TabsTrigger>
         </TabsList>
         
@@ -754,7 +755,7 @@ const Requests = () => {
                 <CardTitle>{t('agency.socialMediaCampaign')}</CardTitle>
                 <div className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">{t('agency.new')}</div>
               </div>
-              <CardDescription>{t('agency.from', { company: 'TechStart Inc.' })}</CardDescription>
+              <CardDescription>{t('agency.from')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -766,11 +767,11 @@ const Requests = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <h3 className="text-sm font-medium">{t('agency.budget')}</h3>
-                    <p className="text-sm font-semibold mt-1">{t('agency.budgetRange', { min: '5,000', max: '8,000' })}</p>
+                    <p className="text-sm font-semibold mt-1">{t('agency.budgetRange')}</p>
                   </div>
                   <div>
                     <h3 className="text-sm font-medium">{t('agency.timeline')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{t('agency.months', { count: 2 })}</p>
+                    <p className="text-sm text-muted-foreground mt-1">{t('agency.months')}</p>
                   </div>
                 </div>
                 
@@ -790,7 +791,7 @@ const Requests = () => {
                 <CardTitle>{t('agency.websiteBannerAds')}</CardTitle>
                 <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{t('agency.inProgressStatus')}</div>
               </div>
-              <CardDescription>{t('agency.from', { company: 'Global Retail Co.' })}</CardDescription>
+              <CardDescription>{t('agency.from')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -799,7 +800,7 @@ const Requests = () => {
                   <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
                     <div className="bg-primary h-2.5 rounded-full" style={{ width: '45%' }}></div>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">{t('agency.complete', { percent: 45 })}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t('agency.complete')}</p>
                 </div>
                 
                 <div>
@@ -840,7 +841,7 @@ const AgencyTraining = () => {
           <CardContent>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t('agency.modules', { count: 8, hours: 4 })}</span>
+                <span className="text-sm text-muted-foreground">{t('agency.modules')}</span>
                 <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{t('agency.advanced')}</span>
               </div>
               <Button variant="outline" className="w-full mt-2">{t('agency.startCourse')}</Button>
@@ -856,7 +857,7 @@ const AgencyTraining = () => {
           <CardContent>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t('agency.modules', { count: 6, hours: 3 })}</span>
+                <span className="text-sm text-muted-foreground">{t('agency.modules')}</span>
                 <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{t('agency.intermediate')}</span>
               </div>
               <Button variant="outline" className="w-full mt-2">{t('agency.startCourse')}</Button>
@@ -884,7 +885,7 @@ const Reports = () => {
           <CardContent>
             <div className="text-2xl font-bold">12</div>
             <p className="text-xs text-muted-foreground flex items-center">
-              <span className="text-green-500 mr-1">{t('agency.increase', { count: 2 })}</span> {t('agency.fromLastMonth')}
+              <span className="text-green-500 mr-1">{t('agency.increase')}</span> {t('agency.fromLastMonth')}
             </p>
           </CardContent>
         </Card>
@@ -896,7 +897,7 @@ const Reports = () => {
           <CardContent>
             <div className="text-2xl font-bold">8</div>
             <p className="text-xs text-muted-foreground flex items-center">
-              <span className="text-green-500 mr-1">{t('agency.increase', { count: 1 })}</span> {t('agency.fromLastMonth')}
+              <span className="text-green-500 mr-1">{t('agency.increase')}</span> {t('agency.fromLastMonth')}
             </p>
           </CardContent>
         </Card>
@@ -908,7 +909,7 @@ const Reports = () => {
           <CardContent>
             <div className="text-2xl font-bold">$28,500</div>
             <p className="text-xs text-muted-foreground flex items-center">
-              <span className="text-green-500 mr-1">{t('agency.percentIncrease', { percent: 12 })}</span> {t('agency.fromLastMonth')}
+              <span className="text-green-500 mr-1">{t('agency.percentIncrease')}</span> {t('agency.fromLastMonth')}
             </p>
           </CardContent>
         </Card>
@@ -930,3 +931,4 @@ const Reports = () => {
 };
 
 export default Account;
+
