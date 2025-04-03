@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 
 // Define available languages
@@ -42,6 +43,7 @@ const translations: Record<Language, Record<string, string>> = {
     'business.training': 'Training',
     'business.reviews': 'Reviews & Ratings',
     'business.messages': 'Messages',
+    'business.back': 'Back',
     
     // Agency Dashboard
     'agency.dashboard': 'Advertiser Dashboard',
@@ -52,6 +54,7 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Training',
     'agency.reports': 'Reports',
     'agency.reviews': 'Reviews',
+    'agency.back': 'Back',
     
     // Language selection
     'language': 'Language',
@@ -78,7 +81,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Hero Section
     'hero.heading': 'Where Business Meets',
-		'hero.blueheading': ' Advertising',
+    'hero.blueheading': ' Advertising',
     'hero.subheading': 'The most intuitive platform to connect businesses with the perfect advertising opportunities.',
     'hero.button.postAd': 'Post Offer',
     'hero.button.browse': 'Browse Listings',
@@ -145,15 +148,16 @@ const translations: Record<Language, Record<string, string>> = {
     'vacancies.tryDifferentSearch': 'Try different search terms or browse all categories',
     'vacancies.loading': 'Loading vacancies...',
 
-		// Vacancy Section
-		"vacancy.description": "Description",
-		"vacancy.requirements": "Requirements",
-		"vacancy.categories": "Categories",
-		"vacancy.contactInfo": "Contacts",
-		"contact.chatInitiated": "You started a chat",
-		"contact.responseInitiated": "You applied for the vacancy",
-		"vacancy.startChat": "Start Chat",
-		"vacancy.respond": "Apply",
+    // Vacancy Section
+    "vacancy.description": "Description",
+    "vacancy.requirements": "Requirements",
+    "vacancy.categories": "Categories",
+    "vacancy.contactInfo": "Contacts",
+    "contact.chatInitiated": "You started a chat",
+    "contact.responseInitiated": "You applied for the vacancy",
+    "vacancy.startChat": "Start Chat",
+    "vacancy.respond": "Apply",
+    "vacancy.back": "Back to offers",
     
     // Pagination
     'pagination.previous': 'Previous',
@@ -162,17 +166,25 @@ const translations: Record<Language, Record<string, string>> = {
     // Categories
     'categories.filterBy': 'Filter by category',
 
-		//Favorites
-		"agency.favorites": "Favorite Offers",
-		"business.favorites": "Favorite Proposals",
-		"favorites.title": "Favorite Vacancies",
-		"favorites.description": "Saved vacancies",
-		"favorites.loading": "Loading favorite vacancies...",
-		"favorites.noFavorites": "You have no favorite vacancies",
-		"favorites.noFavoritesDescription": "Save vacancies you are interested in to return to them later.",
-		"favorites.browseVacancies": "Browse vacancies",
-		"favorites.addedToFavorites": "Added to favorites",
-  	"favorites.removedFromFavorites": "Remove frome favorites"
+    // Account Page
+    'account.title': 'My Account',
+    'account.profile': 'Profile',
+    'account.settings': 'Settings',
+    'account.notifications': 'Notifications',
+    'account.billing': 'Billing',
+    'account.logout': 'Log Out',
+
+    // Favorites
+    "agency.favorites": "Favorite Offers",
+    "business.favorites": "Favorite Proposals",
+    "favorites.title": "Favorite Vacancies",
+    "favorites.description": "Saved vacancies",
+    "favorites.loading": "Loading favorite vacancies...",
+    "favorites.noFavorites": "You have no favorite vacancies",
+    "favorites.noFavoritesDescription": "Save vacancies you are interested in to return to them later.",
+    "favorites.browseVacancies": "Browse vacancies",
+    "favorites.addedToFavorites": "Added to favorites",
+    "favorites.removedFromFavorites": "Remove from favorites"
   },
   ru: {
     // Navbar
@@ -197,6 +209,7 @@ const translations: Record<Language, Record<string, string>> = {
     'business.training': 'Обучение',
     'business.reviews': 'Отзывы и рейтинги',
     'business.messages': 'Сообщения',
+    'business.back': 'Назад',
     
     // Agency Dashboard
     'agency.dashboard': 'Панель рекламодателя',
@@ -207,6 +220,7 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Обучение',
     'agency.reports': 'Отчеты',
     'agency.reviews': 'Отзывы',
+    'agency.back': 'Назад',
     
     // Language selection
     'language': 'Язык',
@@ -233,7 +247,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Hero Section
     'hero.heading': 'Где бизнес встречается с',
-		'hero.blueheading': ' рекламой',
+    'hero.blueheading': ' рекламой',
     'hero.subheading': 'Самая интуитивно понятная платформа для связи бизнеса с идеальными рекламными возможностями.',
     'hero.button.postAd': 'Разместить объявление',
     'hero.button.browse': 'Просмотреть объявления',
@@ -300,15 +314,16 @@ const translations: Record<Language, Record<string, string>> = {
     'vacancies.tryDifferentSearch': 'Попробуйте другие условия поиска или просмотрите все категории',
     'vacancies.loading': 'Загрузка вакансий...',
 
-		// Vacancy Section
-		"vacancy.description": "Описание",
-		"vacancy.requirements": "Требования",
-		"vacancy.categories": "Категории",
-		"vacancy.contactInfo": "Контакты",
-		"contact.chatInitiated": "Вы начали чат",
-		"contact.responseInitiated": "Вы откликнулись на вакансию",
-		"vacancy.startChat": "Начать чат",
-		"vacancy.respond": "Откликнуться",
+    // Vacancy Section
+    "vacancy.description": "Описание",
+    "vacancy.requirements": "Требования",
+    "vacancy.categories": "Категории",
+    "vacancy.contactInfo": "Контакты",
+    "contact.chatInitiated": "Вы начали чат",
+    "contact.responseInitiated": "Вы откликнулись на вакансию",
+    "vacancy.startChat": "Начать чат",
+    "vacancy.respond": "Откликнуться",
+    "vacancy.back": "Назад к предложениям",
     
     // Pagination
     'pagination.previous': 'Предыдущая',
@@ -317,17 +332,25 @@ const translations: Record<Language, Record<string, string>> = {
     // Categories
     'categories.filterBy': 'Фильтровать по категории',
 
-		//Favorites
-		"agency.favorites": "Избранные офферы",
-		"business.favorites": "Избранные предложения",
-		"favorites.title": "Избранные вакансии",
-		"favorites.description": "Сохраненные вами вакансии",
-		"favorites.loading": "Загрузка избранных вакансий...",
-		"favorites.noFavorites": "У вас нет избранных вакансий",
-		"favorites.noFavoritesDescription": "Сохраняйте интересующие вас вакансии, чтобы вернуться к ним позже.",
-		"favorites.browseVacancies": "Посмотреть вакансии",
-		"favorites.addedToFavorites": "Добавлено в избранное",
-  	"favorites.removedFromFavorites": "Удалено из избранного"
+    // Account Page
+    'account.title': 'Мой аккаунт',
+    'account.profile': 'Профиль',
+    'account.settings': 'Настройки',
+    'account.notifications': 'Уведомления',
+    'account.billing': 'Оплата',
+    'account.logout': 'Выйти',
+
+    // Favorites
+    "agency.favorites": "Избранные офферы",
+    "business.favorites": "Избранные предложения",
+    "favorites.title": "Избранные вакансии",
+    "favorites.description": "Сохраненные вами вакансии",
+    "favorites.loading": "Загрузка избранных вакансий...",
+    "favorites.noFavorites": "У вас нет избранных вакансий",
+    "favorites.noFavoritesDescription": "Сохраняйте интересующие вас вакансии, чтобы вернуться к ним позже.",
+    "favorites.browseVacancies": "Посмотреть вакансии",
+    "favorites.addedToFavorites": "Добавлено в избранное",
+    "favorites.removedFromFavorites": "Удалено из избранного"
   },
   ua: {
     // Navbar
@@ -352,6 +375,7 @@ const translations: Record<Language, Record<string, string>> = {
     'business.training': 'Навчання',
     'business.reviews': 'Відгуки та рейтинги',
     'business.messages': 'Повідомлення',
+    'business.back': 'Назад',
     
     // Agency Dashboard
     'agency.dashboard': 'Панель рекламодавця',
@@ -362,6 +386,7 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Навчання',
     'agency.reports': 'Звіти',
     'agency.reviews': 'Відгуки',
+    'agency.back': 'Назад',
     
     // Language selection
     'language': 'Мова',
@@ -388,7 +413,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Hero Section
     'hero.heading': 'Де бізнес зустрічається з',
-		'hero.blueheading': ' рекламою',
+    'hero.blueheading': ' рекламою',
     'hero.subheading': 'Найбільш інтуїтивно зрозуміла платформа для зв\'язку бізнесу з ідеальними рекламними можливостями.',
     'hero.button.postAd': 'Розмістити оголошення',
     'hero.button.browse': 'Переглянути оголошення',
@@ -455,16 +480,17 @@ const translations: Record<Language, Record<string, string>> = {
     'vacancies.tryDifferentSearch': 'Спробуйте інші умови пошуку або перегляньте всі категорії',
     'vacancies.loading': 'Завантаження вакансій...',
 
-		// Vacancy Section
-		"vacancy.description": "Опис",
-		"vacancy.requirements": "Вимоги",
-		"vacancy.categories": "Категорії",
-		"vacancy.aboutCompany": "🛈",
-		"vacancy.contactInfo": "Контакти",
-		"contact.chatInitiated": "Ви почали чат",
-		"contact.responseInitiated": "Ви відгукнулися на вакансію",
-		"vacancy.startChat": "Почати чат",
-		"vacancy.respond": "Відгукнутися",
+    // Vacancy Section
+    "vacancy.description": "Опис",
+    "vacancy.requirements": "Вимоги",
+    "vacancy.categories": "Категорії",
+    "vacancy.aboutCompany": "🛈",
+    "vacancy.contactInfo": "Контакти",
+    "contact.chatInitiated": "Ви почали чат",
+    "contact.responseInitiated": "Ви відгукнулися на вакансію",
+    "vacancy.startChat": "Почати чат",
+    "vacancy.respond": "Відгукнутися",
+    "vacancy.back": "Назад до пропозицій",
     
     // Pagination
     'pagination.previous': 'Попередня',
@@ -473,17 +499,25 @@ const translations: Record<Language, Record<string, string>> = {
     // Categories
     'categories.filterBy': 'Фільтрувати за категорією',
 
-		//Favorites
-		"agency.favorites": "Обрані оффери",
-		"business.favorites": "Обрані пропозиції",
-		"favorites.title": "Обрані вакансії",
-		"favorites.description": "Збережені вами вакансії",
-		"favorites.loading": "Завантаження обраних вакансій...",
-		"favorites.noFavorites": "У вас немає обраних вакансій",
-		"favorites.noFavoritesDescription": "Зберігайте вакансії, які вас цікавлять, щоб повернутися до них пізніше.",
-		"favorites.browseVacancies": "Переглянути вакансії",
-		"favorites.addedToFavorites": "Додано до обраних",
-  	"favorites.removedFromFavorites": "Видалено з обраних"
+    // Account Page
+    'account.title': 'Мій аккаунт',
+    'account.profile': 'Профіль',
+    'account.settings': 'Налаштування',
+    'account.notifications': 'Сповіщення',
+    'account.billing': 'Оплата',
+    'account.logout': 'Вийти',
+
+    // Favorites
+    "agency.favorites": "Обрані оффери",
+    "business.favorites": "Обрані пропозиції",
+    "favorites.title": "Обрані вакансії",
+    "favorites.description": "Збережені вами вакансії",
+    "favorites.loading": "Завантаження обраних вакансій...",
+    "favorites.noFavorites": "У вас немає обраних вакансій",
+    "favorites.noFavoritesDescription": "Зберігайте вакансії, які вас цікавлять, щоб повернутися до них пізніше.",
+    "favorites.browseVacancies": "Переглянути вакансії",
+    "favorites.addedToFavorites": "Додано до обраних",
+    "favorites.removedFromFavorites": "Видалено з обраних"
   }
 };
 
