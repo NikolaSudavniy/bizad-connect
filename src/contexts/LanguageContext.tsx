@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 
 // Define available languages
@@ -109,7 +108,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // CTA Section
     'cta.heading': 'Ready to Connect Your Business?',
-    'cta.subheading': 'Join thousands of businesses and advertising platforms already using BizAdConnect to grow their reach.',
+    'cta.subheading': 'Join thousands of businesses and advertising platforms already using BizAdConnect to grow your reach.',
     'cta.getStarted': 'Get Started Now',
     'cta.demo': 'Schedule a Demo',
     
@@ -266,7 +265,7 @@ const translations: Record<Language, Record<string, string>> = {
     'features.heading': 'Почему выбирают BizAdConnect',
     'features.subheading': 'Самая интуитивно понятная платформа, разработанная для того, чтобы сделать бизнес-рекламу простой, эффективной и результативной.',
     'features.interface.title': 'Интуитивный интерфейс',
-    'features.interface.description': 'Наша платформа разработана с учетом простоты использования, что делает ее легкой в навигации и использовании для бизнеса любого размера.',
+    'features.interface.description': 'Наша платформа разработана с учетом простоты использов��ния, что делает ее легкой в навигации и использовании для бизнеса любого размера.',
     'features.connections.title': 'Быстрые связи',
     'features.connections.description': 'Связывайтесь с нужными рекламными возможностями быстрее благодаря нашей интеллектуальной системе подбора.',
     'features.insights.title': 'Анализ эффективности',

@@ -307,582 +307,626 @@ const Favorites = () => {
   );
 };
 
-const BusinessProfile = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Business Profile</h2>
-    <p className="text-muted-foreground">Manage information about your company.</p>
-    
-    <Card>
-      <CardHeader>
-        <CardTitle>Company Information</CardTitle>
-        <CardDescription>Fill in details about your business to help agencies understand your needs</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <p className="text-muted-foreground">Company information form would go here</p>
-          <Button disabled className="mt-4">Update Profile</Button>
-        </div>
-      </CardContent>
-    </Card>
-  </div>
-);
-
-const AdSearch = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Ad Search</h2>
-    <p className="text-muted-foreground">Find advertising services with filters by type, budget, and terms.</p>
-    
-    <Card>
-      <CardHeader>
-        <CardTitle>Search Filters</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <p className="text-muted-foreground">Ad search filters would go here</p>
-          <Button className="mt-4">Search</Button>
-        </div>
-      </CardContent>
-    </Card>
-    
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-      <Card>
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg">Premium Advertising</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">Digital marketing campaign with social media integration</p>
-          <div className="flex justify-between items-center mt-4">
-            <span className="font-semibold">$1,200 / month</span>
-            <Button size="sm">View Details</Button>
-          </div>
-        </CardContent>
-      </Card>
+const BusinessProfile = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('business.profileTitle')}</h2>
+      <p className="text-muted-foreground">{t('business.profileDescription')}</p>
       
       <Card>
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg">Video Production</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">Professional video ads for your business</p>
-          <div className="flex justify-between items-center mt-4">
-            <span className="font-semibold">$800 / project</span>
-            <Button size="sm">View Details</Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  </div>
-);
-
-const AgencyOffers = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Agency Offers</h2>
-    <p className="text-muted-foreground">Browse agency cards, services, and reviews.</p>
-    
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Digital Masters Agency</CardTitle>
-            <div className="flex">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <Star className="h-4 w-4 text-muted-foreground" />
-            </div>
-          </div>
-          <CardDescription>Digital marketing specialists</CardDescription>
+          <CardTitle>{t('business.companyInformation')}</CardTitle>
+          <CardDescription>{t('business.companyInfoDescription')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            <p className="text-sm">Specializing in SEO, PPC, and social media campaigns.</p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Social Media</span>
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">SEO</span>
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">PPC</span>
-            </div>
-            <Button className="w-full mt-4">Contact Agency</Button>
+            <p className="text-muted-foreground">{t('business.companyFormPlaceholder')}</p>
+            <Button disabled className="mt-4">{t('business.updateProfile')}</Button>
           </div>
         </CardContent>
       </Card>
+    </div>
+  );
+};
+
+const AdSearch = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('business.adSearchTitle')}</h2>
+      <p className="text-muted-foreground">{t('business.adSearchDescription')}</p>
       
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Creative Vision Studios</CardTitle>
-            <div className="flex">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            </div>
-          </div>
-          <CardDescription>Video and visual content creation</CardDescription>
+          <CardTitle>{t('business.searchFilters')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            <p className="text-sm">Professional video production and graphic design services.</p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Video</span>
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Design</span>
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Animation</span>
-            </div>
-            <Button className="w-full mt-4">Contact Agency</Button>
+            <p className="text-muted-foreground">{t('business.searchFiltersPlaceholder')}</p>
+            <Button className="mt-4">{t('business.searchButton')}</Button>
           </div>
-        </CardContent>
-      </Card>
-    </div>
-  </div>
-);
-
-const BusinessTraining = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Training Resources</h2>
-    <p className="text-muted-foreground">Access instructions and materials on advertising.</p>
-    
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Advertising Basics</CardTitle>
-          <CardDescription>Learn the fundamentals of effective advertising</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" className="w-full">View Course</Button>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>Digital Marketing Guide</CardTitle>
-          <CardDescription>Comprehensive guide to digital marketing channels</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" className="w-full">Download Guide</Button>
-        </CardContent>
-      </Card>
-    </div>
-  </div>
-);
-
-const Reviews = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Reviews & Ratings</h2>
-    <p className="text-muted-foreground">Evaluate the effectiveness of advertising services.</p>
-    
-    <Card>
-      <CardHeader>
-        <CardTitle>Your Reviews</CardTitle>
-        <CardDescription>Manage your reviews of advertising services</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="border-b pb-4">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="font-medium">Digital Masters Agency</h3>
-                <div className="flex mt-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <Star className="h-4 w-4 text-muted-foreground" />
-                </div>
-              </div>
-              <span className="text-xs text-muted-foreground">2 days ago</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-lg">{t('business.premiumAdvertising')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">{t('business.digitalMarketing')}</p>
+            <div className="flex justify-between items-center mt-4">
+              <span className="font-semibold">{t('business.pricePerMonth', { price: '$1,200' })}</span>
+              <Button size="sm">{t('business.viewDetails')}</Button>
             </div>
-            <p className="text-sm mt-2">Great experience with their social media campaign. Saw significant growth in engagement and followers.</p>
-          </div>
-          
-          <div>
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="font-medium">Creative Vision Studios</h3>
-                <div className="flex mt-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                </div>
-              </div>
-              <span className="text-xs text-muted-foreground">1 week ago</span>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-lg">{t('business.videoProduction')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">{t('business.videoDesc')}</p>
+            <div className="flex justify-between items-center mt-4">
+              <span className="font-semibold">{t('business.pricePerProject', { price: '$800' })}</span>
+              <Button size="sm">{t('business.viewDetails')}</Button>
             </div>
-            <p className="text-sm mt-2">Exceptional video production quality. The team was professional and delivered ahead of schedule.</p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  </div>
-);
-
-const Messages = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Messages</h2>
-    <p className="text-muted-foreground">Communicate with advertising agencies.</p>
-    
-    <Card>
-      <CardHeader>
-        <CardTitle>Inbox</CardTitle>
-        <CardDescription>Recent communications with agencies</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="border-b pb-4">
-            <div className="flex justify-between items-start">
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-medium">Digital Masters Agency</h3>
-                  <p className="text-xs text-muted-foreground">Campaign proposal discussion</p>
-                </div>
-              </div>
-              <span className="text-xs text-muted-foreground">2h ago</span>
-            </div>
-            <p className="text-sm mt-2 line-clamp-2">Hi there! We've put together a proposal for your social media campaign...</p>
-            <Button variant="ghost" size="sm" className="mt-2">Read & Reply</Button>
-          </div>
-          
-          <div>
-            <div className="flex justify-between items-start">
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-medium">Creative Vision Studios</h3>
-                  <p className="text-xs text-muted-foreground">Video production contract</p>
-                </div>
-              </div>
-              <span className="text-xs text-muted-foreground">Yesterday</span>
-            </div>
-            <p className="text-sm mt-2 line-clamp-2">Please find attached the final contract for the video production services we discussed...</p>
-            <Button variant="ghost" size="sm" className="mt-2">Read & Reply</Button>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  </div>
-);
-
-const AgencyProfile = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Agency Profile</h2>
-    <p className="text-muted-foreground">Manage your agency information and portfolio.</p>
-    
-    <Card>
-      <CardHeader>
-        <CardTitle>Agency Information</CardTitle>
-        <CardDescription>Update your agency details and specializations</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <p className="text-muted-foreground">Agency profile form would go here</p>
-          <Button disabled className="mt-4">Update Profile</Button>
-        </div>
-      </CardContent>
-    </Card>
-    
-    <Card>
-      <CardHeader>
-        <CardTitle>Portfolio</CardTitle>
-        <CardDescription>Showcase your previous work</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
-            <Plus className="h-8 w-8 text-muted-foreground" />
-          </div>
-          <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
-            <Plus className="h-8 w-8 text-muted-foreground" />
-          </div>
-          <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
-            <Plus className="h-8 w-8 text-muted-foreground" />
-          </div>
-        </div>
-        <Button className="mt-4">Add Portfolio Item</Button>
-      </CardContent>
-    </Card>
-  </div>
-);
-
-const ManagingOffers = () => (
-  <div className="space-y-6">
-    <div className="flex items-center justify-between">
-      <div>
-        <h2 className="text-2xl font-bold">Managing Offers</h2>
-        <p className="text-muted-foreground">Create and edit your advertising services.</p>
+          </CardContent>
+        </Card>
       </div>
-      <Button>
-        <Plus className="mr-2 h-4 w-4" />
-        New Offer
-      </Button>
     </div>
-    
-    <div className="grid grid-cols-1 gap-6">
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-start">
-            <CardTitle>Social Media Management</CardTitle>
-            <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Active</div>
-          </div>
-          <CardDescription>Complete social media service package</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-medium">Description</h3>
-              <p className="text-sm text-muted-foreground mt-1">Full-service social media management including content creation, scheduling, and analytics.</p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-sm font-medium">Price</h3>
-                <p className="text-sm font-semibold mt-1">$1,200 / month</p>
-              </div>
-              <div>
-                <h3 className="text-sm font-medium">Duration</h3>
-                <p className="text-sm text-muted-foreground mt-1">Minimum 3 months</p>
-              </div>
-            </div>
-            
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Edit className="mr-2 h-4 w-4" />
-                Edit
-              </Button>
-              <Button variant="outline" size="sm" className="text-destructive">Delete</Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-start">
-            <CardTitle>Video Production</CardTitle>
-            <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Active</div>
-          </div>
-          <CardDescription>Professional advertising videos</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-medium">Description</h3>
-              <p className="text-sm text-muted-foreground mt-1">High-quality video production services for promotional and advertising content.</p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-sm font-medium">Price</h3>
-                <p className="text-sm font-semibold mt-1">$2,500 / project</p>
-              </div>
-              <div>
-                <h3 className="text-sm font-medium">Duration</h3>
-                <p className="text-sm text-muted-foreground mt-1">2-4 weeks per project</p>
-              </div>
-            </div>
-            
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Edit className="mr-2 h-4 w-4" />
-                Edit
-              </Button>
-              <Button variant="outline" size="sm" className="text-destructive">Delete</Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  </div>
-);
+  );
+};
 
-const Requests = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Requests</h2>
-    <p className="text-muted-foreground">Manage incoming requests from businesses.</p>
-    
-    <Tabs defaultValue="new">
-      <TabsList className="mb-4">
-        <TabsTrigger value="new">New (2)</TabsTrigger>
-        <TabsTrigger value="inProgress">In Progress (1)</TabsTrigger>
-        <TabsTrigger value="completed">Completed</TabsTrigger>
-      </TabsList>
+const AgencyOffers = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('business.agencyOffersTitle')}</h2>
+      <p className="text-muted-foreground">{t('business.agencyOffersDescription')}</p>
       
-      <TabsContent value="new">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>{t('business.digitalMastersAgency')}</CardTitle>
+              <div className="flex">
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <Star className="h-4 w-4 text-muted-foreground" />
+              </div>
+            </div>
+            <CardDescription>{t('business.digitalSpecialists')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <p className="text-sm">{t('business.specializingIn')}</p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Social Media</span>
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">SEO</span>
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">PPC</span>
+              </div>
+              <Button className="w-full mt-4">{t('business.contactAgency')}</Button>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>{t('business.creativeVisionStudios')}</CardTitle>
+              <div className="flex">
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+              </div>
+            </div>
+            <CardDescription>{t('business.videoContent')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <p className="text-sm">{t('business.professionalVideo')}</p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Video</span>
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Design</span>
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Animation</span>
+              </div>
+              <Button className="w-full mt-4">{t('business.contactAgency')}</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+const BusinessTraining = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('business.trainingResourcesTitle')}</h2>
+      <p className="text-muted-foreground">{t('business.trainingResourcesDescription')}</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('business.advertisingBasics')}</CardTitle>
+            <CardDescription>{t('business.advertisingBasicsDescription')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button variant="outline" className="w-full">{t('business.viewCourse')}</Button>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('business.digitalMarketingGuide')}</CardTitle>
+            <CardDescription>{t('business.digitalMarketingGuideDescription')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button variant="outline" className="w-full">{t('business.downloadGuide')}</Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+const Reviews = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('business.reviewsRatingsTitle')}</h2>
+      <p className="text-muted-foreground">{t('business.reviewsRatingsDescription')}</p>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('business.yourReviews')}</CardTitle>
+          <CardDescription>{t('business.manageReviews')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="border-b pb-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
+                  <div className="flex mt-1">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                </div>
+                <span className="text-xs text-muted-foreground">{t('business.daysAgo', { days: 2 })}</span>
+              </div>
+              <p className="text-sm mt-2">{t('business.growthEngagement')}</p>
+            </div>
+            
+            <div>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
+                  <div className="flex mt-1">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  </div>
+                </div>
+                <span className="text-xs text-muted-foreground">{t('business.weekAgo', { weeks: 1 })}</span>
+              </div>
+              <p className="text-sm mt-2">{t('business.exceptionalQuality')}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+const Messages = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('business.messagesTitle')}</h2>
+      <p className="text-muted-foreground">{t('business.messagesDescription')}</p>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('business.inbox')}</CardTitle>
+          <CardDescription>{t('business.recentCommunications')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="border-b pb-4">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                    <MessageSquare className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
+                    <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
+                  </div>
+                </div>
+                <span className="text-xs text-muted-foreground">{t('business.hoursAgo', { hours: 2 })}</span>
+              </div>
+              <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
+              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+            </div>
+            
+            <div>
+              <div className="flex justify-between items-start">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                    <MessageSquare className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
+                    <p className="text-xs text-muted-foreground">{t('business.videoContract')}</p>
+                  </div>
+                </div>
+                <span className="text-xs text-muted-foreground">{t('business.yesterday')}</span>
+              </div>
+              <p className="text-sm mt-2 line-clamp-2">{t('business.contractText')}</p>
+              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+const AgencyProfile = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('agency.profileTitle')}</h2>
+      <p className="text-muted-foreground">{t('agency.profileDescription')}</p>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('agency.agencyInformation')}</CardTitle>
+          <CardDescription>{t('agency.agencyInfoDescription')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <p className="text-muted-foreground">{t('agency.agencyFormPlaceholder')}</p>
+            <Button disabled className="mt-4">{t('business.updateProfile')}</Button>
+          </div>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('agency.portfolio')}</CardTitle>
+          <CardDescription>{t('agency.portfolioDescription')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
+              <Plus className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
+              <Plus className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
+              <Plus className="h-8 w-8 text-muted-foreground" />
+            </div>
+          </div>
+          <Button className="mt-4">{t('agency.addPortfolioItem')}</Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+const ManagingOffers = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">{t('agency.managingOffersTitle')}</h2>
+          <p className="text-muted-foreground">{t('agency.managingOffersDescription')}</p>
+        </div>
+        <Button>
+          <Plus className="mr-2 h-4 w-4" />
+          {t('agency.newOffer')}
+        </Button>
+      </div>
+      
+      <div className="grid grid-cols-1 gap-6">
         <Card>
           <CardHeader>
             <div className="flex justify-between items-start">
-              <CardTitle>Social Media Campaign Request</CardTitle>
-              <div className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">New</div>
+              <CardTitle>{t('agency.socialMediaManagement')}</CardTitle>
+              <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{t('agency.active')}</div>
             </div>
-            <CardDescription>From: TechStart Inc.</CardDescription>
+            <CardDescription>{t('agency.socialMediaPackage')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
-                <h3 className="text-sm font-medium">Request Details</h3>
-                <p className="text-sm text-muted-foreground mt-1">Looking for a comprehensive social media campaign to promote our new product launch in Q3.</p>
+                <h3 className="text-sm font-medium">{t('agency.description')}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t('agency.socialMediaDesc')}</p>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h3 className="text-sm font-medium">Budget</h3>
-                  <p className="text-sm font-semibold mt-1">$5,000 - $8,000</p>
+                  <h3 className="text-sm font-medium">{t('agency.price')}</h3>
+                  <p className="text-sm font-semibold mt-1">$1,200 / month</p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium">Timeline</h3>
-                  <p className="text-sm text-muted-foreground mt-1">2 months</p>
+                  <h3 className="text-sm font-medium">{t('agency.duration')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.minimumMonths', { months: 3 })}</p>
                 </div>
               </div>
               
               <div className="flex gap-2">
-                <Button size="sm">Accept Request</Button>
-                <Button variant="outline" size="sm">Contact Client</Button>
+                <Button variant="outline" size="sm">
+                  <Edit className="mr-2 h-4 w-4" />
+                  {t('agency.edit')}
+                </Button>
+                <Button variant="outline" size="sm" className="text-destructive">{t('agency.delete')}</Button>
               </div>
             </div>
           </CardContent>
         </Card>
-      </TabsContent>
-      
-      <TabsContent value="inProgress">
+        
         <Card>
           <CardHeader>
             <div className="flex justify-between items-start">
-              <CardTitle>Website Banner Ads</CardTitle>
-              <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">In Progress</div>
+              <CardTitle>{t('agency.videoProduction')}</CardTitle>
+              <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{t('agency.active')}</div>
             </div>
-            <CardDescription>From: Global Retail Co.</CardDescription>
+            <CardDescription>{t('agency.professionalVideos')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
-                <h3 className="text-sm font-medium">Status</h3>
-                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                  <div className="bg-primary h-2.5 rounded-full" style={{ width: '45%' }}></div>
+                <h3 className="text-sm font-medium">{t('agency.description')}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t('agency.videoProductionDesc')}</p>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.price')}</h3>
+                  <p className="text-sm font-semibold mt-1">$2,500 / project</p>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">45% Complete</p>
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.duration')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.weeksPerProject', { weeks: 2, maxWeeks: 4 })}</p>
+                </div>
               </div>
               
-              <div>
-                <h3 className="text-sm font-medium">Next Steps</h3>
-                <p className="text-sm text-muted-foreground mt-1">Design review with client scheduled for tomorrow at 2 PM.</p>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">
+                  <Edit className="mr-2 h-4 w-4" />
+                  {t('agency.edit')}
+                </Button>
+                <Button variant="outline" size="sm" className="text-destructive">{t('agency.delete')}</Button>
               </div>
-              
-              <Button variant="outline" size="sm">View Project Details</Button>
             </div>
           </CardContent>
         </Card>
-      </TabsContent>
-      
-      <TabsContent value="completed">
-        <div className="text-center py-10">
-          <p className="text-muted-foreground">No completed requests yet.</p>
-        </div>
-      </TabsContent>
-    </Tabs>
-  </div>
-);
+      </div>
+    </div>
+  );
+};
 
-const AgencyTraining = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Training</h2>
-    <p className="text-muted-foreground">Courses and materials on advertising services.</p>
-    
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Advanced PPC Strategies</CardTitle>
-          <CardDescription>Master pay-per-click advertising techniques</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">8 modules • 4 hours</span>
-              <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">Advanced</span>
-            </div>
-            <Button variant="outline" className="w-full mt-2">Start Course</Button>
+const Requests = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('agency.requestsTitle')}</h2>
+      <p className="text-muted-foreground">{t('agency.requestsDescription')}</p>
+      
+      <Tabs defaultValue="new">
+        <TabsList className="mb-4">
+          <TabsTrigger value="new">{t('agency.newRequests', { count: 2 })}</TabsTrigger>
+          <TabsTrigger value="inProgress">{t('agency.inProgress', { count: 1 })}</TabsTrigger>
+          <TabsTrigger value="completed">{t('agency.completed')}</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="new">
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <CardTitle>{t('agency.socialMediaCampaign')}</CardTitle>
+                <div className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">{t('agency.new')}</div>
+              </div>
+              <CardDescription>{t('agency.from', { company: 'TechStart Inc.' })}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.requestDetails')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.lookingFor')}</p>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="text-sm font-medium">{t('agency.budget')}</h3>
+                    <p className="text-sm font-semibold mt-1">{t('agency.budgetRange', { min: '5,000', max: '8,000' })}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium">{t('agency.timeline')}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">{t('agency.months', { count: 2 })}</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-2">
+                  <Button size="sm">{t('agency.acceptRequest')}</Button>
+                  <Button variant="outline" size="sm">{t('agency.contactClient')}</Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="inProgress">
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <CardTitle>{t('agency.websiteBannerAds')}</CardTitle>
+                <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{t('agency.inProgressStatus')}</div>
+              </div>
+              <CardDescription>{t('agency.from', { company: 'Global Retail Co.' })}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.status')}</h3>
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                    <div className="bg-primary h-2.5 rounded-full" style={{ width: '45%' }}></div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">{t('agency.complete', { percent: 45 })}</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.nextSteps')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.designReview')}</p>
+                </div>
+                
+                <Button variant="outline" size="sm">{t('agency.viewProjectDetails')}</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="completed">
+          <div className="text-center py-10">
+            <p className="text-muted-foreground">{t('agency.noCompletedRequests')}</p>
           </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+const AgencyTraining = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('agency.trainingTitle')}</h2>
+      <p className="text-muted-foreground">{t('agency.trainingDescription')}</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('agency.ppcStrategies')}</CardTitle>
+            <CardDescription>{t('agency.ppcDescription')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t('agency.modules', { count: 8, hours: 4 })}</span>
+                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{t('agency.advanced')}</span>
+              </div>
+              <Button variant="outline" className="w-full mt-2">{t('agency.startCourse')}</Button>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('agency.contentMarketing')}</CardTitle>
+            <CardDescription>{t('agency.contentDescription')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t('agency.modules', { count: 6, hours: 3 })}</span>
+                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{t('agency.intermediate')}</span>
+              </div>
+              <Button variant="outline" className="w-full mt-2">{t('agency.startCourse')}</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+const Reports = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('agency.reportsTitle')}</h2>
+      <p className="text-muted-foreground">{t('agency.reportsDescription')}</p>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.totalCampaigns')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">12</div>
+            <p className="text-xs text-muted-foreground flex items-center">
+              <span className="text-green-500 mr-1">{t('agency.increase', { count: 2 })}</span> {t('agency.fromLastMonth')}
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.activeClients')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">8</div>
+            <p className="text-xs text-muted-foreground flex items-center">
+              <span className="text-green-500 mr-1">{t('agency.increase', { count: 1 })}</span> {t('agency.fromLastMonth')}
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.revenue')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$28,500</div>
+            <p className="text-xs text-muted-foreground flex items-center">
+              <span className="text-green-500 mr-1">{t('agency.percentIncrease', { percent: 12 })}</span> {t('agency.fromLastMonth')}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
       
       <Card>
         <CardHeader>
-          <CardTitle>Content Marketing Essentials</CardTitle>
-          <CardDescription>Create compelling content strategies</CardDescription>
+          <CardTitle>{t('agency.campaignPerformance')}</CardTitle>
+          <CardDescription>{t('agency.campaignMetrics')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">6 modules • 3 hours</span>
-              <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">Intermediate</span>
-            </div>
-            <Button variant="outline" className="w-full mt-2">Start Course</Button>
+          <div className="h-60 flex items-center justify-center border rounded-md bg-muted/10">
+            <p className="text-muted-foreground">{t('agency.performanceChart')}</p>
           </div>
         </CardContent>
       </Card>
     </div>
-  </div>
-);
-
-const Reports = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold">Reports & Analytics</h2>
-    <p className="text-muted-foreground">Campaign performance analytics.</p>
-    
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Total Campaigns</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">12</div>
-          <p className="text-xs text-muted-foreground flex items-center">
-            <span className="text-green-500 mr-1">↑ 2</span> from last month
-          </p>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Active Clients</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">8</div>
-          <p className="text-xs text-muted-foreground flex items-center">
-            <span className="text-green-500 mr-1">↑ 1</span> from last month
-          </p>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Revenue</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">$28,500</div>
-          <p className="text-xs text-muted-foreground flex items-center">
-            <span className="text-green-500 mr-1">↑ 12%</span> from last month
-          </p>
-        </CardContent>
-      </Card>
-    </div>
-    
-    <Card>
-      <CardHeader>
-        <CardTitle>Campaign Performance</CardTitle>
-        <CardDescription>Overview of active campaign metrics</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="h-60 flex items-center justify-center border rounded-md bg-muted/10">
-          <p className="text-muted-foreground">Performance chart would go here</p>
-        </div>
-      </CardContent>
-    </Card>
-  </div>
-);
+  );
+};
 
 export default Account;
