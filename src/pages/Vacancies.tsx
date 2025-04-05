@@ -8,20 +8,21 @@ import Footer from '@/components/layout/Footer';
 import VacancyCard from '@/components/home/VacancyCard';
 import { Briefcase, Filter, Search } from 'lucide-react';
 import { CategoryProvider, useCategory } from '@/contexts/CategoryContext';
+import { useLocation } from '@/contexts/LocationContext';
 import CategorySelector from '@/components/home/CategorySelector';
+import LocationSelector from '@/components/home/LocationSelector';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // API function to fetch all vacancies with pagination and filters
 const fetchAllVacancies = async (params: {
   category?: string;
+  location?: string;
   search?: string;
   page: number;
   limit: number;
 }) => {
   // In a real app, this would be an API call to your backend
-  // Example: return await fetch(`/api/vacancies?category=${params.category || 'all'}&search=${params.search || ''}&page=${params.page}&limit=${params.limit}`).then(res => res.json());
-  
   console.log('Fetching all vacancies with params:', params);
   
   // Simulate network delay
@@ -38,13 +39,32 @@ const fetchAllVacancies = async (params: {
     { id: 7, title: 'Middle Front-end Developer', company: 'Sigma Software', location: 'Харків', salary: '2500 - 3500 $', experience: '3+ років', postedTime: '9 днів тому', categories: ['digital', 'print'] },
     { id: 8, title: 'Back-end Developer (Node.js)', company: 'GlobalLogic', location: 'Київ', salary: '3000 - 4500 $', experience: '2+ років', postedTime: '10 днів тому', categories: ['digital'] },
     { id: 9, title: 'Full-stack Developer', company: 'EPAM Systems', location: 'Київ', salary: '3500 - 5000 $', experience: '4+ років', postedTime: '11 днів тому', categories: ['digital', 'events'] },
-    { id: 10, title: 'UX/UI Designer', company: 'Luxoft', location: 'Дніпро', salary: '1800 - 2800 $', experience: '2+ років', postedTime: '12 днів тому', categories: ['digital'] }
+    { id: 10, title: 'UX/UI Designer', company: 'Genesis', location: 'Одеса', salary: '1800 - 2800 $', experience: '2+ років', postedTime: '12 днів тому', categories: ['digital'] }
   ];
   
   // Filter by category
   let filtered = allVacancies;
   if (params.category && params.category !== 'all') {
     filtered = filtered.filter(v => v.categories.includes(params.category));
+  }
+  
+  // Filter by location
+  if (params.location && params.location !== 'all') {
+    if (params.location === 'near') {
+      // Simulate "near me" filtering - in a real app, this would use actual geolocation
+      filtered = filtered.filter(v => v.location === 'Дніпро'); // Example: default to Dnipro
+    } else if (params.location === 'remote') {
+      // For remote work - would have a "remote" field in real data
+      filtered = filtered.filter(v => v.location.includes('Remote') || v.location.includes('Дистанційно'));
+    } else if (params.location === 'abroad') {
+      // For international jobs
+      filtered = filtered.filter(v => 
+        !['Київ', 'Дніпро', 'Харків', 'Львів', 'Одеса'].includes(v.location)
+      );
+    } else {
+      // For specific city
+      filtered = filtered.filter(v => v.location === params.location);
+    }
   }
   
   // Filter by search term
@@ -88,6 +108,7 @@ const saveVacancy = async (vacancyId: number, isFavorite: boolean): Promise<bool
 const VacanciesContent = () => {
   const { t } = useLanguage();
   const { selectedCategory } = useCategory();
+  const { selectedLocation } = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const limit = 9;
@@ -100,9 +121,10 @@ const VacanciesContent = () => {
 
   // Use React Query to fetch vacancies
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['allVacancies', selectedCategory, searchTerm, page, limit],
+    queryKey: ['allVacancies', selectedCategory, selectedLocation, searchTerm, page, limit],
     queryFn: () => fetchAllVacancies({
       category: selectedCategory === 'all' ? undefined : selectedCategory,
+      location: selectedLocation === 'all' ? undefined : selectedLocation,
       search: searchTerm,
       page,
       limit
@@ -139,9 +161,15 @@ const VacanciesContent = () => {
           </form>
         </div>
         
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-4">{t('categories.filterBy')}</h2>
-          <CategorySelector />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div>
+            <h2 className="text-lg font-semibold mb-4">{t('categories.filterBy')}</h2>
+            <CategorySelector />
+          </div>
+          <div>
+            <h2 className="text-lg font-semibold mb-4">{t('location.filterByLocation')}</h2>
+            <LocationSelector />
+          </div>
         </div>
         
         {isLoading ? (

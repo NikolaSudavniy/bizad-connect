@@ -5,16 +5,17 @@ import { Button } from '@/components/ui/button';
 import VacancyCard, { VacancyProps } from './VacancyCard';
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from '@/components/ui/carousel';
 import { useCategory } from '@/contexts/CategoryContext';
+import { useLocation } from '@/contexts/LocationContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 // API functions for server interaction
-const fetchVacanciesFromServer = async (category?: string): Promise<(VacancyProps & { categories: string[] })[]> => {
-  console.log('Fetching vacancies from server, category:', category);
+const fetchVacanciesFromServer = async (params: { category?: string, location?: string }): Promise<(VacancyProps)[]> => {
+  console.log('Fetching vacancies from server, params:', params);
   await new Promise(resolve => setTimeout(resolve, 500));
 
-  return [
+  const allVacancies = [
     { 
       id: 1, 
       title: 'Front-end розробник', 
@@ -79,18 +80,85 @@ const fetchVacanciesFromServer = async (category?: string): Promise<(VacancyProp
       rating: 4.8,
       contactPhone: '+380 44 123 4567',
       contactEmail: 'careers@softserve.com'
+    },
+    {
+      id: 6,
+      title: 'Senior Front-end Developer',
+      company: 'Intellias',
+      location: 'Львів',
+      salary: '4000 - 5000 $',
+      experience: '5+ років',
+      postedTime: '8 днів тому',
+      categories: ['digital'],
+      companyDescription: 'Intellias - глобальна ІТ-компанія з сильною експертизою у сфері автомобільної індустрії, фінтеху та ритейлу.',
+      rating: 4.6,
+      contactEmail: 'careers@intellias.com'
+    },
+    {
+      id: 7,
+      title: 'Middle Front-end Developer',
+      company: 'Sigma Software',
+      location: 'Харків',
+      salary: '2500 - 3500 $',
+      experience: '3+ років',
+      postedTime: '9 днів тому',
+      categories: ['digital', 'print'],
+      companyDescription: 'Sigma Software - міжнародна IT-компанія, що надає послуги з розробки програмного забезпечення та IT-консалтингу.',
+      rating: 4.5,
+      contactEmail: 'jobs@sigma.software'
+    },
+    {
+      id: 8,
+      title: 'UX/UI Designer',
+      company: 'Genesis',
+      location: 'Одеса',
+      salary: '2000 - 3000 $',
+      experience: '2+ років',
+      postedTime: '3 дні тому',
+      categories: ['digital'],
+      companyDescription: 'Genesis - одна з найбільших продуктових IT-компаній в Україні, що створює інноваційні проекти та сервіси.',
+      rating: 4.7,
+      contactEmail: 'hr@gen.tech'
     }
   ];
+  
+  // Filter by category
+  let filtered = [...allVacancies];
+  if (params.category && params.category !== 'all') {
+    filtered = filtered.filter(v => v.categories.includes(params.category));
+  }
+  
+  // Filter by location
+  if (params.location && params.location !== 'all') {
+    if (params.location === 'near') {
+      // Simulate "near me" filtering - in a real app, this would use actual geolocation
+      filtered = filtered.filter(v => v.location === 'Дніпро'); // Example: default to Dnipro
+    } else if (params.location === 'remote') {
+      // For remote work - would have a "remote" field in real data
+      filtered = filtered.filter(v => v.location.includes('Remote') || v.location.includes('Дистанційно'));
+    } else if (params.location === 'abroad') {
+      // For international jobs
+      filtered = filtered.filter(v => 
+        !['Київ', 'Дніпро', 'Харків', 'Львів', 'Одеса'].includes(v.location)
+      );
+    } else {
+      // For specific city
+      filtered = filtered.filter(v => v.location === params.location);
+    }
+  }
+  
+  return filtered;
 };
 
 const PopularVacancies = () => {
   const [api, setApi] = useState<CarouselApi>();
   const { selectedCategory } = useCategory();
+  const { selectedLocation } = useLocation();
   const { t } = useLanguage();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 
-  // ✅ отслеживаем ширину экрана
+  // Track screen width
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -99,8 +167,11 @@ const PopularVacancies = () => {
   }, []);
 
   const { data: vacancies = [], isLoading } = useQuery({
-    queryKey: ['vacancies', selectedCategory],
-    queryFn: () => fetchVacanciesFromServer(selectedCategory === 'all' ? undefined : selectedCategory),
+    queryKey: ['vacancies', selectedCategory, selectedLocation],
+    queryFn: () => fetchVacanciesFromServer({
+      category: selectedCategory === 'all' ? undefined : selectedCategory,
+      location: selectedLocation === 'all' ? undefined : selectedLocation
+    }),
   });
 
   useEffect(() => {
@@ -126,9 +197,13 @@ const PopularVacancies = () => {
   const scrollNext = useCallback(() => api?.scrollNext(), [api]);
 
   const filteredVacancies = useMemo(() => {
-    if (selectedCategory === 'all') return vacancies;
-    return vacancies.filter(vacancy => vacancy.categories.includes(selectedCategory));
-  }, [selectedCategory, vacancies]);
+    // Filter vacancies by category and location
+    let filtered = [...vacancies];
+
+    // Category filtering already handled in the query function
+    
+    return filtered;
+  }, [vacancies]);
 
   const vacanciesCount = filteredVacancies.length;
   const shouldShowButtons = vacanciesCount >= 4;

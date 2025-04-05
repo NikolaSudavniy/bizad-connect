@@ -1,14 +1,49 @@
 
 import React, { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, MapPin, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLocation, LocationType } from '@/contexts/LocationContext';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 const SearchBar = () => {
   const [focused, setFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { t } = useLanguage();
+  const { selectedLocation, setSelectedLocation } = useLocation();
+  const [open, setOpen] = useState(false);
+  
+  const locations = [
+    { value: 'all', label: t('location.allUkraine') || 'Вся Україна' },
+    { value: 'Київ', label: 'Київ' },
+    { value: 'Дніпро', label: 'Дніпро' },
+    { value: 'Харків', label: 'Харків' },
+    { value: 'Одеса', label: 'Одеса' },
+    { value: 'Львів', label: 'Львів' },
+    { value: 'near', label: t('location.nearHome') || 'Поряд із домом' },
+    { value: 'remote', label: t('location.remote') || 'Дистанційно' },
+    { value: 'abroad', label: t('location.abroad') || 'Інші країни' },
+  ];
+
+  const selectedLocationObj = locations.find(loc => loc.value === selectedLocation);
+
+  const clearLocation = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedLocation('all');
+  };
   
   return (
     <div 
@@ -30,6 +65,59 @@ const SearchBar = () => {
           onBlur={() => setFocused(false)}
         />
       </div>
+      
+      <div className="border-l border-border px-3 flex items-center">
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              role="combobox"
+              aria-expanded={open}
+              className="justify-between py-1"
+            >
+              <div className="flex items-center">
+                <MapPin className="h-4 w-4 text-muted-foreground mr-2" />
+                <span className="text-sm font-medium">
+                  {selectedLocationObj ? selectedLocationObj.label : t('location.allUkraine')}
+                </span>
+                {selectedLocation !== 'all' && (
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-6 w-6 ml-1 hover:bg-secondary/80" 
+                    onClick={clearLocation}
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                )}
+              </div>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-full p-0" align="start">
+            <Command>
+              <CommandInput placeholder={t('location.searchPlaceholder') || "Пошук міста..."} />
+              <CommandList>
+                <CommandEmpty>{t('location.noResults') || "Нічого не знайдено"}</CommandEmpty>
+                <CommandGroup>
+                  {locations.map((location) => (
+                    <CommandItem
+                      key={location.value}
+                      value={location.value}
+                      onSelect={(value) => {
+                        setSelectedLocation(value as LocationType);
+                        setOpen(false);
+                      }}
+                    >
+                      {location.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </div>
+      
       <div className="pr-2">
         <Button
           type="submit"

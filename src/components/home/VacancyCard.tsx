@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
@@ -29,6 +28,7 @@ export interface VacancyProps {
   rating?: number;
   contactPhone?: string;
   contactEmail?: string;
+  categories: string[];
 }
 
 interface VacancyCardProps {
@@ -42,14 +42,13 @@ const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
   const { toast } = useToast();
   const { t } = useLanguage();
   
-  // Check if this vacancy is in favorites
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
     setIsFavorite(favorites.includes(vacancy.id));
   }, [vacancy.id]);
 
   const toggleFavorite = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click when clicking the favorite button
+    e.stopPropagation();
     
     const favorites = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
     
@@ -81,9 +80,8 @@ const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
   };
 
   const handleCompanyClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click
+    e.stopPropagation();
     
-    // Determine the correct company ID from the company name
     let companyId;
     if (vacancy.company === "Діфоменко О. М., ФОП") {
       companyId = "business1";
@@ -94,7 +92,6 @@ const VacancyCard = ({ vacancy, onFavoriteToggle }: VacancyCardProps) => {
     } else if (vacancy.company === "Digital Creators Agency") {
       companyId = "advertiser2";
     } else {
-      // Default fallback if company name doesn't match
       companyId = "business1";
     }
     

@@ -4,6 +4,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/home/Hero';
 import CategorySelector from '@/components/home/CategorySelector';
+import LocationSelector from '@/components/home/LocationSelector';
 import PopularVacancies from '@/components/home/PopularVacancies';
 import { ArrowRight, MousePointer, Zap, BarChart } from 'lucide-react';
 import AuthModal from '@/components/auth/AuthModal';
@@ -33,10 +34,21 @@ const Index = () => {
         {/* Hero Section */}
         <Hero />
         
-        {/* Category and Vacancies with shared context */}
+        {/* Category, Location and Vacancies with shared context */}
         <CategoryProvider>
           <div className="py-10 border-y border-border">
-            <CategorySelector />
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h2 className="text-lg font-semibold mb-4">{t('categories.filterBy')}</h2>
+                  <CategorySelector />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold mb-4">{t('location.filterByLocation')}</h2>
+                  <LocationSelector />
+                </div>
+              </div>
+            </div>
           </div>
           <PopularVacancies />
         </CategoryProvider>
