@@ -25,11 +25,11 @@ const fetchFavoriteVacancies = async (): Promise<VacancyProps[]> => {
   await new Promise(resolve => setTimeout(resolve, 500));
   
   const allVacancies = [
-    { id: 1, title: 'Front-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '2 роки', postedTime: '16 год. тому', progress: 6, isNew: true },
-    { id: 2, title: 'Front-end розробник', company: 'Планета, мебельна майстерня', location: 'Дніпро', salary: '37 000 грн', postedTime: '2 дні тому' },
-    { id: 3, title: 'Front-end програміст', company: 'Свідк маркетинг, ТОВ', location: 'Київ', experience: '1 рік', postedTime: '4 дні тому' },
-    { id: 4, title: 'Junior Front-end Web Developer', company: 'Atlas Digital Ventures', location: 'Київ', salary: '25 000 - 33 000 грн', postedTime: '5 днів тому' },
-    { id: 5, title: 'Front-end розробник (React.js)', company: 'SoftServe LLC', location: 'Київ', salary: '60 000 грн', experience: '3 роки', postedTime: '7 днів тому' }
+    { id: 1, title: 'Front-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '2 роки', postedTime: '16 год. тому', progress: 6, isNew: true, categories: ['digital', 'social'] },
+    { id: 2, title: 'Front-end розробник', company: 'Планета, мебельна майстерня', location: 'Дніпро', salary: '37 000 грн', postedTime: '2 дні тому', categories: ['digital', 'print'] },
+    { id: 3, title: 'Front-end програміст', company: 'Свідк маркетинг, ТОВ', location: 'Київ', experience: '1 рік', postedTime: '4 дні тому', categories: ['digital'] },
+    { id: 4, title: 'Junior Front-end Web Developer', company: 'Atlas Digital Ventures', location: 'Київ', salary: '25 000 - 33 000 грн', postedTime: '5 днів тому', categories: ['digital', 'social'] },
+    { id: 5, title: 'Front-end розробник (React.js)', company: 'SoftServe LLC', location: 'Київ', salary: '60 000 грн', experience: '3 роки', postedTime: '7 днів тому', categories: ['digital'] }
   ];
   
   return allVacancies.filter(vacancy => favoriteIds.includes(vacancy.id));
@@ -107,7 +107,6 @@ const Account = () => {
     }
   };
 
-  // Sample user data for business account
   const businessUserData = {
     name: 'Діфоменко О. М.',
     type: 'ФОП',
@@ -128,7 +127,6 @@ const Account = () => {
     }
   };
 
-  // Sample user data for advertiser account
   const advertiserUserData = {
     name: 'Марина Костенко',
     email: 'marina.kostenko@example.com',
@@ -153,7 +151,6 @@ const Account = () => {
     }
   };
 
-  // Sample listings for business account
   const businessListings = [
     { id: 1, title: 'Front-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '2 роки', postedTime: '16 год. тому', progress: 6, isNew: true, categories: ['digital', 'social'] },
     { id: 2, title: 'Back-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', salary: '40 000 грн', postedTime: '2 дні тому', categories: ['digital', 'print'] },

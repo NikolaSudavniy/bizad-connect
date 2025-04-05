@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -7,12 +8,51 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Calendar, ExternalLink, Facebook, Instagram, Linkedin, MapPin, Twitter, User } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
+// Define a common interface for business and advertiser properties
+interface BaseUserData {
+  id: number;
+  name: string;
+  logo: string;
+  website: string;
+  email: string;
+  phone: string;
+  location: string;
+  description: string;
+  rating: number;
+  reviewCount: number;
+  foundedYear: number;
+  verified: boolean;
+  premium: boolean;
+  socialLinks: Record<string, string>;
+}
+
+// Business-specific properties
+interface BusinessData extends BaseUserData {
+  type: string;
+  employeeCount: string;
+  categories: string[];
+}
+
+// Advertiser-specific properties
+interface AdvertiserData extends BaseUserData {
+  specialties: string[];
+  portfolioImages: string[];
+}
+
+// Union type that represents either a business or an advertiser
+type UserDataType = BusinessData | AdvertiserData;
+
+// Helper function to check if the data is for a business
+const isBusiness = (data: UserDataType): data is BusinessData => {
+  return 'type' in data && 'categories' in data;
+};
+
 const CompanyDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useLanguage();
 
   // Sample company data (in a real app, this would come from an API)
-  const companyData = {
+  const companyData: BusinessData = {
     id: 1,
     name: 'Діфоменко О. М.',
     type: 'ФОП',
@@ -37,7 +77,7 @@ const CompanyDetail = () => {
   };
 
   // Sample data for advertiser
-  const advertiserData = {
+  const advertiserData: AdvertiserData = {
     id: 2,
     name: 'Марина Костенко',
     logo: 'https://placehold.co/100x100/jpeg',
@@ -79,9 +119,8 @@ const CompanyDetail = () => {
     { id: 3, title: 'Дизайн упаковки "Моршинська"', company: 'Моршинська', location: 'Київ', experience: '1 міс.', postedTime: '8 міс. тому', isNew: false, progress: 0, categories: ['print'] }
   ];
 
-  const isBusiness = companyData !== null;
-  const userData = isBusiness ? companyData : advertiserData;
-  const listings = isBusiness ? businessListings : advertiserPortfolio;
+  const userData = companyData !== null ? companyData : advertiserData;
+  const listings = isBusiness(userData) ? businessListings : advertiserPortfolio;
 
   return (
     <div className="py-12 px-6">
@@ -96,11 +135,11 @@ const CompanyDetail = () => {
             <div>
               <h1 className="text-2xl font-semibold">{userData.name}</h1>
               <p className="text-muted-foreground">
-                {isBusiness ? userData.type : t('account.advertiser')}
+                {isBusiness(userData) ? userData.type : t('account.advertiser')}
               </p>
             </div>
           </div>
-          {isBusiness && userData.premium && (
+          {userData.premium && (
             <Badge variant="secondary">{t('account.premium')}</Badge>
           )}
         </div>
@@ -122,17 +161,17 @@ const CompanyDetail = () => {
                 {userData.website}
               </a>
             </div>
-            {isBusiness && (
+            <div className="flex items-center">
+              <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
+              <span>{t('company.foundedIn')} {userData.foundedYear}</span>
+            </div>
+            {isBusiness(userData) && (
               <div className="flex items-center">
-                <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
-                <span>{t('company.foundedIn')} {userData.foundedYear}</span>
+                <User className="h-4 w-4 mr-2 text-muted-foreground" />
+                <span>{t('company.employeeCount')}: {userData.employeeCount}</span>
               </div>
             )}
-            <div className="flex items-center">
-              <User className="h-4 w-4 mr-2 text-muted-foreground" />
-              <span>{t('company.employeeCount')}: {userData.employeeCount}</span>
-            </div>
-            {isBusiness && userData.categories && userData.categories.length > 0 && (
+            {isBusiness(userData) && userData.categories && userData.categories.length > 0 && (
               <div className="flex items-center">
                 <span className="mr-2 text-muted-foreground">{t('company.categories')}:</span>
                 <span>{userData.categories.join(', ')}</span>
@@ -170,7 +209,7 @@ const CompanyDetail = () => {
         {/* Listings Section */}
         <section className="mb-8">
           <h2 className="text-xl font-semibold mb-4">
-            {isBusiness ? t('company.jobListings') : t('company.portfolio')}
+            {isBusiness(userData) ? t('company.jobListings') : t('company.portfolio')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {listings.map((listing) => (
@@ -194,7 +233,7 @@ const CompanyDetail = () => {
         </section>
 
         {/* Portfolio Section (Advertiser only) */}
-        {!isBusiness && advertiserData.portfolioImages && advertiserData.portfolioImages.length > 0 && (
+        {!isBusiness(userData) && advertiserData.portfolioImages && advertiserData.portfolioImages.length > 0 && (
           <section>
             <h2 className="text-xl font-semibold mb-4">{t('company.portfolio')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
