@@ -1,11 +1,11 @@
 
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, ExternalLink, Facebook, Instagram, Linkedin, MapPin, Twitter, User } from 'lucide-react';
+import { Calendar, ExternalLink, Facebook, Instagram, Linkedin, MapPin, Twitter, User, ArrowLeft, Star } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // Define a common interface for business and advertiser properties
@@ -62,6 +62,7 @@ const isBusiness = (data: UserDataType): data is BusinessData => {
 const CompanyDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   // Sample company data (in a real app, this would come from an API)
   const companyData: BusinessData = {
@@ -131,12 +132,53 @@ const CompanyDetail = () => {
     { id: 3, title: 'Дизайн упаковки "Моршинська"', company: 'Моршинська', location: 'Київ', experience: '1 міс.', postedTime: '8 міс. тому', isNew: false, progress: 0, categories: ['print'] }
   ];
 
-  const userData = companyData !== null ? companyData : advertiserData;
+  const userData = id?.includes('advertiser') ? advertiserData : companyData;
   const listings = isBusiness(userData) ? businessListings : advertiserPortfolio;
 
+  // Function to render star rating
+  const renderRating = (rating: number) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const stars = [];
+
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        stars.push(<Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />);
+      } else if (i === fullStars + 1 && hasHalfStar) {
+        stars.push(
+          <div key={i} className="relative">
+            <Star className="h-4 w-4 text-gray-300" />
+            <div className="absolute inset-0 overflow-hidden w-1/2">
+              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+            </div>
+          </div>
+        );
+      } else {
+        stars.push(<Star key={i} className="h-4 w-4 text-gray-300" />);
+      }
+    }
+
+    return stars;
+  };
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
-    <div className="py-12 px-6">
+    <div className="py-12 px-6 bg-black text-white min-h-screen">
       <div className="max-w-5xl mx-auto">
+        {/* Back Button */}
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="mb-6 text-white hover:bg-gray-800"
+          onClick={handleBack}
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          {t('common.back')}
+        </Button>
+
         {/* Header Section */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
@@ -146,71 +188,87 @@ const CompanyDetail = () => {
             </Avatar>
             <div>
               <h1 className="text-2xl font-semibold">{userData.name}</h1>
-              <p className="text-muted-foreground">
+              <p className="text-gray-400">
                 {isBusiness(userData) ? userData.type : t('account.advertiser')}
               </p>
             </div>
           </div>
           {userData.premium && (
-            <Badge variant="secondary">{t('account.premium')}</Badge>
+            <Badge variant="secondary" className="bg-gray-800 text-white">
+              {t('account.premium')}
+            </Badge>
           )}
         </div>
 
         {/* Company Details Section */}
-        <Card className="mb-8">
+        <Card className="mb-8 bg-gray-900 border-gray-800 text-white">
           <CardHeader>
             <CardTitle>{t('company.aboutCompany')}</CardTitle>
-            <CardDescription>{userData.description}</CardDescription>
+            <CardDescription className="text-gray-300">{userData.description}</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
             <div className="flex items-center">
-              <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
+              <MapPin className="h-4 w-4 mr-2 text-gray-400" />
               <span>{userData.location}</span>
             </div>
             <div className="flex items-center">
-              <ExternalLink className="h-4 w-4 mr-2 text-muted-foreground" />
-              <a href={userData.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
+              <ExternalLink className="h-4 w-4 mr-2 text-gray-400" />
+              <a href={`https://${userData.website}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-400">
                 {userData.website}
               </a>
             </div>
             <div className="flex items-center">
-              <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
+              <Calendar className="h-4 w-4 mr-2 text-gray-400" />
               <span>{t('company.foundedIn')} {userData.foundedYear}</span>
             </div>
             {isBusiness(userData) && (
               <div className="flex items-center">
-                <User className="h-4 w-4 mr-2 text-muted-foreground" />
+                <User className="h-4 w-4 mr-2 text-gray-400" />
                 <span>{t('company.employeeCount')}: {userData.employeeCount}</span>
               </div>
             )}
             {isBusiness(userData) && userData.categories && (
               <div className="flex items-center">
-                <span className="mr-2 text-muted-foreground">{t('company.categories')}:</span>
-                <span>{userData.categories.join(', ')}</span>
+                <span className="mr-2 text-gray-400">{t('company.categories')}:</span>
+                <div className="flex flex-wrap gap-1">
+                  {userData.categories.map((category, index) => (
+                    <Badge key={index} variant="outline" className="bg-gray-800 border-gray-700">
+                      {category}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             )}
+            {/* Rating display */}
+            <div className="flex items-center mt-2">
+              <div className="flex items-center mr-2">
+                {renderRating(userData.rating)}
+              </div>
+              <span className="font-medium">{userData.rating.toFixed(1)}</span>
+              <span className="ml-2 text-gray-400">({userData.reviewCount} {t('common.reviews')})</span>
+            </div>
           </CardContent>
-          <CardFooter className="flex justify-end">
+          <CardFooter className="flex justify-end border-t border-gray-800 pt-4">
             {userData.socialLinks && (
               <div className="flex space-x-4">
                 {isBusiness(userData) && userData.socialLinks.facebook && (
                   <a href={userData.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
-                    <Facebook className="h-5 w-5 hover:text-primary" />
+                    <Facebook className="h-5 w-5 hover:text-blue-400" />
                   </a>
                 )}
                 {isBusiness(userData) && userData.socialLinks.linkedin && (
                   <a href={userData.socialLinks.linkedin} target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="h-5 w-5 hover:text-primary" />
+                    <Linkedin className="h-5 w-5 hover:text-blue-400" />
                   </a>
                 )}
                 {isBusiness(userData) && userData.socialLinks.twitter && (
                   <a href={userData.socialLinks.twitter} target="_blank" rel="noopener noreferrer">
-                    <Twitter className="h-5 w-5 hover:text-primary" />
+                    <Twitter className="h-5 w-5 hover:text-blue-400" />
                   </a>
                 )}
                 {!isBusiness(userData) && 'instagram' in userData.socialLinks && (
                   <a href={userData.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-                    <Instagram className="h-5 w-5 hover:text-primary" />
+                    <Instagram className="h-5 w-5 hover:text-blue-400" />
                   </a>
                 )}
               </div>
@@ -220,24 +278,26 @@ const CompanyDetail = () => {
 
         {/* Listings Section */}
         <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">
+          <h2 className="text-xl font-semibold mb-4 text-white">
             {isBusiness(userData) ? t('company.jobListings') : t('company.portfolio')}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {listings.map((listing) => (
-              <Card key={listing.id}>
+              <Card key={listing.id} className="bg-gray-900 border-gray-800 text-white">
                 <CardHeader>
-                  <CardTitle>{listing.title}</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-lg">{listing.title}</CardTitle>
+                  <CardDescription className="text-gray-400">
                     {listing.company}, {listing.location}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <p>{listing.experience}</p>
-                  <p className="text-sm text-muted-foreground">{t('company.posted')} {listing.postedTime}</p>
+                  <p className="text-sm text-gray-400">{t('company.posted')} {listing.postedTime}</p>
                 </CardContent>
                 <CardFooter className="flex justify-end">
-                  <Button variant="outline">{t('company.viewDetails')}</Button>
+                  <Button variant="outline" className="border-gray-700 bg-gray-800 hover:bg-gray-700">
+                    {t('company.viewDetails')}
+                  </Button>
                 </CardFooter>
               </Card>
             ))}
@@ -247,10 +307,10 @@ const CompanyDetail = () => {
         {/* Portfolio Section (Advertiser only) */}
         {!isBusiness(userData) && advertiserData.portfolioImages && advertiserData.portfolioImages.length > 0 && (
           <section>
-            <h2 className="text-xl font-semibold mb-4">{t('company.portfolio')}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h2 className="text-xl font-semibold mb-4 text-white">{t('company.portfolioImages')}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
               {advertiserData.portfolioImages.map((image, index) => (
-                <img key={index} src={image} alt={`Portfolio ${index + 1}`} className="rounded-md" />
+                <img key={index} src={image} alt={`Portfolio ${index + 1}`} className="rounded-md shadow-md w-full" />
               ))}
             </div>
           </section>
