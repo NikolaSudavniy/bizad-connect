@@ -12,12 +12,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Skeleton } from '@/components/ui/skeleton';
 import { VacancyProps } from '@/components/home/VacancyCard';
 import { toast } from 'sonner';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 // API function to fetch vacancy details
 const fetchVacancyDetails = async (id: string): Promise<VacancyProps & { 
@@ -96,7 +90,6 @@ const VacancyDetail = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [isFavorite, setIsFavorite] = useState(false);
-  const [showCompanyDialog, setShowCompanyDialog] = useState(false);
   
   const { data: vacancy, isLoading } = useQuery({
     queryKey: ['vacancyDetail', id],
@@ -132,7 +125,24 @@ const VacancyDetail = () => {
   };
 
   const handleCompanyClick = () => {
-    setShowCompanyDialog(true);
+    // Determine the correct company ID from the vacancy's company name
+    if (!vacancy) return;
+    
+    let companyId;
+    if (vacancy.company === "Діфоменко О. М., ФОП") {
+      companyId = "business1";
+    } else if (vacancy.company === "SoftServe LLC") {
+      companyId = "business2";
+    } else if (vacancy.company === "Планета, мебельна майстерня") {
+      companyId = "advertiser1";
+    } else if (vacancy.company === "Digital Creators Agency") {
+      companyId = "advertiser2";
+    } else {
+      // Default fallback if company name doesn't match
+      companyId = "business1";
+    }
+    
+    navigate(`/company/${companyId}`);
   };
   
   if (isLoading) {
@@ -321,57 +331,6 @@ const VacancyDetail = () => {
         </div>
       </main>
       <Footer />
-
-      <Dialog open={showCompanyDialog} onOpenChange={setShowCompanyDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="mb-2">{vacancy.company}</DialogTitle>
-          </DialogHeader>
-          
-          <div className="space-y-4">
-            {vacancy.rating && (
-              <div className="flex items-center">
-                <div className="flex text-yellow-500">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star 
-                      key={i} 
-                      className={`h-5 w-5 ${i < Math.floor(vacancy.rating || 0) ? 'fill-current' : ''}`} 
-                    />
-                  ))}
-                </div>
-                <span className="ml-2 font-medium">{vacancy.rating.toFixed(1)}</span>
-              </div>
-            )}
-
-            <div className="flex items-start gap-3">
-              <div className="mt-1 flex-shrink-0">
-                <Building className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {vacancy.companyDescription || t('vacancy.noCompanyDescription') || "No company description available."}
-                </p>
-              </div>
-            </div>
-
-            {(vacancy.contactEmail || vacancy.contactPhone) && (
-              <div className="border-t pt-3 mt-3">
-                <h3 className="text-sm font-medium mb-2">{t('vacancy.contactInfo') || "Contact Information"}</h3>
-                {vacancy.contactEmail && (
-                  <p className="text-sm">
-                    <span className="text-muted-foreground">Email:</span> {vacancy.contactEmail}
-                  </p>
-                )}
-                {vacancy.contactPhone && (
-                  <p className="text-sm">
-                    <span className="text-muted-foreground">Phone:</span> {vacancy.contactPhone}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
