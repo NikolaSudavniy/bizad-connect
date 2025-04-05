@@ -31,12 +31,24 @@ interface BusinessData extends BaseUserData {
   type: string;
   employeeCount: string;
   categories: string[];
+  socialLinks: {
+    facebook: string;
+    linkedin: string;
+    twitter: string;
+    [key: string]: string;
+  };
 }
 
 // Advertiser-specific properties
 interface AdvertiserData extends BaseUserData {
   specialties: string[];
   portfolioImages: string[];
+  socialLinks: {
+    instagram: string;
+    behance: string;
+    dribbble: string;
+    [key: string]: string;
+  };
 }
 
 // Union type that represents either a business or an advertiser
@@ -171,7 +183,7 @@ const CompanyDetail = () => {
                 <span>{t('company.employeeCount')}: {userData.employeeCount}</span>
               </div>
             )}
-            {isBusiness(userData) && userData.categories && userData.categories.length > 0 && (
+            {isBusiness(userData) && userData.categories && (
               <div className="flex items-center">
                 <span className="mr-2 text-muted-foreground">{t('company.categories')}:</span>
                 <span>{userData.categories.join(', ')}</span>
@@ -181,22 +193,22 @@ const CompanyDetail = () => {
           <CardFooter className="flex justify-end">
             {userData.socialLinks && (
               <div className="flex space-x-4">
-                {userData.socialLinks.facebook && (
+                {isBusiness(userData) && userData.socialLinks.facebook && (
                   <a href={userData.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
                     <Facebook className="h-5 w-5 hover:text-primary" />
                   </a>
                 )}
-                {userData.socialLinks.linkedin && (
+                {isBusiness(userData) && userData.socialLinks.linkedin && (
                   <a href={userData.socialLinks.linkedin} target="_blank" rel="noopener noreferrer">
                     <Linkedin className="h-5 w-5 hover:text-primary" />
                   </a>
                 )}
-                {userData.socialLinks.twitter && (
+                {isBusiness(userData) && userData.socialLinks.twitter && (
                   <a href={userData.socialLinks.twitter} target="_blank" rel="noopener noreferrer">
                     <Twitter className="h-5 w-5 hover:text-primary" />
                   </a>
                 )}
-                {userData.socialLinks.instagram && (
+                {!isBusiness(userData) && 'instagram' in userData.socialLinks && (
                   <a href={userData.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
                     <Instagram className="h-5 w-5 hover:text-primary" />
                   </a>
