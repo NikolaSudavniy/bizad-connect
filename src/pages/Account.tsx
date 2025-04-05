@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -107,6 +106,59 @@ const Account = () => {
       }
     }
   };
+
+  // Sample user data for business account
+  const businessUserData = {
+    name: 'Діфоменко О. М.',
+    type: 'ФОП',
+    email: 'difomenko@example.com',
+    phone: '+380 97 123 4567',
+    website: 'difomenko.com.ua',
+    location: 'Дніпро, Україна',
+    about: 'Компанія спеціалізується на розробці бізнес-рішень для малого та середнього бізнесу.',
+    rating: 4.7,
+    verified: true,
+    joinDate: 'Січень 2020',
+    listingCount: 12,
+    premium: true,
+    socialLinks: {
+      linkedin: 'https://linkedin.com/company/difomenko',
+      facebook: 'https://facebook.com/difomenko',
+      twitter: 'https://twitter.com/difomenko'
+    }
+  };
+
+  // Sample user data for advertiser account
+  const advertiserUserData = {
+    name: 'Марина Костенко',
+    email: 'marina.kostenko@example.com',
+    phone: '+380 50 987 6543',
+    website: 'marinakostenko.design',
+    location: 'Київ, Україна',
+    about: 'Дизайнер і консультант з маркетингу з 5-річним досвідом у сфері реклами.',
+    rating: 4.9,
+    verified: true,
+    joinDate: 'Березень 2021',
+    clientCount: 24,
+    premium: false,
+    portfolio: [
+      { id: 1, title: 'Рекламна кампанія для "Еко-маркет"', image: 'https://placehold.co/600x400/jpeg' },
+      { id: 2, title: 'Брендинг для "Світоч"', image: 'https://placehold.co/600x400/jpeg' },
+      { id: 3, title: 'Дизайн упаковки "Мор��инська"', image: 'https://placehold.co/600x400/jpeg' }
+    ],
+    socialLinks: {
+      instagram: 'https://instagram.com/marina.design',
+      behance: 'https://behance.net/marina.kostenko',
+      dribbble: 'https://dribbble.com/marina_kostenko'
+    }
+  };
+
+  // Sample listings for business account
+  const businessListings = [
+    { id: 1, title: 'Front-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '2 роки', postedTime: '16 год. тому', progress: 6, isNew: true, categories: ['digital', 'social'] },
+    { id: 2, title: 'Back-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', salary: '40 000 грн', postedTime: '2 дні тому', categories: ['digital', 'print'] },
+    { id: 3, title: 'DevOps інженер', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '3+ роки', postedTime: '3 дні тому', categories: ['digital', 'events'] }
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -931,4 +983,3 @@ const Reports = () => {
 };
 
 export default Account;
-

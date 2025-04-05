@@ -6,11 +6,10 @@ import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import VacancyCard from '@/components/home/VacancyCard';
-import { Briefcase, Filter, Search } from 'lucide-react';
+import { Briefcase, Search } from 'lucide-react';
 import { CategoryProvider, useCategory } from '@/contexts/CategoryContext';
 import { useLocation } from '@/contexts/LocationContext';
 import CategorySelector from '@/components/home/CategorySelector';
-import LocationSelector from '@/components/home/LocationSelector';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -161,15 +160,9 @@ const VacanciesContent = () => {
           </form>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div>
-            <h2 className="text-lg font-semibold mb-4">{t('categories.filterBy')}</h2>
-            <CategorySelector />
-          </div>
-          <div>
-            <h2 className="text-lg font-semibold mb-4">{t('location.filterByLocation')}</h2>
-            <LocationSelector />
-          </div>
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold mb-4">{t('categories.filterBy')}</h2>
+          <CategorySelector />
         </div>
         
         {isLoading ? (
