@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,11 +15,71 @@ const fetchVacanciesFromServer = async (category?: string): Promise<(VacancyProp
   await new Promise(resolve => setTimeout(resolve, 500));
 
   return [
-    { id: 1, title: 'Front-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '2 роки', postedTime: '16 год. тому', progress: 6, isNew: true, categories: ['digital', 'social'] },
-    { id: 2, title: 'Front-end розробник', company: 'Планета, мебельна майстерня', location: 'Дніпро', salary: '37 000 грн', postedTime: '2 дні тому', categories: ['digital', 'print'] },
-    { id: 3, title: 'Front-end програміст', company: 'Свідк маркетинг, ТОВ', location: 'Київ', experience: '1 рік', postedTime: '4 дні тому', categories: ['digital', 'events'] },
-    { id: 4, title: 'Junior Front-end Web Developer', company: 'Atlas Digital Ventures', location: 'Київ', salary: '25 000 - 33 000 грн', postedTime: '5 днів тому', categories: ['tv', 'social'] },
-    { id: 5, title: 'Front-end розробник (React.js)', company: 'SoftServe LLC', location: 'Київ', salary: '60 000 грн', experience: '3 роки', postedTime: '7 днів тому', categories: ['social', 'influencer'] }
+    { 
+      id: 1, 
+      title: 'Front-end розробник', 
+      company: 'Діфоменко О. М., ФОП', 
+      location: 'Дніпро', 
+      experience: '2 роки', 
+      postedTime: '16 год. тому', 
+      progress: 6, 
+      isNew: true, 
+      categories: ['digital', 'social'],
+      companyDescription: 'Діфоменко О. М., ФОП - провідна компанія у сфері веб-розробки, що спеціалізується на створенні сучасних, функціональних та візуально привабливих веб-додатків.',
+      rating: 4.7,
+      contactPhone: '+380 67 123 4567',
+      contactEmail: 'jobs@difomenko.com'
+    },
+    { 
+      id: 2, 
+      title: 'Front-end розробник', 
+      company: 'Планета, мебельна майстерня', 
+      location: 'Дніпро', 
+      salary: '37 000 грн', 
+      postedTime: '2 дні тому', 
+      categories: ['digital', 'print'],
+      companyDescription: 'Планета - відома меблева майстерня з багаторічним досвідом та власним виробництвом меблів. Наша команда складається з досвідчених дизайнерів та майстрів.',
+      rating: 4.9,
+      contactEmail: 'career@planeta.ua'
+    },
+    { 
+      id: 3, 
+      title: 'Front-end програміст', 
+      company: 'Свідк маркетинг, ТОВ', 
+      location: 'Київ', 
+      experience: '1 рік', 
+      postedTime: '4 дні тому', 
+      categories: ['digital', 'events'],
+      companyDescription: 'Свідк маркетинг - маркетингова агенція з повним спектром послуг, що спеціалізується на digital-маркетингу та організації заходів.',
+      rating: 4.3,
+      contactPhone: '+380 50 987 6543'
+    },
+    { 
+      id: 4, 
+      title: 'Junior Front-end Web Developer', 
+      company: 'Atlas Digital Ventures', 
+      location: 'Київ', 
+      salary: '25 000 - 33 000 грн', 
+      postedTime: '5 днів тому', 
+      categories: ['tv', 'social'],
+      companyDescription: 'Atlas Digital Ventures - інноваційна технологічна компанія, що спеціалізується на розробці цифрових продуктів та рішень.',
+      rating: 4.5,
+      contactEmail: 'hr@atlasventures.com'
+    },
+    { 
+      id: 5, 
+      title: 'Front-end розробник (React.js)', 
+      company: 'SoftServe LLC', 
+      location: 'Київ', 
+      salary: '60 000 грн', 
+      experience: '3 роки', 
+      postedTime: '7 днів тому', 
+      categories: ['social', 'influencer'],
+      companyDescription: 'SoftServe - провідна ІТ-компанія з понад 20-річною історією, що спеціалізується на розробці програмного забезпечення та консалтингу.',
+      rating: 4.8,
+      contactPhone: '+380 44 123 4567',
+      contactEmail: 'careers@softserve.com'
+    }
   ];
 };
 
