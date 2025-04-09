@@ -62,41 +62,32 @@ const PartnerLogos = () => {
         </div>
 
         <div className="w-full overflow-hidden relative">
-          {/* First carousel (automatically moves) */}
-          <Carousel 
-            opts={{
-              align: "start",
-              loop: true,
-              dragFree: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent className="animate-marquee">
-              {partnerLogos.map((logo, index) => (
-                <CarouselItem key={index} className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6 pl-4">
-                  <div className="h-24 flex items-center justify-center p-2">
-                    <img 
-                      src={logo.src} 
-                      alt={logo.alt} 
-                      className="max-h-16 max-w-full object-contain"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-              {/* Duplicate logos for seamless loop effect */}
-              {partnerLogos.map((logo, index) => (
-                <CarouselItem key={`dup-${index}`} className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6 pl-4">
-                  <div className="h-24 flex items-center justify-center p-2">
-                    <img 
-                      src={logo.src} 
-                      alt={logo.alt} 
-                      className="max-h-16 max-w-full object-contain"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+          <div className="flex animate-marquee">
+            {/* First set of logos */}
+            {partnerLogos.map((logo, index) => (
+              <div key={index} className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 px-4">
+                <div className="h-24 flex items-center justify-center p-2">
+                  <img 
+                    src={logo.src} 
+                    alt={logo.alt} 
+                    className="max-h-16 max-w-full object-contain"
+                  />
+                </div>
+              </div>
+            ))}
+            {/* Duplicate logos for seamless loop effect */}
+            {partnerLogos.map((logo, index) => (
+              <div key={`dup-${index}`} className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 px-4">
+                <div className="h-24 flex items-center justify-center p-2">
+                  <img 
+                    src={logo.src} 
+                    alt={logo.alt} 
+                    className="max-h-16 max-w-full object-contain"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
