@@ -87,6 +87,20 @@
     animation-delay: 500ms;
   }
 
+  /* Marquee animation for logos */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100% / 2));
+    }
+  }
+  
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 6px;

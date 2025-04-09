@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer';
 import Hero from '@/components/home/Hero';
 import CategorySelector from '@/components/home/CategorySelector';
 import PopularVacancies from '@/components/home/PopularVacancies';
+import PartnerLogos from '@/components/home/PartnerLogos';
 import { ArrowRight, MousePointer, Zap, BarChart } from 'lucide-react';
 import AuthModal from '@/components/auth/AuthModal';
 import { CategoryProvider } from '@/contexts/CategoryContext';
@@ -126,6 +127,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+        
+        {/* Partner Logos Section - Added new section */}
+        <PartnerLogos />
       </main>
       
       <Footer />
