@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PartnerLogo {
@@ -10,7 +10,6 @@ interface PartnerLogo {
 
 const PartnerLogos = () => {
   const { t } = useLanguage();
-  const [containerWidth, setContainerWidth] = useState(0);
   
   const partnerLogos: PartnerLogo[] = [
     {
@@ -58,25 +57,29 @@ const PartnerLogos = () => {
         </div>
 
         <div className="w-full overflow-hidden relative">
-          <div className="logos-slide animate-marquee">
+          <div className="flex animate-marquee">
             {/* First set of logos */}
             {partnerLogos.map((logo, index) => (
-              <div key={index} className="logo-item">
-                <img 
-                  src={logo.src} 
-                  alt={logo.alt} 
-                  className="max-h-16 max-w-full object-contain"
-                />
+              <div key={index} className="flex-shrink-0 flex-grow-0 w-full sm:w-1/3 md:w-1/4 lg:w-1/6 px-8">
+                <div className="h-24 flex items-center justify-center">
+                  <img 
+                    src={logo.src} 
+                    alt={logo.alt} 
+                    className="max-h-16 max-w-full object-contain"
+                  />
+                </div>
               </div>
             ))}
             {/* Duplicate logos for seamless loop effect */}
             {partnerLogos.map((logo, index) => (
-              <div key={`dup-${index}`} className="logo-item">
-                <img 
-                  src={logo.src} 
-                  alt={logo.alt} 
-                  className="max-h-16 max-w-full object-contain"
-                />
+              <div key={`dup-${index}`} className="flex-shrink-0 flex-grow-0 w-full sm:w-1/3 md:w-1/4 lg:w-1/6 px-8">
+                <div className="h-24 flex items-center justify-center">
+                  <img 
+                    src={logo.src} 
+                    alt={logo.alt} 
+                    className="max-h-16 max-w-full object-contain"
+                  />
+                </div>
               </div>
             ))}
           </div>
