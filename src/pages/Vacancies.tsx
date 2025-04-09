@@ -1,17 +1,30 @@
 
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import VacancyCard from '@/components/home/VacancyCard';
-import { Briefcase, Search } from 'lucide-react';
+import { Briefcase, Search, MapPin, X } from 'lucide-react';
 import { CategoryProvider, useCategory } from '@/contexts/CategoryContext';
-import { useLocation } from '@/contexts/LocationContext';
+import { useLocation, LocationType } from '@/contexts/LocationContext';
 import CategorySelector from '@/components/home/CategorySelector';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { cn } from '@/lib/utils';
 
 // API function to fetch all vacancies with pagination and filters
 const fetchAllVacancies = async (params: {
@@ -107,15 +120,35 @@ const saveVacancy = async (vacancyId: number, isFavorite: boolean): Promise<bool
 const VacanciesContent = () => {
   const { t } = useLanguage();
   const { selectedCategory } = useCategory();
-  const { selectedLocation } = useLocation();
+  const { selectedLocation, setSelectedLocation } = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const limit = 9;
+  const [open, setOpen] = useState(false);
+  
+  const locations = [
+    { value: 'all', label: t('location.allUkraine') || 'Вся Україна' },
+    { value: 'Київ', label: 'Київ' },
+    { value: 'Дніпро', label: 'Дніпро' },
+    { value: 'Харків', label: 'Харків' },
+    { value: 'Одеса', label: 'Одеса' },
+    { value: 'Львів', label: 'Львів' },
+    { value: 'near', label: t('location.nearHome') || 'Поряд із домом' },
+    { value: 'remote', label: t('location.remote') || 'Дистанційно' },
+    { value: 'abroad', label: t('location.abroad') || 'Інші країни' },
+  ];
+
+  const selectedLocationObj = locations.find(loc => loc.value === selectedLocation);
 
   // Handle search submission
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     refetch();
+  };
+
+  const clearLocation = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedLocation('all');
   };
 
   // Use React Query to fetch vacancies
@@ -145,14 +178,66 @@ const VacanciesContent = () => {
         
         <div className="mb-8">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-grow">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input 
+            <div className="relative flex-grow rounded-md bg-background border border-border flex items-center">
+              <Search className="h-4 w-4 ml-3 text-muted-foreground" />
+              <input 
                 placeholder={t('vacancies.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="flex-grow py-2 px-3 bg-transparent outline-none text-foreground placeholder:text-muted-foreground"
               />
+              
+              <div className="border-l border-border h-full flex items-center">
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="py-1 px-3 h-full rounded-none"
+                    >
+                      <div className="flex items-center">
+                        <MapPin className="h-4 w-4 text-muted-foreground mr-2" />
+                        <span className="text-sm font-medium">
+                          {selectedLocationObj ? selectedLocationObj.label : t('location.allUkraine')}
+                        </span>
+                        {selectedLocation !== 'all' && (
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-6 w-6 ml-1 hover:bg-secondary/80" 
+                            onClick={clearLocation}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        )}
+                      </div>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder={t('location.searchPlaceholder') || "Пошук міста..."} />
+                      <CommandList>
+                        <CommandEmpty>{t('location.noResults') || "Нічого не знайдено"}</CommandEmpty>
+                        <CommandGroup>
+                          {locations.map((location) => (
+                            <CommandItem
+                              key={location.value}
+                              value={location.value}
+                              onSelect={(value) => {
+                                setSelectedLocation(value as LocationType);
+                                setOpen(false);
+                              }}
+                            >
+                              {location.label}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
             <Button type="submit" className="rounded-md">
               {t('search.button')}
