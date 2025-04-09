@@ -1,5 +1,10 @@
 
 import React from 'react';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from "@/components/ui/carousel";
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PartnerLogo {
@@ -60,8 +65,8 @@ const PartnerLogos = () => {
           <div className="flex animate-marquee">
             {/* First set of logos */}
             {partnerLogos.map((logo, index) => (
-              <div key={index} className="flex-shrink-0 flex-grow-0 w-full sm:w-1/3 md:w-1/4 lg:w-1/6 px-8">
-                <div className="h-24 flex items-center justify-center">
+              <div key={index} className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 px-4">
+                <div className="h-24 flex items-center justify-center p-2">
                   <img 
                     src={logo.src} 
                     alt={logo.alt} 
@@ -72,8 +77,8 @@ const PartnerLogos = () => {
             ))}
             {/* Duplicate logos for seamless loop effect */}
             {partnerLogos.map((logo, index) => (
-              <div key={`dup-${index}`} className="flex-shrink-0 flex-grow-0 w-full sm:w-1/3 md:w-1/4 lg:w-1/6 px-8">
-                <div className="h-24 flex items-center justify-center">
+              <div key={`dup-${index}`} className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 px-4">
+                <div className="h-24 flex items-center justify-center p-2">
                   <img 
                     src={logo.src} 
                     alt={logo.alt} 
