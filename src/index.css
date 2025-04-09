@@ -101,6 +101,7 @@
     animation: marquee 30s linear infinite;
     display: flex;
     width: fit-content;
+    gap: 0;
   }
 
   /* Custom scrollbar */
