@@ -88,7 +88,8 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="text-2xl font-display font-bold text-foreground">
-            BizAd<span className="text-primary">Connect</span>
+            {/* BizAd<span className="text-primary">Connect</span> */}
+						<img src="/logo.svg" alt="" className="w-[12rem]"/>
           </Link>
           
           {/* Actions */}

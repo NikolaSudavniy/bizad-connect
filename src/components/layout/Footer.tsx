@@ -12,7 +12,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="space-y-4">
             <h3 className="text-lg font-display font-medium">
-              BizAd<span className="text-primary">Connect</span>
+              {/* BizAd<span className="text-primary">Connect</span> */}
+							<img src="/logo.svg" alt="" className="w-[10rem]"/>
             </h3>
             <p className="text-sm text-muted-foreground max-w-xs">
               {t('footer.description')}
@@ -61,17 +62,26 @@ const Footer = () => {
             {t('footer.copyright').replace('{year}', currentYear.toString())}
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
+						<a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              {t('footer.social.instagram')}
+            </a>
+						<a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              {t('footer.social.telegram')}
+            </a>
+						<a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              {t('footer.social.tik-tok')}
+            </a>
+						<a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              {t('footer.social.youtube')}
+            </a>
             <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
               {t('footer.social.twitter')}
             </a>
             <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-              {t('footer.social.linkedin')}
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-              {t('footer.social.instagram')}
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
               {t('footer.social.facebook')}
+            </a>
+						<a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              {t('footer.social.linkedin')}
             </a>
           </div>
         </div>
