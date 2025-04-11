@@ -1,53 +1,74 @@
-
-import React from 'react';
-import { 
-  Carousel,
-  CarouselContent,
-  CarouselItem
-} from "@/components/ui/carousel";
+"use client";
+import React, { useEffect, useRef } from 'react';
+import 'keen-slider/keen-slider.min.css';
+import { useKeenSlider } from 'keen-slider/react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PartnerLogo {
   name: string;
   src: string;
   alt: string;
+	href: string;
 }
 
 const PartnerLogos = () => {
   const { t } = useLanguage();
-  
+
   const partnerLogos: PartnerLogo[] = [
-    {
-      name: "ATB",
-      src: "/lovable-uploads/67faa87f-a66b-406b-a2a8-2fee270384fb.png",
-      alt: "ATB Logo"
-    },
-    {
-      name: "E.va.ua",
-      src: "/lovable-uploads/00f1962b-063e-44ab-9a41-3bc5fa13845a.png",
-      alt: "E.va.ua Logo"
-    },
-    {
-      name: "Step IT Academy",
-      src: "/lovable-uploads/c68c6150-03ef-4d37-ae50-7d2c80bc6d75.png",
-      alt: "Step IT Academy Logo"
-    },
-    {
-      name: "Nova Poshta",
-      src: "/lovable-uploads/7370d3f7-cae2-4cee-b8c6-0fbf32cf57ca.png",
-      alt: "Nova Poshta Logo"
-    },
-    {
-      name: "Prom",
-      src: "/lovable-uploads/ee02d6e6-903e-45aa-a11b-5df495e12834.png",
-      alt: "Prom Logo"
-    },
-    {
-      name: "U.WIN Protect",
-      src: "/lovable-uploads/4faf388a-43e4-41e8-8d3f-917c878f4eaf.png",
-      alt: "U.WIN Protect Logo"
-    }
+    { name: "ATB", src: "/lovable-uploads/atb.svg", alt: "ATB Logo", href: "https://www.atbmarket.com" },
+    { name: "Eva.ua", src: "/lovable-uploads/eva.svg", alt: "Eva.ua Logo", href: "https://eva.ua/ua/" },
+    { name: "Nova Poshta", src: "/lovable-uploads/new-post.svg", alt: "Nova Poshta Logo", href: "https://novaposhta.ua/" },
+    { name: "Prom", src: "/lovable-uploads/prom.svg", alt: "Prom Logo", href: "https://prom.ua/ua/" },
+		{ name: "Step IT Academy", src: "/lovable-uploads/it-step.svg", alt: "Step IT Academy Logo", href: "https://itstep.org/uk" },
+    { name: "U.WIN Protect", src: "/lovable-uploads/u-win.svg", alt: "U.WIN Protect Logo", href: "https://u-win.com.ua/" },
   ];
+
+  const timer = useRef<ReturnType<typeof setInterval>>();
+  const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
+    loop: true,
+    // dragFree: true,
+    slides: {
+      perView: 3.5,
+      spacing: 24,
+    },
+    breakpoints: {
+      "(max-width: 1024px)": {
+        slides: {
+          perView: 2.8,
+          spacing: 20,
+        },
+      },
+      "(max-width: 768px)": {
+        slides: {
+          perView: 2.2,
+          spacing: 16,
+        },
+      },
+    },
+    created(slider) {
+      slider.moveToIdx(0, true);
+    },
+    defaultAnimation: {
+      duration: 5000,
+      easing: (t: number) => t, // Исправлено: используем функцию linear
+    },
+  });
+
+  useEffect(() => {
+    if (!slider) return;
+
+    timer.current = setInterval(() => {
+      if (slider.current) {
+        slider.current.next();
+      }
+    }, 5000);
+
+    return () => {
+      if (timer.current) {
+        clearInterval(timer.current);
+      }
+    };
+  }, [slider]);
 
   return (
     <section className="py-16 bg-background">
@@ -61,33 +82,18 @@ const PartnerLogos = () => {
           </p>
         </div>
 
-        <div className="w-full overflow-hidden relative">
-          <div className="flex animate-marquee">
-            {/* First set of logos */}
-            {partnerLogos.map((logo, index) => (
-              <div key={index} className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 px-4">
-                <div className="h-24 flex items-center justify-center p-2">
-                  <img 
-                    src={logo.src} 
-                    alt={logo.alt} 
-                    className="max-h-16 max-w-full object-contain"
-                  />
-                </div>
-              </div>
-            ))}
-            {/* Duplicate logos for seamless loop effect */}
-            {partnerLogos.map((logo, index) => (
-              <div key={`dup-${index}`} className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 px-4">
-                <div className="h-24 flex items-center justify-center p-2">
-                  <img 
-                    src={logo.src} 
-                    alt={logo.alt} 
-                    className="max-h-16 max-w-full object-contain"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+        <div ref={sliderRef} className="keen-slider">
+          {partnerLogos.map((logo, index) => (
+            <div key={index} className="keen-slider__slide flex items-center justify-center h-24 p-2">
+              <a href={logo.href} target='blank'>
+              	<img
+	                src={logo.src}
+	                alt={logo.alt}
+	                className="max-h-16 max-w-full object-contain"
+	              />
+              </a>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -87,7 +87,7 @@
     animation-delay: 500ms;
   }
 
-  /* Marquee animation for logos */
+  /* Marquee animation for logos
   @keyframes marquee {
     0% {
       transform: translateX(0);
@@ -101,7 +101,7 @@
     animation: marquee 30s linear infinite;
     display: flex;
     width: fit-content;
-  }
+  } */
 
   /* Custom scrollbar */
   ::-webkit-scrollbar {
