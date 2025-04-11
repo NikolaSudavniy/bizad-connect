@@ -134,9 +134,6 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.social.linkedin': 'LinkedIn',
     'footer.social.instagram': 'Instagram',
     'footer.social.facebook': 'Facebook',
-		'footer.social.telegram': 'Telegram',
-		'footer.social.tik-tok': 'Tik-Tok',
-		'footer.social.youtube': 'Youtube',
     
     // Search
     'search.placeholder': 'Search for ads, companies, or keywords...',
@@ -303,9 +300,6 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.social.linkedin': 'LinkedIn',
     'footer.social.instagram': 'Instagram',
     'footer.social.facebook': 'Facebook',
-		'footer.social.telegram': 'Telegram',
-		'footer.social.tik-tok': 'Tik-Tok',
-		'footer.social.youtube': 'Youtube',
     
     // Search
     'search.placeholder': 'Поиск объявлений, компаний или ключевых слов...',
@@ -472,9 +466,6 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.social.linkedin': 'LinkedIn',
     'footer.social.instagram': 'Instagram',
     'footer.social.facebook': 'Facebook',
-		'footer.social.telegram': 'Telegram',
-		'footer.social.tik-tok': 'Tik-Tok',
-		'footer.social.youtube': 'Youtube',
     
     // Search
     'search.placeholder': 'Пошук оголошень, компаній або ключових слів...',

@@ -39,7 +39,7 @@ const Index = () => {
           <div className="py-10 border-y border-border">
             <div className="max-w-7xl mx-auto px-6">
               <div>
-                {/* <h2 className="text-lg font-semibold mb-4">{t('categories.filterBy')}</h2> */}
+                <h2 className="text-lg font-semibold mb-4">{t('categories.filterBy')}</h2>
                 <CategorySelector />
               </div>
             </div>
