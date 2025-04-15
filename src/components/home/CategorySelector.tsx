@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { useCategory } from '@/contexts/CategoryContext';
@@ -21,7 +20,7 @@ const CategorySelector = () => {
   ];
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-8"> {/* Added py-8 to increase vertical padding */}
+    <div className="w-full max-w-5xl mx-auto px-4">
       <div className="flex items-center justify-start overflow-x-auto pb-2 space-x-2 no-scrollbar">
         {categories.map((category) => (
           <button
