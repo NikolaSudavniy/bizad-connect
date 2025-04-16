@@ -14,6 +14,7 @@ import { AccountType } from '@/components/layout/Navbar';
 import { useLanguage } from '@/contexts/LanguageContext';
 import VacancyCard, { VacancyProps } from '@/components/home/VacancyCard';
 import { useQuery } from '@tanstack/react-query';
+import ChatLayout from '@/components/chat/ChatLayout';
 
 const fetchFavoriteVacancies = async (): Promise<VacancyProps[]> => {
   const favoriteIds = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
