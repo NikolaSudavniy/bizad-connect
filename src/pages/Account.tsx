@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Briefcase, Search, Building, Users, Book, Star, 
-  MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart,
-  Clock, Calendar, Send, PaperclipIcon, User
+  MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
@@ -15,32 +14,6 @@ import { AccountType } from '@/components/layout/Navbar';
 import { useLanguage } from '@/contexts/LanguageContext';
 import VacancyCard, { VacancyProps } from '@/components/home/VacancyCard';
 import { useQuery } from '@tanstack/react-query';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
-} from '@/components/ui/table';
-import { 
-  Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger 
-} from '@/components/ui/sheet';
-
-interface ChatMessage {
-  id: number;
-  senderId: number;
-  senderName: string;
-  senderAvatar?: string;
-  content: string;
-  timestamp: Date;
-  isRead: boolean;
-}
-
-interface Conversation {
-  id: number;
-  participantId: number;
-  participantName: string;
-  participantAvatar?: string;
-  lastMessage: ChatMessage;
-  unreadCount: number;
-}
 
 const fetchFavoriteVacancies = async (): Promise<VacancyProps[]> => {
   const favoriteIds = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
@@ -646,81 +619,6 @@ const Reviews = () => {
 const Chats = () => {
   const { t } = useLanguage();
   const accountType = localStorage.getItem('accountType') as AccountType | null;
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [selectedConversation, setSelectedConversation] = useState<number | null>(null);
-  const [conversationMessages, setConversationMessages] = useState<ChatMessage[]>([]);
-  const [newMessage, setNewMessage] = useState('');
-  
-  useEffect(() => {
-    if (accountType === 'business') {
-      setConversations(mockBusinessConversations);
-    } else {
-      setConversations(mockAgencyConversations);
-    }
-  }, [accountType]);
-  
-  useEffect(() => {
-    if (selectedConversation) {
-      setConversationMessages(mockConversationMessages[selectedConversation] || []);
-      
-      const updatedConversations = conversations.map(conv => {
-        if (conv.id === selectedConversation) {
-          return { ...conv, unreadCount: 0 };
-        }
-        return conv;
-      });
-      
-      setConversations(updatedConversations);
-    }
-  }, [selectedConversation]);
-  
-  const handleSendMessage = () => {
-    if (!newMessage.trim() || !selectedConversation) return;
-    
-    const userId = accountType === 'business' ? 1 : 2;
-    const userName = accountType === 'business' ? 'Діфоменко О. М.' : 'Марина Костенко';
-    
-    const newChatMessage: ChatMessage = {
-      id: Math.floor(Math.random() * 10000),
-      senderId: userId,
-      senderName: userName,
-      content: newMessage,
-      timestamp: new Date(),
-      isRead: true
-    };
-    
-    setConversationMessages([...conversationMessages, newChatMessage]);
-    
-    const updatedConversations = conversations.map(conv => {
-      if (conv.id === selectedConversation) {
-        return {
-          ...conv,
-          lastMessage: newChatMessage
-        };
-      }
-      return conv;
-    });
-    
-    setConversations(updatedConversations);
-    setNewMessage('');
-  };
-  
-  const formatMessageTime = (date: Date) => {
-    const now = new Date();
-    const messageDate = new Date(date);
-    
-    if (now.toDateString() === messageDate.toDateString()) {
-      return messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-    
-    const daysDiff = Math.floor((now.getTime() - messageDate.getTime()) / (1000 * 60 * 60 * 24));
-    if (daysDiff < 7) {
-      const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
-      return messageDate.toLocaleDateString(undefined, options);
-    }
-    
-    return messageDate.toLocaleDateString([], { day: 'numeric', month: 'short' });
-  };
   
   return (
     <div className="space-y-6">
@@ -731,132 +629,93 @@ const Chats = () => {
           : t('agency.messagesWithBusinesses')}
       </p>
       
-      {selectedConversation ? (
-        <div className="flex flex-col h-[60vh]">
-          <div className="flex items-center justify-between border-b pb-3">
-            <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                <User className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-medium">
-                  {conversations.find(c => c.id === selectedConversation)?.participantName}
-                </h3>
-              </div>
-            </div>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => setSelectedConversation(null)}
-            >
-              {t('business.back')}
-            </Button>
-          </div>
-          
-          <ScrollArea className="flex-1 p-3">
-            <div className="space-y-4">
-              {conversationMessages.map(message => {
-                const isUserMessage = 
-                  (accountType === 'business' && message.senderId === 1) || 
-                  (accountType === 'agency' && message.senderId === 2);
-                
-                return (
-                  <div 
-                    key={message.id} 
-                    className={`flex ${isUserMessage ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div 
-                      className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                        isUserMessage 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'bg-muted'
-                      }`}
-                    >
-                      <p>{message.content}</p>
-                      <div 
-                        className={`text-xs mt-1 ${
-                          isUserMessage ? 'text-primary-foreground/70' : 'text-muted-foreground'
-                        }`}
-                      >
-                        {formatMessageTime(message.timestamp)}
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('business.inbox')}</CardTitle>
+          <CardDescription>
+            {accountType === 'business' 
+              ? t('business.recentCommunicationsWithAdvertisers')
+              : t('agency.recentCommunicationsWithBusinesses')}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {accountType === 'business' ? (
+              <>
+                <div className="border-b pb-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
+                        <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
                       </div>
                     </div>
+                    <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
                   </div>
-                );
-              })}
-            </div>
-          </ScrollArea>
-          
-          <div className="border-t pt-3 mt-auto">
-            <div className="flex gap-2">
-              <Button variant="outline" size="icon" className="shrink-0">
-                <PaperclipIcon className="h-4 w-4" />
-              </Button>
-              <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder={t('business.typeMessage')}
-                className="flex-1 border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSendMessage();
-                  }
-                }}
-              />
-              <Button size="icon" onClick={handleSendMessage} className="shrink-0">
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle>{t('business.conversations')}</CardTitle>
-            <CardDescription>
-              {accountType === 'business' 
-                ? t('business.recentCommunicationsWithAdvertisers')
-                : t('agency.recentCommunicationsWithBusinesses')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-1">
-              {conversations.map((conversation) => (
-                <div 
-                  key={conversation.id}
-                  className="flex items-center justify-between p-3 rounded-md hover:bg-muted cursor-pointer"
-                  onClick={() => setSelectedConversation(conversation.id)}
-                >
-                  <div className="flex items-center flex-1 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 shrink-0">
-                      <User className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-medium truncate">{conversation.participantName}</h3>
-                        <span className="text-xs text-muted-foreground ml-2 shrink-0">
-                          {formatMessageTime(conversation.lastMessage.timestamp)}
-                        </span>
-                      </div>
-                      <p className="text-sm text-muted-foreground truncate">
-                        {conversation.lastMessage.content}
-                      </p>
-                    </div>
-                  </div>
-                  {conversation.unreadCount > 0 && (
-                    <div className="ml-2 bg-primary w-5 h-5 rounded-full flex items-center justify-center shrink-0">
-                      <span className="text-xs text-primary-foreground">
-                        {conversation.unreadCount}
-                      </span>
-                    </div>
-                  )}
+                  <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
+                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+                
+                <div>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
+                        <p className="text-xs text-muted-foreground">{t('business.videoContract')}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{t('business.yesterday')}</span>
+                  </div>
+                  <p className="text-sm mt-2 line-clamp-2">{t('business.contractText')}</p>
+                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="border-b pb-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Tech Solutions Ltd.</h3>
+                        <p className="text-xs text-muted-foreground">{t('agency.socialMediaInquiry')}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
+                  </div>
+                  <p className="text-sm mt-2 line-clamp-2">{t('agency.inquiryText')}</p>
+                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+                </div>
+                
+                <div>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Eco Foods</h3>
+                        <p className="text-xs text-muted-foreground">{t('agency.projectDiscussion')}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{t('business.daysAgo')}</span>
+                  </div>
+                  <p className="text-sm mt-2 line-clamp-2">{t('agency.discussionText')}</p>
+                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+                </div>
+              </>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
