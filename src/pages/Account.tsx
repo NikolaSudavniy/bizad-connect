@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { 
   Briefcase, Search, Building, Users, Book, Star, 
   MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart
@@ -14,7 +14,6 @@ import { AccountType } from '@/components/layout/Navbar';
 import { useLanguage } from '@/contexts/LanguageContext';
 import VacancyCard, { VacancyProps } from '@/components/home/VacancyCard';
 import { useQuery } from '@tanstack/react-query';
-import ChatLayout from '@/components/chat/ChatLayout';
 
 const fetchFavoriteVacancies = async (): Promise<VacancyProps[]> => {
   const favoriteIds = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
@@ -44,11 +43,9 @@ const removeFavorite = (vacancyId: number): void => {
 
 const Account = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accountType, setAccountType] = useState<AccountType | null>(null);
   const [activeTab, setActiveTab] = useState<string>('profile');
-  const [initialChatId, setInitialChatId] = useState<string | null>(null);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -62,19 +59,7 @@ const Account = () => {
     
     setIsAuthenticated(true);
     setAccountType(storedAccountType);
-    
-    const searchParams = new URLSearchParams(location.search);
-    const tabParam = searchParams.get('tab');
-    const chatIdParam = searchParams.get('chatId');
-    
-    if (tabParam) {
-      setActiveTab(tabParam);
-    }
-    
-    if (chatIdParam) {
-      setInitialChatId(chatIdParam);
-    }
-  }, [navigate, location.search]);
+  }, [navigate]);
 
   if (!isAuthenticated || !accountType) {
     return null;
@@ -96,7 +81,7 @@ const Account = () => {
         case 'reviews':
           return <Reviews />;
         case 'messages':
-          return <Messages initialChatId={initialChatId} />;
+          return <Messages />;
         default:
           return <BusinessProfile />;
       }
@@ -116,8 +101,6 @@ const Account = () => {
           return <Reports />;
         case 'reviews':
           return <Reviews />;
-        case 'messages':
-          return <Messages initialChatId={initialChatId} />;
         default:
           return <AgencyProfile />;
       }
@@ -604,15 +587,57 @@ const Reviews = () => {
   );
 };
 
-const Messages = ({ initialChatId }: { initialChatId?: string | null }) => {
+const Messages = () => {
   const { t } = useLanguage();
   
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t('business.messagesTitle') || "Messages"}</h2>
-      <p className="text-muted-foreground">{t('business.messagesDescription') || "Manage your conversations with businesses and agencies."}</p>
+      <h2 className="text-2xl font-bold">{t('business.messagesTitle')}</h2>
+      <p className="text-muted-foreground">{t('business.messagesDescription')}</p>
       
-      <ChatLayout initialChatId={initialChatId || undefined} />
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('business.inbox')}</CardTitle>
+          <CardDescription>{t('business.recentCommunications')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="border-b pb-4">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                    <MessageSquare className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
+                    <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
+                  </div>
+                </div>
+                <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
+              </div>
+              <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
+              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+            </div>
+            
+            <div>
+              <div className="flex justify-between items-start">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                    <MessageSquare className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
+                    <p className="text-xs text-muted-foreground">{t('business.videoContract')}</p>
+                  </div>
+                </div>
+                <span className="text-xs text-muted-foreground">{t('business.yesterday')}</span>
+              </div>
+              <p className="text-sm mt-2 line-clamp-2">{t('business.contractText')}</p>
+              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

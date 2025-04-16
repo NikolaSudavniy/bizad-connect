@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -12,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { VacancyProps } from '@/components/home/VacancyCard';
 import { toast } from 'sonner';
 
+// API function to fetch vacancy details
 const fetchVacancyDetails = async (id: string): Promise<VacancyProps & { 
   description?: string;
   requirements?: string[];
@@ -23,8 +25,10 @@ const fetchVacancyDetails = async (id: string): Promise<VacancyProps & {
 }> => {
   console.log('Fetching vacancy details for id:', id);
   
+  // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 800));
   
+  // Mock data for demonstration
   const vacancyDetails = {
     id: parseInt(id),
     title: 'Front-end розробник',
@@ -49,6 +53,7 @@ const fetchVacancyDetails = async (id: string): Promise<VacancyProps & {
     rating: 4.7
   };
   
+  // For demo, if id is not 1, modify some details to show different data
   if (parseInt(id) !== 1) {
     vacancyDetails.title = `${vacancyDetails.title}`;
     vacancyDetails.company = parseInt(id) % 2 === 0 ? 'SoftServe LLC' : 'Планета, мебельна майстерня';
@@ -59,11 +64,13 @@ const fetchVacancyDetails = async (id: string): Promise<VacancyProps & {
   return vacancyDetails;
 };
 
+// Function to check if vacancy is favorite
 const checkIsFavorite = (vacancyId: number): boolean => {
   const favorites = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
   return favorites.includes(vacancyId);
 };
 
+// Function to toggle favorite status
 const toggleFavorite = (vacancyId: number): boolean => {
   const favorites = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
   
@@ -109,21 +116,16 @@ const VacancyDetail = () => {
   };
   
   const handleContact = (type: 'chat' | 'respond') => {
-    if (type === 'chat') {
-      const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-      if (!isAuthenticated) {
-        toast(t('contact.loginRequired'));
-        return;
-      }
-      
-      const chatId = `chat${id}`;
-      navigate(`/account?tab=messages&chatId=${chatId}`);
-    } else {
-      toast(t('contact.responseInitiated'));
-    }
+    // In a real app, this would open a chat or respond form
+    toast(
+      type === 'chat' 
+        ? t('contact.chatInitiated') 
+        : t('contact.responseInitiated')
+    );
   };
 
   const handleCompanyClick = () => {
+    // Determine the correct company ID from the vacancy's company name
     if (!vacancy) return;
     
     let companyId;
@@ -136,6 +138,7 @@ const VacancyDetail = () => {
     } else if (vacancy.company === "Digital Creators Agency") {
       companyId = "advertiser2";
     } else {
+      // Default fallback if company name doesn't match
       companyId = "business1";
     }
     
