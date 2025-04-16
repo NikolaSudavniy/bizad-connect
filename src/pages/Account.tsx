@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Briefcase, Search, Building, Users, Book, Star, 
   MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart
@@ -44,6 +43,7 @@ const removeFavorite = (vacancyId: number): void => {
 
 const Account = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accountType, setAccountType] = useState<AccountType | null>(null);
   const [activeTab, setActiveTab] = useState<string>('profile');
@@ -100,8 +100,8 @@ const Account = () => {
           return <BusinessTraining />;
         case 'reviews':
           return <Reviews />;
-        case 'messages':
-          return <Messages />;
+        case 'chats':
+          return <Chats />;
         default:
           return <BusinessProfile />;
       }
@@ -121,6 +121,8 @@ const Account = () => {
           return <Reports />;
         case 'reviews':
           return <Reviews />;
+        case 'chats':
+          return <Chats />;
         default:
           return <AgencyProfile />;
       }
@@ -162,7 +164,7 @@ const Account = () => {
     portfolio: [
       { id: 1, title: 'Рекламна кампанія для "Еко-маркет"', image: 'https://placehold.co/600x400/jpeg' },
       { id: 2, title: 'Брендинг для "Світоч"', image: 'https://placehold.co/600x400/jpeg' },
-      { id: 3, title: 'Дизайн упаковки "Мор��инська"', image: 'https://placehold.co/600x400/jpeg' }
+      { id: 3, title: 'Дизайн упаковки "Моршинська"', image: 'https://placehold.co/600x400/jpeg' }
     ],
     socialLinks: {
       instagram: 'https://instagram.com/marina.design',
@@ -250,12 +252,12 @@ const Account = () => {
                   {t('business.reviews')}
                 </Button>
                 <Button
-                  variant={activeTab === 'messages' ? 'secondary' : 'ghost'}
+                  variant={activeTab === 'chats' ? 'secondary' : 'ghost'}
                   className="w-full justify-start"
-                  onClick={() => setActiveTab('messages')}
+                  onClick={() => setActiveTab('chats')}
                 >
                   <MessageSquare className="mr-2 h-4 w-4" />
-                  {t('business.messages')}
+                  {t('business.chats')}
                 </Button>
               </div>
             ) : (
@@ -315,6 +317,14 @@ const Account = () => {
                 >
                   <Star className="mr-2 h-4 w-4" />
                   {t('agency.reviews')}
+                </Button>
+                <Button
+                  variant={activeTab === 'chats' ? 'secondary' : 'ghost'}
+                  className="w-full justify-start"
+                  onClick={() => setActiveTab('chats')}
+                >
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  {t('agency.chats')}
                 </Button>
               </div>
             )}
@@ -607,12 +617,12 @@ const Reviews = () => {
   );
 };
 
-const Messages = () => {
+const Chats = () => {
   const { t } = useLanguage();
   
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t('business.messagesTitle')}</h2>
+      <h2 className="text-2xl font-bold">{t('business.chats')}</h2>
       <p className="text-muted-foreground">{t('business.messagesDescription')}</p>
       
       <Card>
@@ -736,267 +746,4 @@ const ManagingOffers = () => {
             <div className="space-y-4">
               <div>
                 <h3 className="text-sm font-medium">{t('agency.description')}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{t('agency.socialMediaDesc')}</p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h3 className="text-sm font-medium">{t('agency.price')}</h3>
-                  <p className="text-sm font-semibold mt-1">$1,200 / month</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium">{t('agency.duration')}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">{t('agency.minimumMonths')}</p>
-                </div>
-              </div>
-              
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">
-                  <Edit className="mr-2 h-4 w-4" />
-                  {t('agency.edit')}
-                </Button>
-                <Button variant="outline" size="sm" className="text-destructive">{t('agency.delete')}</Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <div className="flex justify-between items-start">
-              <CardTitle>{t('agency.videoProduction')}</CardTitle>
-              <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{t('agency.active')}</div>
-            </div>
-            <CardDescription>{t('agency.professionalVideos')}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-sm font-medium">{t('agency.description')}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{t('agency.videoProductionDesc')}</p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h3 className="text-sm font-medium">{t('agency.price')}</h3>
-                  <p className="text-sm font-semibold mt-1">$2,500 / project</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium">{t('agency.duration')}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">{t('agency.weeksPerProject')}</p>
-                </div>
-              </div>
-              
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">
-                  <Edit className="mr-2 h-4 w-4" />
-                  {t('agency.edit')}
-                </Button>
-                <Button variant="outline" size="sm" className="text-destructive">{t('agency.delete')}</Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-};
-
-const Requests = () => {
-  const { t } = useLanguage();
-  
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t('agency.requestsTitle')}</h2>
-      <p className="text-muted-foreground">{t('agency.requestsDescription')}</p>
-      
-      <Tabs defaultValue="new">
-        <TabsList className="mb-4">
-          <TabsTrigger value="new">{t('agency.newRequests')}</TabsTrigger>
-          <TabsTrigger value="inProgress">{t('agency.inProgress')}</TabsTrigger>
-          <TabsTrigger value="completed">{t('agency.completed')}</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="new">
-          <Card>
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle>{t('agency.socialMediaCampaign')}</CardTitle>
-                <div className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">{t('agency.new')}</div>
-              </div>
-              <CardDescription>{t('agency.from')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-sm font-medium">{t('agency.requestDetails')}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">{t('agency.lookingFor')}</p>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-sm font-medium">{t('agency.budget')}</h3>
-                    <p className="text-sm font-semibold mt-1">{t('agency.budgetRange')}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium">{t('agency.timeline')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{t('agency.months')}</p>
-                  </div>
-                </div>
-                
-                <div className="flex gap-2">
-                  <Button size="sm">{t('agency.acceptRequest')}</Button>
-                  <Button variant="outline" size="sm">{t('agency.contactClient')}</Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="inProgress">
-          <Card>
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle>{t('agency.websiteBannerAds')}</CardTitle>
-                <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{t('agency.inProgressStatus')}</div>
-              </div>
-              <CardDescription>{t('agency.from')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-sm font-medium">{t('agency.status')}</h3>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                    <div className="bg-primary h-2.5 rounded-full" style={{ width: '45%' }}></div>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-1">{t('agency.complete')}</p>
-                </div>
-                
-                <div>
-                  <h3 className="text-sm font-medium">{t('agency.nextSteps')}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">{t('agency.designReview')}</p>
-                </div>
-                
-                <Button variant="outline" size="sm">{t('agency.viewProjectDetails')}</Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="completed">
-          <div className="text-center py-10">
-            <p className="text-muted-foreground">{t('agency.noCompletedRequests')}</p>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-const AgencyTraining = () => {
-  const { t } = useLanguage();
-  
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t('agency.trainingTitle')}</h2>
-      <p className="text-muted-foreground">{t('agency.trainingDescription')}</p>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t('agency.ppcStrategies')}</CardTitle>
-            <CardDescription>{t('agency.ppcDescription')}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t('agency.modules')}</span>
-                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{t('agency.advanced')}</span>
-              </div>
-              <Button variant="outline" className="w-full mt-2">{t('agency.startCourse')}</Button>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>{t('agency.contentMarketing')}</CardTitle>
-            <CardDescription>{t('agency.contentDescription')}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t('agency.modules')}</span>
-                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{t('agency.intermediate')}</span>
-              </div>
-              <Button variant="outline" className="w-full mt-2">{t('agency.startCourse')}</Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-};
-
-const Reports = () => {
-  const { t } = useLanguage();
-  
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t('agency.reportsTitle')}</h2>
-      <p className="text-muted-foreground">{t('agency.reportsDescription')}</p>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.totalCampaigns')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground flex items-center">
-              <span className="text-green-500 mr-1">{t('agency.increase')}</span> {t('agency.fromLastMonth')}
-            </p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.activeClients')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">8</div>
-            <p className="text-xs text-muted-foreground flex items-center">
-              <span className="text-green-500 mr-1">{t('agency.increase')}</span> {t('agency.fromLastMonth')}
-            </p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.revenue')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$28,500</div>
-            <p className="text-xs text-muted-foreground flex items-center">
-              <span className="text-green-500 mr-1">{t('agency.percentIncrease')}</span> {t('agency.fromLastMonth')}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-      
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('agency.campaignPerformance')}</CardTitle>
-          <CardDescription>{t('agency.campaignMetrics')}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-60 flex items-center justify-center border rounded-md bg-muted/10">
-            <p className="text-muted-foreground">{t('agency.performanceChart')}</p>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
-
-export default Account;
+                <p className="text-sm text-muted-foreground mt-1">{t('agency.socialMediaDesc')
