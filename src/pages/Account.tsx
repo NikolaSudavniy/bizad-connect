@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -67,7 +66,6 @@ const Account = () => {
     
     checkAuth();
     
-    // Add event listener for storage changes (for when user logs out in another tab)
     const handleStorageChange = () => {
       const isStillAuthenticated = checkAuth();
       if (!isStillAuthenticated) {
@@ -620,52 +618,101 @@ const Reviews = () => {
 
 const Chats = () => {
   const { t } = useLanguage();
+  const accountType = localStorage.getItem('accountType') as AccountType | null;
   
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">{t('business.chats')}</h2>
-      <p className="text-muted-foreground">{t('business.messagesDescription')}</p>
+      <p className="text-muted-foreground">
+        {accountType === 'business' 
+          ? t('business.messagesWithAdvertisers')
+          : t('agency.messagesWithBusinesses')}
+      </p>
       
       <Card>
         <CardHeader>
           <CardTitle>{t('business.inbox')}</CardTitle>
-          <CardDescription>{t('business.recentCommunications')}</CardDescription>
+          <CardDescription>
+            {accountType === 'business' 
+              ? t('business.recentCommunicationsWithAdvertisers')
+              : t('agency.recentCommunicationsWithBusinesses')}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="border-b pb-4">
-              <div className="flex justify-between items-start">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                    <MessageSquare className="h-5 w-5 text-primary" />
+            {accountType === 'business' ? (
+              <>
+                <div className="border-b pb-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
+                        <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
                   </div>
-                  <div>
-                    <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
-                    <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
-                  </div>
+                  <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
+                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
                 </div>
-                <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
-              </div>
-              <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
-              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
-            </div>
-            
-            <div>
-              <div className="flex justify-between items-start">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                    <MessageSquare className="h-5 w-5 text-primary" />
+                
+                <div>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
+                        <p className="text-xs text-muted-foreground">{t('business.videoContract')}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{t('business.yesterday')}</span>
                   </div>
-                  <div>
-                    <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
-                    <p className="text-xs text-muted-foreground">{t('business.videoContract')}</p>
-                  </div>
+                  <p className="text-sm mt-2 line-clamp-2">{t('business.contractText')}</p>
+                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
                 </div>
-                <span className="text-xs text-muted-foreground">{t('business.yesterday')}</span>
-              </div>
-              <p className="text-sm mt-2 line-clamp-2">{t('business.contractText')}</p>
-              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
-            </div>
+              </>
+            ) : (
+              <>
+                <div className="border-b pb-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Tech Solutions Ltd.</h3>
+                        <p className="text-xs text-muted-foreground">{t('agency.socialMediaInquiry')}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
+                  </div>
+                  <p className="text-sm mt-2 line-clamp-2">{t('agency.inquiryText')}</p>
+                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+                </div>
+                
+                <div>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Eco Foods</h3>
+                        <p className="text-xs text-muted-foreground">{t('agency.projectDiscussion')}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{t('business.daysAgo')}</span>
+                  </div>
+                  <p className="text-sm mt-2 line-clamp-2">{t('agency.discussionText')}</p>
+                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+                </div>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>
