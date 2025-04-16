@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Briefcase, Megaphone, User, LogOut, Home, Search } from 'lucide-react';
@@ -71,6 +70,10 @@ const Navbar = () => {
     setAccountType(null);
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('accountType');
+    
+    if (location.pathname === '/account') {
+      navigate('/');
+    }
   };
 
   const goToAccount = () => {
@@ -307,12 +310,10 @@ const Navbar = () => {
         open={authModalOpen} 
         onOpenChange={(open) => {
           setAuthModalOpen(open);
-          // Check if user was authenticated through the modal
           if (!open) {
             const authState = localStorage.getItem('isAuthenticated');
             if (authState === 'true') {
               setIsAuthenticated(true);
-              // Get account type from localStorage if it exists
               const storedAccountType = localStorage.getItem('accountType') as AccountType | null;
               if (storedAccountType) {
                 setAccountType(storedAccountType);
@@ -322,10 +323,8 @@ const Navbar = () => {
         }} 
         defaultTab={authModalTab}
         onAuthSuccess={(selectedAccountType) => {
-          // Set authentication state and store in localStorage
           setIsAuthenticated(true);
           localStorage.setItem('isAuthenticated', 'true');
-          // Set account type if provided (for registration)
           if (selectedAccountType) {
             setAccountType(selectedAccountType);
             localStorage.setItem('accountType', selectedAccountType);

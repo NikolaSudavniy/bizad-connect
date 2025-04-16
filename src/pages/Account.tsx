@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -49,16 +50,35 @@ const Account = () => {
   const { t } = useLanguage();
 
   useEffect(() => {
-    const authState = localStorage.getItem('isAuthenticated');
-    const storedAccountType = localStorage.getItem('accountType') as AccountType | null;
+    const checkAuth = () => {
+      const authState = localStorage.getItem('isAuthenticated');
+      const storedAccountType = localStorage.getItem('accountType') as AccountType | null;
+      
+      if (authState !== 'true') {
+        navigate('/');
+        return false;
+      }
+      
+      setIsAuthenticated(true);
+      setAccountType(storedAccountType);
+      return true;
+    };
     
-    if (authState !== 'true') {
-      navigate('/');
-      return;
-    }
+    checkAuth();
     
-    setIsAuthenticated(true);
-    setAccountType(storedAccountType);
+    // Add event listener for storage changes (for when user logs out in another tab)
+    const handleStorageChange = () => {
+      const isStillAuthenticated = checkAuth();
+      if (!isStillAuthenticated) {
+        navigate('/');
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [navigate]);
 
   if (!isAuthenticated || !accountType) {
