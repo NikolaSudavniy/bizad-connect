@@ -27,16 +27,16 @@ const SearchBar = () => {
   const [open, setOpen] = useState(false);
   
   const locations = [
-    { value: 'all', label: t('location.allUkraine') || 'Вся Україна' },
-    { value: 'Київ', label: 'Київ' },
-    { value: 'Дніпро', label: 'Дніпро' },
-    { value: 'Харків', label: 'Харків' },
-    { value: 'Одеса', label: 'Одеса' },
-    { value: 'Львів', label: 'Львів' },
-    { value: 'near', label: t('location.nearHome') || 'Поряд із домом' },
-    { value: 'remote', label: t('location.remote') || 'Дистанційно' },
-    { value: 'abroad', label: t('location.abroad') || 'Інші країни' },
+    { value: 'all', label: t('location.allUkraine')},
+    { value: 'Київ', label: t('location.Kyiv') },
+    { value: 'Дніпро', label: t('location.Dnipro')},
+    { value: 'Харків', label: t('location.Kharkov')},
+    { value: 'Одеса', label: t('location.Odesa')},
+    { value: 'Львів', label: t('location.Lviv')},
+    { value: 'remote', label: t('location.remote')},
+    { value: 'abroad', label: t('location.abroad')}
   ];
+
 
   const selectedLocationObj = locations.find(loc => loc.value === selectedLocation);
 

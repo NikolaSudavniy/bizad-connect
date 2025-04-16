@@ -111,6 +111,10 @@ const translations: Record<Language, Record<string, string>> = {
     'cta.subheading': 'Join thousands of businesses and advertising platforms already using BizAdConnect to grow your reach.',
     'cta.getStarted': 'Get Started Now',
     'cta.demo': 'Schedule a Demo',
+
+		//Partners
+		"partners.title": "Our Shared Success - Their Contribution",
+		"partners.description": "We cooperate with:",
     
     // Footer
     'footer.description': 'The most convenient platform for business and advertising interactions.',
@@ -186,7 +190,19 @@ const translations: Record<Language, Record<string, string>> = {
     "favorites.noFavoritesDescription": "Save vacancies you are interested in to return to them later.",
     "favorites.browseVacancies": "Browse vacancies",
     "favorites.addedToFavorites": "Added to favorites",
-    "favorites.removedFromFavorites": "Remove from favorites"
+    "favorites.removedFromFavorites": "Remove from favorites",
+
+		//Locations
+		"location.searchPlaceholder": "Enter city name",
+		"location.allUkraine": "All Ukraine",
+		"location.Kyiv": "Kyiv",
+		"location.Dnipro": "Dnipro",
+		"location.Kharkov": "Kharkiv",
+		"location.Odesa": "Odesa",
+		"location.Lviv": "Lviv",
+		"location.remote": "Remote",
+		"location.abroad": "Abroad",
+		"": "",
   },
   ru: {
     // Navbar
@@ -280,6 +296,10 @@ const translations: Record<Language, Record<string, string>> = {
     'cta.subheading': 'Присоединяйтесь к тысячам предприятий и рекламных платформ, которые уже используют BizAdConnect для расширения своего охвата.',
     'cta.getStarted': 'Начать сейчас',
     'cta.demo': 'Запланировать демонстрацию',
+
+		//Partners
+		"partners.title": "Наш общий успех - их вклад",
+		"partners.description": "Мы сотрудничаем с:",
     
     // Footer
     'footer.description': 'Самая удобная платформа для взаимодействия бизнеса и рекламы.',
@@ -298,7 +318,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.support.contact': 'Связаться с нами',
     'footer.support.privacy': 'Политика конфиденциальности',
     'footer.support.terms': 'Условия обслуживания',
-    'footer.copyright': '© {year} BizAdConnect. Все права защищены.',
+    'footer.copyright': '© {year} AddVerp. Все права защищены.',
     'footer.social.twitter': 'Twitter',
     'footer.social.linkedin': 'LinkedIn',
     'footer.social.instagram': 'Instagram',
@@ -355,7 +375,19 @@ const translations: Record<Language, Record<string, string>> = {
     "favorites.noFavoritesDescription": "Сохраняйте интересующие вас вакансии, чтобы вернуться к ним позже.",
     "favorites.browseVacancies": "Посмотреть вакансии",
     "favorites.addedToFavorites": "Добавлено в избранное",
-    "favorites.removedFromFavorites": "Удалено из избранного"
+    "favorites.removedFromFavorites": "Удалено из избранного",
+
+		//Locations
+		"location.searchPlaceholder": "Введите название города",
+		"location.allUkraine": "По всей стране",
+		"location.Kyiv": "Киев",
+		"location.Dnipro": "Днепр",
+		"location.Kharkov": "Харьков",
+		"location.Odesa": "Одесса",
+		"location.Lviv": "Львов",
+		"location.remote": "Удаленно",
+		"location.abroad": "В других странах",
+		"": "",
   },
   ua: {
     // Navbar
@@ -449,6 +481,10 @@ const translations: Record<Language, Record<string, string>> = {
     'cta.subheading': 'Приєднуйтесь до тисяч підприємств та рекламних платформ, які вже використовують BizAdConnect для розширення свого охоплення.',
     'cta.getStarted': 'Почати зараз',
     'cta.demo': 'Запланувати демонстрацію',
+
+		//Partners
+		"partners.title": "Наш спільний успіх - їх внесок",
+		"partners.description": "Ми співпрацюємо з:",
     
     // Footer
     'footer.description': 'Найзручніша платформа для взаємодії бізнесу та реклами.',
@@ -525,7 +561,19 @@ const translations: Record<Language, Record<string, string>> = {
     "favorites.noFavoritesDescription": "Зберігайте вакансії, які вас цікавлять, щоб повернутися до них пізніше.",
     "favorites.browseVacancies": "Переглянути вакансії",
     "favorites.addedToFavorites": "Додано до обраних",
-    "favorites.removedFromFavorites": "Видалено з обраних"
+    "favorites.removedFromFavorites": "Видалено з обраних",
+
+		//Locations
+		"location.searchPlaceholder": "Введіть назву міста",
+		"location.allUkraine": "По всій країні",
+		"location.Kyiv": "Київ",
+		"location.Dnipro": "Дніпро",
+		"location.Kharkov": "Харків",
+		"location.Odesa": "Одеса",
+		"location.Lviv": "Львів",
+		"location.remote": "Віддалено",
+		"location.abroad": "В інших країнах",
+		"": "",
   }
 };
 

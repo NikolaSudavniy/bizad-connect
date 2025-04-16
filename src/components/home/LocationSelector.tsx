@@ -25,15 +25,14 @@ const LocationSelector = () => {
   const [open, setOpen] = useState(false);
 
   const locations = [
-    { value: 'all', label: t('location.allUkraine') || 'Вся Україна', icon: Globe },
-    { value: 'Київ', label: 'Київ', icon: MapPin },
-    { value: 'Дніпро', label: 'Дніпро', icon: MapPin },
-    { value: 'Харків', label: 'Харків', icon: MapPin },
-    { value: 'Одеса', label: 'Одеса', icon: MapPin },
-    { value: 'Львів', label: 'Львів', icon: MapPin },
-    { value: 'near', label: t('location.nearHome') || 'Поряд із домом', icon: Home },
-    { value: 'remote', label: t('location.remote') || 'Дистанційно', icon: Clock },
-    { value: 'abroad', label: t('location.abroad') || 'Інші країни', icon: Globe },
+    { value: 'all', label: t('location.allUkraine'), icon: Globe },
+    { value: 'Київ', label: t('location.Kyiv'), icon: MapPin },
+    { value: 'Дніпро', label: t('location.Dnipro'), icon: MapPin },
+    { value: 'Харків', label: t('location.Kharkov'), icon: MapPin },
+    { value: 'Одеса', label: t('location.Odesa'), icon: MapPin },
+    { value: 'Львів', label: t('location.Lviv'), icon: MapPin },
+    { value: 'remote', label: t('location.remote'), icon: Clock },
+    { value: 'abroad', label: t('location.abroad'), icon: Globe }
   ];
 
   const selectedLocationObj = locations.find(loc => loc.value === selectedLocation);
