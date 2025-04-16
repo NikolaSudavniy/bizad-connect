@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -746,4 +747,165 @@ const ManagingOffers = () => {
             <div className="space-y-4">
               <div>
                 <h3 className="text-sm font-medium">{t('agency.description')}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{t('agency.socialMediaDesc')
+                <p className="text-sm text-muted-foreground mt-1">{t('agency.socialMediaDesc')}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Content Creation</span>
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Community Management</span>
+                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Analytics</span>
+              </div>
+              <div className="flex justify-between items-center pt-2">
+                <div>
+                  <p className="text-sm font-medium">{t('agency.pricing')}</p>
+                  <p className="text-lg font-bold">₴15,000 / {t('agency.month')}</p>
+                </div>
+                <div className="space-x-2">
+                  <Button variant="outline" size="sm">
+                    <Edit className="mr-2 h-4 w-4" />
+                    {t('agency.edit')}
+                  </Button>
+                  <Button size="sm">
+                    {t('agency.viewDetails')}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+const Requests = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('agency.requestsTitle')}</h2>
+      <p className="text-muted-foreground">{t('agency.requestsDescription')}</p>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('agency.pendingRequests')}</CardTitle>
+          <CardDescription>{t('agency.requestsFromBusinesses')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="border-b pb-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-medium">Tech Solutions Ltd.</h3>
+                  <p className="text-xs text-muted-foreground">Social Media Management</p>
+                </div>
+                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
+                  {t('agency.pending')}
+                </span>
+              </div>
+              <p className="text-sm mt-2">{t('agency.requestDescription')}</p>
+              <div className="flex gap-2 mt-3">
+                <Button size="sm" variant="outline">{t('agency.decline')}</Button>
+                <Button size="sm">{t('agency.accept')}</Button>
+              </div>
+            </div>
+            
+            <div>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-medium">Eco Foods</h3>
+                  <p className="text-xs text-muted-foreground">Video Production</p>
+                </div>
+                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
+                  {t('agency.pending')}
+                </span>
+              </div>
+              <p className="text-sm mt-2">{t('agency.requestDescription2')}</p>
+              <div className="flex gap-2 mt-3">
+                <Button size="sm" variant="outline">{t('agency.decline')}</Button>
+                <Button size="sm">{t('agency.accept')}</Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+const AgencyTraining = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('agency.trainingTitle')}</h2>
+      <p className="text-muted-foreground">{t('agency.trainingDescription')}</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('agency.marketingMasterclass')}</CardTitle>
+            <CardDescription>{t('agency.marketingMasterclassDesc')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button variant="outline" className="w-full">{t('agency.startCourse')}</Button>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('agency.clientManagement')}</CardTitle>
+            <CardDescription>{t('agency.clientManagementDesc')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button variant="outline" className="w-full">{t('agency.startCourse')}</Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+const Reports = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('agency.reportsTitle')}</h2>
+      <p className="text-muted-foreground">{t('agency.reportsDescription')}</p>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('agency.performanceReports')}</CardTitle>
+          <CardDescription>{t('agency.performanceReportsDesc')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="border-b pb-4">
+              <div className="flex justify-between items-center">
+                <h3 className="font-medium">{t('agency.monthlyPerformance')}</h3>
+                <Button size="sm" variant="outline">
+                  <FileText className="mr-2 h-4 w-4" />
+                  {t('agency.download')}
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">{t('agency.lastGenerated')}: 15/04/2025</p>
+            </div>
+            
+            <div>
+              <div className="flex justify-between items-center">
+                <h3 className="font-medium">{t('agency.clientSatisfaction')}</h3>
+                <Button size="sm" variant="outline">
+                  <FileText className="mr-2 h-4 w-4" />
+                  {t('agency.download')}
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">{t('agency.lastGenerated')}: 10/04/2025</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default Account;
