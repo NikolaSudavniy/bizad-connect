@@ -41,7 +41,7 @@ const translations: Record<Language, Record<string, string>> = {
     'business.agencies': 'Agency Offers',
     'business.training': 'Training',
     'business.reviews': 'Reviews & Ratings',
-    'business.chats': 'Chats',
+    'business.messages': 'Messages',
     'business.back': 'Back',
     
     // Agency Dashboard
@@ -53,7 +53,6 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Training',
     'agency.reports': 'Reports',
     'agency.reviews': 'Reviews',
-    'agency.chats': 'Chats',
     'agency.back': 'Back',
     
     // Language selection
@@ -211,7 +210,7 @@ const translations: Record<Language, Record<string, string>> = {
     'business.agencies': 'Предложения агентств',
     'business.training': 'Обучение',
     'business.reviews': 'Отзывы и рейтинги',
-    'business.chats': 'Чаты',
+    'business.messages': 'Сообщения',
     'business.back': 'Назад',
     
     // Agency Dashboard
@@ -223,7 +222,6 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Обучение',
     'agency.reports': 'Отчеты',
     'agency.reviews': 'Отзывы',
-    'agency.chats': 'Чаты',
     'agency.back': 'Назад',
     
     // Language selection
@@ -274,7 +272,7 @@ const translations: Record<Language, Record<string, string>> = {
     'features.connections.title': 'Быстрые связи',
     'features.connections.description': 'Связывайтесь с нужными рекламными возможностями быстрее благодаря нашей интеллектуальной системе подбора.',
     'features.insights.title': 'Анализ эффективности',
-    'features.insights.description': 'Track the performance of your advertising campaigns with detailed analytics and reporting.',
+    'features.insights.description': 'Отслеживайте эффективность ваших рекламных кампаний с помощью детальной аналитики и отчетности.',
     'features.learnMore': 'Узнать больше о наших функциях',
     
     // CTA Section
@@ -381,7 +379,7 @@ const translations: Record<Language, Record<string, string>> = {
     'business.agencies': 'Пропозиції агентств',
     'business.training': 'Навчання',
     'business.reviews': 'Відгуки та рейтинги',
-    'business.chats': 'Чати',
+    'business.messages': 'Повідомлення',
     'business.back': 'Назад',
     
     // Agency Dashboard
@@ -393,7 +391,6 @@ const translations: Record<Language, Record<string, string>> = {
     'agency.training': 'Навчання',
     'agency.reports': 'Звіти',
     'agency.reviews': 'Відгуки',
-    'agency.chats': 'Чати',
     'agency.back': 'Назад',
     
     // Language selection

@@ -1,5 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { 
   Briefcase, Search, Building, Users, Book, Star, 
   MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart
@@ -43,7 +44,6 @@ const removeFavorite = (vacancyId: number): void => {
 
 const Account = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accountType, setAccountType] = useState<AccountType | null>(null);
   const [activeTab, setActiveTab] = useState<string>('profile');
@@ -66,6 +66,7 @@ const Account = () => {
     
     checkAuth();
     
+    // Add event listener for storage changes (for when user logs out in another tab)
     const handleStorageChange = () => {
       const isStillAuthenticated = checkAuth();
       if (!isStillAuthenticated) {
@@ -99,8 +100,8 @@ const Account = () => {
           return <BusinessTraining />;
         case 'reviews':
           return <Reviews />;
-        case 'chats':
-          return <Chats />;
+        case 'messages':
+          return <Messages />;
         default:
           return <BusinessProfile />;
       }
@@ -120,8 +121,6 @@ const Account = () => {
           return <Reports />;
         case 'reviews':
           return <Reviews />;
-        case 'chats':
-          return <Chats />;
         default:
           return <AgencyProfile />;
       }
@@ -163,7 +162,7 @@ const Account = () => {
     portfolio: [
       { id: 1, title: 'Рекламна кампанія для "Еко-маркет"', image: 'https://placehold.co/600x400/jpeg' },
       { id: 2, title: 'Брендинг для "Світоч"', image: 'https://placehold.co/600x400/jpeg' },
-      { id: 3, title: 'Дизайн упаковки "Моршинська"', image: 'https://placehold.co/600x400/jpeg' }
+      { id: 3, title: 'Дизайн упаковки "Мор��инська"', image: 'https://placehold.co/600x400/jpeg' }
     ],
     socialLinks: {
       instagram: 'https://instagram.com/marina.design',
@@ -251,12 +250,12 @@ const Account = () => {
                   {t('business.reviews')}
                 </Button>
                 <Button
-                  variant={activeTab === 'chats' ? 'secondary' : 'ghost'}
+                  variant={activeTab === 'messages' ? 'secondary' : 'ghost'}
                   className="w-full justify-start"
-                  onClick={() => setActiveTab('chats')}
+                  onClick={() => setActiveTab('messages')}
                 >
                   <MessageSquare className="mr-2 h-4 w-4" />
-                  {t('business.chats')}
+                  {t('business.messages')}
                 </Button>
               </div>
             ) : (
@@ -316,14 +315,6 @@ const Account = () => {
                 >
                   <Star className="mr-2 h-4 w-4" />
                   {t('agency.reviews')}
-                </Button>
-                <Button
-                  variant={activeTab === 'chats' ? 'secondary' : 'ghost'}
-                  className="w-full justify-start"
-                  onClick={() => setActiveTab('chats')}
-                >
-                  <MessageSquare className="mr-2 h-4 w-4" />
-                  {t('agency.chats')}
                 </Button>
               </div>
             )}
@@ -616,103 +607,54 @@ const Reviews = () => {
   );
 };
 
-const Chats = () => {
+const Messages = () => {
   const { t } = useLanguage();
-  const accountType = localStorage.getItem('accountType') as AccountType | null;
   
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t('business.chats')}</h2>
-      <p className="text-muted-foreground">
-        {accountType === 'business' 
-          ? t('business.messagesWithAdvertisers')
-          : t('agency.messagesWithBusinesses')}
-      </p>
+      <h2 className="text-2xl font-bold">{t('business.messagesTitle')}</h2>
+      <p className="text-muted-foreground">{t('business.messagesDescription')}</p>
       
       <Card>
         <CardHeader>
           <CardTitle>{t('business.inbox')}</CardTitle>
-          <CardDescription>
-            {accountType === 'business' 
-              ? t('business.recentCommunicationsWithAdvertisers')
-              : t('agency.recentCommunicationsWithBusinesses')}
-          </CardDescription>
+          <CardDescription>{t('business.recentCommunications')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {accountType === 'business' ? (
-              <>
-                <div className="border-b pb-4">
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                        <MessageSquare className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
-                        <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
-                      </div>
-                    </div>
-                    <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
+            <div className="border-b pb-4">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                    <MessageSquare className="h-5 w-5 text-primary" />
                   </div>
-                  <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
-                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
-                </div>
-                
-                <div>
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                        <MessageSquare className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
-                        <p className="text-xs text-muted-foreground">{t('business.videoContract')}</p>
-                      </div>
-                    </div>
-                    <span className="text-xs text-muted-foreground">{t('business.yesterday')}</span>
+                  <div>
+                    <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
+                    <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
                   </div>
-                  <p className="text-sm mt-2 line-clamp-2">{t('business.contractText')}</p>
-                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
                 </div>
-              </>
-            ) : (
-              <>
-                <div className="border-b pb-4">
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                        <MessageSquare className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium">Tech Solutions Ltd.</h3>
-                        <p className="text-xs text-muted-foreground">{t('agency.socialMediaInquiry')}</p>
-                      </div>
-                    </div>
-                    <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
+                <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
+              </div>
+              <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
+              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+            </div>
+            
+            <div>
+              <div className="flex justify-between items-start">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                    <MessageSquare className="h-5 w-5 text-primary" />
                   </div>
-                  <p className="text-sm mt-2 line-clamp-2">{t('agency.inquiryText')}</p>
-                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
-                </div>
-                
-                <div>
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                        <MessageSquare className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium">Eco Foods</h3>
-                        <p className="text-xs text-muted-foreground">{t('agency.projectDiscussion')}</p>
-                      </div>
-                    </div>
-                    <span className="text-xs text-muted-foreground">{t('business.daysAgo')}</span>
+                  <div>
+                    <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
+                    <p className="text-xs text-muted-foreground">{t('business.videoContract')}</p>
                   </div>
-                  <p className="text-sm mt-2 line-clamp-2">{t('agency.discussionText')}</p>
-                  <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
                 </div>
-              </>
-            )}
+                <span className="text-xs text-muted-foreground">{t('business.yesterday')}</span>
+              </div>
+              <p className="text-sm mt-2 line-clamp-2">{t('business.contractText')}</p>
+              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -796,25 +738,61 @@ const ManagingOffers = () => {
                 <h3 className="text-sm font-medium">{t('agency.description')}</h3>
                 <p className="text-sm text-muted-foreground mt-1">{t('agency.socialMediaDesc')}</p>
               </div>
-              <div className="flex flex-wrap gap-2">
-                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Content Creation</span>
-                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Community Management</span>
-                <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Analytics</span>
-              </div>
-              <div className="flex justify-between items-center pt-2">
+              
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-medium">{t('agency.pricing')}</p>
-                  <p className="text-lg font-bold">₴15,000 / {t('agency.month')}</p>
+                  <h3 className="text-sm font-medium">{t('agency.price')}</h3>
+                  <p className="text-sm font-semibold mt-1">$1,200 / month</p>
                 </div>
-                <div className="space-x-2">
-                  <Button variant="outline" size="sm">
-                    <Edit className="mr-2 h-4 w-4" />
-                    {t('agency.edit')}
-                  </Button>
-                  <Button size="sm">
-                    {t('agency.viewDetails')}
-                  </Button>
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.duration')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.minimumMonths')}</p>
                 </div>
+              </div>
+              
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">
+                  <Edit className="mr-2 h-4 w-4" />
+                  {t('agency.edit')}
+                </Button>
+                <Button variant="outline" size="sm" className="text-destructive">{t('agency.delete')}</Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between items-start">
+              <CardTitle>{t('agency.videoProduction')}</CardTitle>
+              <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{t('agency.active')}</div>
+            </div>
+            <CardDescription>{t('agency.professionalVideos')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium">{t('agency.description')}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t('agency.videoProductionDesc')}</p>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.price')}</h3>
+                  <p className="text-sm font-semibold mt-1">$2,500 / project</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.duration')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.weeksPerProject')}</p>
+                </div>
+              </div>
+              
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">
+                  <Edit className="mr-2 h-4 w-4" />
+                  {t('agency.edit')}
+                </Button>
+                <Button variant="outline" size="sm" className="text-destructive">{t('agency.delete')}</Button>
               </div>
             </div>
           </CardContent>
@@ -832,49 +810,85 @@ const Requests = () => {
       <h2 className="text-2xl font-bold">{t('agency.requestsTitle')}</h2>
       <p className="text-muted-foreground">{t('agency.requestsDescription')}</p>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('agency.pendingRequests')}</CardTitle>
-          <CardDescription>{t('agency.requestsFromBusinesses')}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="border-b pb-4">
+      <Tabs defaultValue="new">
+        <TabsList className="mb-4">
+          <TabsTrigger value="new">{t('agency.newRequests')}</TabsTrigger>
+          <TabsTrigger value="inProgress">{t('agency.inProgress')}</TabsTrigger>
+          <TabsTrigger value="completed">{t('agency.completed')}</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="new">
+          <Card>
+            <CardHeader>
               <div className="flex justify-between items-start">
+                <CardTitle>{t('agency.socialMediaCampaign')}</CardTitle>
+                <div className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">{t('agency.new')}</div>
+              </div>
+              <CardDescription>{t('agency.from')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
                 <div>
-                  <h3 className="font-medium">Tech Solutions Ltd.</h3>
-                  <p className="text-xs text-muted-foreground">Social Media Management</p>
+                  <h3 className="text-sm font-medium">{t('agency.requestDetails')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.lookingFor')}</p>
                 </div>
-                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
-                  {t('agency.pending')}
-                </span>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="text-sm font-medium">{t('agency.budget')}</h3>
+                    <p className="text-sm font-semibold mt-1">{t('agency.budgetRange')}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium">{t('agency.timeline')}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">{t('agency.months')}</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-2">
+                  <Button size="sm">{t('agency.acceptRequest')}</Button>
+                  <Button variant="outline" size="sm">{t('agency.contactClient')}</Button>
+                </div>
               </div>
-              <p className="text-sm mt-2">{t('agency.requestDescription')}</p>
-              <div className="flex gap-2 mt-3">
-                <Button size="sm" variant="outline">{t('agency.decline')}</Button>
-                <Button size="sm">{t('agency.accept')}</Button>
-              </div>
-            </div>
-            
-            <div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="inProgress">
+          <Card>
+            <CardHeader>
               <div className="flex justify-between items-start">
+                <CardTitle>{t('agency.websiteBannerAds')}</CardTitle>
+                <div className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{t('agency.inProgressStatus')}</div>
+              </div>
+              <CardDescription>{t('agency.from')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
                 <div>
-                  <h3 className="font-medium">Eco Foods</h3>
-                  <p className="text-xs text-muted-foreground">Video Production</p>
+                  <h3 className="text-sm font-medium">{t('agency.status')}</h3>
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                    <div className="bg-primary h-2.5 rounded-full" style={{ width: '45%' }}></div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">{t('agency.complete')}</p>
                 </div>
-                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
-                  {t('agency.pending')}
-                </span>
+                
+                <div>
+                  <h3 className="text-sm font-medium">{t('agency.nextSteps')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{t('agency.designReview')}</p>
+                </div>
+                
+                <Button variant="outline" size="sm">{t('agency.viewProjectDetails')}</Button>
               </div>
-              <p className="text-sm mt-2">{t('agency.requestDescription2')}</p>
-              <div className="flex gap-2 mt-3">
-                <Button size="sm" variant="outline">{t('agency.decline')}</Button>
-                <Button size="sm">{t('agency.accept')}</Button>
-              </div>
-            </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="completed">
+          <div className="text-center py-10">
+            <p className="text-muted-foreground">{t('agency.noCompletedRequests')}</p>
           </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
@@ -890,21 +904,33 @@ const AgencyTraining = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>{t('agency.marketingMasterclass')}</CardTitle>
-            <CardDescription>{t('agency.marketingMasterclassDesc')}</CardDescription>
+            <CardTitle>{t('agency.ppcStrategies')}</CardTitle>
+            <CardDescription>{t('agency.ppcDescription')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" className="w-full">{t('agency.startCourse')}</Button>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t('agency.modules')}</span>
+                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{t('agency.advanced')}</span>
+              </div>
+              <Button variant="outline" className="w-full mt-2">{t('agency.startCourse')}</Button>
+            </div>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader>
-            <CardTitle>{t('agency.clientManagement')}</CardTitle>
-            <CardDescription>{t('agency.clientManagementDesc')}</CardDescription>
+            <CardTitle>{t('agency.contentMarketing')}</CardTitle>
+            <CardDescription>{t('agency.contentDescription')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" className="w-full">{t('agency.startCourse')}</Button>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t('agency.modules')}</span>
+                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{t('agency.intermediate')}</span>
+              </div>
+              <Button variant="outline" className="w-full mt-2">{t('agency.startCourse')}</Button>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -920,34 +946,52 @@ const Reports = () => {
       <h2 className="text-2xl font-bold">{t('agency.reportsTitle')}</h2>
       <p className="text-muted-foreground">{t('agency.reportsDescription')}</p>
       
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.totalCampaigns')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">12</div>
+            <p className="text-xs text-muted-foreground flex items-center">
+              <span className="text-green-500 mr-1">{t('agency.increase')}</span> {t('agency.fromLastMonth')}
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.activeClients')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">8</div>
+            <p className="text-xs text-muted-foreground flex items-center">
+              <span className="text-green-500 mr-1">{t('agency.increase')}</span> {t('agency.fromLastMonth')}
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('agency.revenue')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$28,500</div>
+            <p className="text-xs text-muted-foreground flex items-center">
+              <span className="text-green-500 mr-1">{t('agency.percentIncrease')}</span> {t('agency.fromLastMonth')}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+      
       <Card>
         <CardHeader>
-          <CardTitle>{t('agency.performanceReports')}</CardTitle>
-          <CardDescription>{t('agency.performanceReportsDesc')}</CardDescription>
+          <CardTitle>{t('agency.campaignPerformance')}</CardTitle>
+          <CardDescription>{t('agency.campaignMetrics')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="border-b pb-4">
-              <div className="flex justify-between items-center">
-                <h3 className="font-medium">{t('agency.monthlyPerformance')}</h3>
-                <Button size="sm" variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  {t('agency.download')}
-                </Button>
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">{t('agency.lastGenerated')}: 15/04/2025</p>
-            </div>
-            
-            <div>
-              <div className="flex justify-between items-center">
-                <h3 className="font-medium">{t('agency.clientSatisfaction')}</h3>
-                <Button size="sm" variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  {t('agency.download')}
-                </Button>
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">{t('agency.lastGenerated')}: 10/04/2025</p>
-            </div>
+          <div className="h-60 flex items-center justify-center border rounded-md bg-muted/10">
+            <p className="text-muted-foreground">{t('agency.performanceChart')}</p>
           </div>
         </CardContent>
       </Card>
