@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Briefcase, Search, Building, Users, Book, Star, 
-  FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart
+  FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart,
+  MessageSquare, Send
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
@@ -14,6 +15,7 @@ import { AccountType } from '@/components/layout/Navbar';
 import { useLanguage } from '@/contexts/LanguageContext';
 import VacancyCard, { VacancyProps } from '@/components/home/VacancyCard';
 import { useQuery } from '@tanstack/react-query';
+import { Input } from "@/components/ui/input";
 
 const fetchFavoriteVacancies = async (): Promise<VacancyProps[]> => {
   const favoriteIds = JSON.parse(localStorage.getItem('favoriteVacancies') || '[]');
@@ -98,6 +100,8 @@ const Account = () => {
           return <BusinessTraining />;
         case 'reviews':
           return <Reviews />;
+        case 'chats':
+          return <Chats />;
         default:
           return <BusinessProfile />;
       }
@@ -117,6 +121,8 @@ const Account = () => {
           return <Reports />;
         case 'reviews':
           return <Reviews />;
+        case 'chats':
+          return <Chats />;
         default:
           return <AgencyProfile />;
       }
@@ -245,6 +251,14 @@ const Account = () => {
                   <Star className="mr-2 h-4 w-4" />
                   {t('business.reviews')}
                 </Button>
+                <Button
+                  variant={activeTab === 'chats' ? 'secondary' : 'ghost'}
+                  className="w-full justify-start"
+                  onClick={() => setActiveTab('chats')}
+                >
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  {t('business.chats')}
+                </Button>
               </div>
             ) : (
               <div className="space-y-1">
@@ -303,6 +317,14 @@ const Account = () => {
                 >
                   <Star className="mr-2 h-4 w-4" />
                   {t('agency.reviews')}
+                </Button>
+                <Button
+                  variant={activeTab === 'chats' ? 'secondary' : 'ghost'}
+                  className="w-full justify-start"
+                  onClick={() => setActiveTab('chats')}
+                >
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  {t('agency.chats')}
                 </Button>
               </div>
             )}
@@ -928,6 +950,168 @@ const Reports = () => {
           </div>
         </CardContent>
       </Card>
+    </div>
+  );
+};
+
+const Chats = () => {
+  const { t } = useLanguage();
+  const [selectedChat, setSelectedChat] = useState<number | null>(null);
+  const [newMessage, setNewMessage] = useState('');
+  
+  const chats = [
+    {
+      id: 1,
+      name: 'Діфоменко О. М., ФОП',
+      lastMessage: 'Дякую за інформацію, будемо чекати на деталі.',
+      time: '14:30',
+      unread: 2,
+      avatar: 'D',
+      messages: [
+        { id: 1, text: 'Доброго дня! Зацікавлені у вашій пропозиції.', sent: false, time: '12:15' },
+        { id: 2, text: 'Доброго дня! Радий чути. Яка саме пропозиція вас зацікавила?', sent: true, time: '12:20' },
+        { id: 3, text: 'Рекламна кампанія для соціальних мереж.', sent: false, time: '12:45' },
+        { id: 4, text: 'Чудово, ми можемо організувати зустріч для обговорення деталей.', sent: true, time: '13:05' },
+        { id: 5, text: 'Дякую за інформацію, будемо чекати на деталі.', sent: false, time: '14:30' },
+      ]
+    },
+    {
+      id: 2,
+      name: 'Свідк маркетинг, ТОВ',
+      lastMessage: 'Коли можемо розпочати проект?',
+      time: '10:45',
+      unread: 0,
+      avatar: 'С',
+      messages: [
+        { id: 1, text: 'Добрий день! Хотіли б дізнатися про ваші послуги.', sent: false, time: '9:10' },
+        { id: 2, text: 'Добрий день! Звичайно, чим можу допомогти?', sent: true, time: '9:15' },
+        { id: 3, text: 'Нас цікавить розробка веб-сайту для нашої компанії.', sent: false, time: '9:30' },
+        { id: 4, text: 'Можу надіслати вам наше портфоліо і цінову пропозицію.', sent: true, time: '9:45' },
+        { id: 5, text: 'Коли можемо розпочати проект?', sent: false, time: '10:45' },
+      ]
+    },
+    {
+      id: 3,
+      name: 'Atlas Digital Ventures',
+      lastMessage: 'We would like to schedule a meeting next week.',
+      time: 'Вчора',
+      unread: 0,
+      avatar: 'A',
+      messages: [
+        { id: 1, text: 'Hello! We are looking for a marketing agency.', sent: false, time: 'Вчора, 11:20' },
+        { id: 2, text: 'Hello! I would be happy to discuss our services with you.', sent: true, time: 'Вчора, 11:30' },
+        { id: 3, text: 'Great! Could you share some information about your rates?', sent: false, time: 'Вчора, 12:15' },
+        { id: 4, text: 'Of course, I will send you our price list shortly.', sent: true, time: 'Вчора, 14:00' },
+        { id: 5, text: 'We would like to schedule a meeting next week.', sent: false, time: 'Вчора, 16:45' },
+      ]
+    }
+  ];
+  
+  const handleSendMessage = () => {
+    if (newMessage.trim() === '') return;
+    console.log('Sending message:', newMessage);
+    setNewMessage('');
+  };
+  
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">{t('chats.title') || 'Повідомлення'}</h2>
+      <p className="text-muted-foreground">{t('chats.description') || 'Керуйте вашими розмовами з клієнтами та партнерами.'}</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-4 h-[600px] border rounded-md overflow-hidden">
+        <div className="border-r bg-muted/20">
+          <div className="p-4 border-b">
+            <h3 className="font-medium">{t('chats.conversations') || 'Розмови'}</h3>
+          </div>
+          <div className="overflow-y-auto h-[calc(600px-57px)]">
+            {chats.map(chat => (
+              <div 
+                key={chat.id}
+                className={`p-4 border-b hover:bg-muted/30 cursor-pointer ${selectedChat === chat.id ? 'bg-muted/50' : ''}`}
+                onClick={() => setSelectedChat(chat.id)}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium">
+                    {chat.avatar}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-baseline">
+                      <h4 className="font-medium truncate">{chat.name}</h4>
+                      <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">{chat.time}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <p className="text-sm text-muted-foreground truncate mr-2">{chat.lastMessage}</p>
+                      {chat.unread > 0 && (
+                        <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-[10px] text-primary-foreground">
+                          {chat.unread}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <div className="flex flex-col h-full">
+          <div className="p-4 border-b">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium">
+                {chats.find(c => c.id === selectedChat)?.avatar}
+              </div>
+              <h3 className="font-medium">{chats.find(c => c.id === selectedChat)?.name}</h3>
+            </div>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {chats.find(c => c.id === selectedChat)?.messages.map(message => (
+              <div 
+                key={message.id} 
+                className={`flex ${message.sent ? 'justify-end' : 'justify-start'}`}
+              >
+                <div 
+                  className={`max-w-[70%] rounded-lg p-3 ${
+                    message.sent 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'bg-muted/50'
+                  }`}
+                >
+                  <p className="text-sm">{message.text}</p>
+                  <span className={`text-xs mt-1 block text-right ${
+                    message.sent 
+                      ? 'text-primary-foreground/70' 
+                      : 'text-muted-foreground'
+                  }`}>
+                    {message.time}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="p-4 border-t">
+            <div className="flex space-x-2">
+              <Input 
+                value={newMessage}
+                onChange={e => setNewMessage(e.target.value)}
+                placeholder={t('chats.typeMessage') || "Введіть повідомлення..."}
+                className="flex-1"
+                onKeyDown={e => {
+                  if (e.key === 'Enter') handleSendMessage();
+                }}
+              />
+              <Button 
+                size="icon" 
+                onClick={handleSendMessage}
+                disabled={newMessage.trim() === ''}
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
