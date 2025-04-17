@@ -33,13 +33,15 @@ const LocationSelector = () => {
     { value: 'Харків', label: t('location.Kharkov'), icon: MapPin },
     { value: 'Одеса', label: t('location.Odesa'), icon: MapPin },
     { value: 'Львів', label: t('location.Lviv'), icon: MapPin },
+    { value: 'Вінниця', label: t('location.Vinnytsia'), icon: MapPin },
+    { value: 'Херсон', label: t('location.Kherson'), icon: MapPin },
     { value: 'remote', label: t('location.remote'), icon: Clock },
     { value: 'abroad', label: t('location.abroad'), icon: Globe }
   ];
 
   // Ukrainian cities only (for filtering when searching)
   const ukrainianCities = locations.filter(loc => 
-    ['Київ', 'Дніпро', 'Харків', 'Одеса', 'Львів'].includes(loc.value)
+    ['Київ', 'Дніпро', 'Харків', 'Одеса', 'Львів', 'Вінниця', 'Херсон'].includes(loc.value)
   );
 
   // Filtered locations based on search input
@@ -111,3 +113,4 @@ const LocationSelector = () => {
 };
 
 export default LocationSelector;
+

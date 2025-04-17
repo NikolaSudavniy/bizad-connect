@@ -9,6 +9,8 @@ export type LocationType =
   | 'Харків'
   | 'Львів'
   | 'Одеса'
+  | 'Вінниця'
+  | 'Херсон'
   | 'near'
   | 'remote'
   | 'abroad';
