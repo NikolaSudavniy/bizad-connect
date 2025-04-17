@@ -1,9 +1,8 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Briefcase, Search, Building, Users, Book, Star, 
-  MessageSquare, FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart
+  FileText, Edit, Plus, Bell, ChartLine, GraduationCap, Home, Heart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
@@ -66,7 +65,6 @@ const Account = () => {
     
     checkAuth();
     
-    // Add event listener for storage changes (for when user logs out in another tab)
     const handleStorageChange = () => {
       const isStillAuthenticated = checkAuth();
       if (!isStillAuthenticated) {
@@ -100,8 +98,6 @@ const Account = () => {
           return <BusinessTraining />;
         case 'reviews':
           return <Reviews />;
-        case 'messages':
-          return <Messages />;
         default:
           return <BusinessProfile />;
       }
@@ -248,14 +244,6 @@ const Account = () => {
                 >
                   <Star className="mr-2 h-4 w-4" />
                   {t('business.reviews')}
-                </Button>
-                <Button
-                  variant={activeTab === 'messages' ? 'secondary' : 'ghost'}
-                  className="w-full justify-start"
-                  onClick={() => setActiveTab('messages')}
-                >
-                  <MessageSquare className="mr-2 h-4 w-4" />
-                  {t('business.messages')}
                 </Button>
               </div>
             ) : (
@@ -599,61 +587,6 @@ const Reviews = () => {
                 <span className="text-xs text-muted-foreground">{t('business.weekAgo')}</span>
               </div>
               <p className="text-sm mt-2">{t('business.exceptionalQuality')}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
-
-const Messages = () => {
-  const { t } = useLanguage();
-  
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t('business.messagesTitle')}</h2>
-      <p className="text-muted-foreground">{t('business.messagesDescription')}</p>
-      
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('business.inbox')}</CardTitle>
-          <CardDescription>{t('business.recentCommunications')}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="border-b pb-4">
-              <div className="flex justify-between items-start">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                    <MessageSquare className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">{t('business.digitalMastersAgency')}</h3>
-                    <p className="text-xs text-muted-foreground">{t('business.campaignProposal')}</p>
-                  </div>
-                </div>
-                <span className="text-xs text-muted-foreground">{t('business.hoursAgo')}</span>
-              </div>
-              <p className="text-sm mt-2 line-clamp-2">{t('business.proposalText')}</p>
-              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
-            </div>
-            
-            <div>
-              <div className="flex justify-between items-start">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                    <MessageSquare className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">{t('business.creativeVisionStudios')}</h3>
-                    <p className="text-xs text-muted-foreground">{t('business.videoContract')}</p>
-                  </div>
-                </div>
-                <span className="text-xs text-muted-foreground">{t('business.yesterday')}</span>
-              </div>
-              <p className="text-sm mt-2 line-clamp-2">{t('business.contractText')}</p>
-              <Button variant="ghost" size="sm" className="mt-2">{t('business.readReply')}</Button>
             </div>
           </div>
         </CardContent>
