@@ -23,7 +23,9 @@ const LocationSelector = () => {
   const { selectedLocation, setSelectedLocation } = useLocation();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
+  // Full list of locations (default options)
   const locations = [
     { value: 'all', label: t('location.allUkraine'), icon: Globe },
     { value: 'Київ', label: t('location.Kyiv'), icon: MapPin },
@@ -34,6 +36,19 @@ const LocationSelector = () => {
     { value: 'remote', label: t('location.remote'), icon: Clock },
     { value: 'abroad', label: t('location.abroad'), icon: Globe }
   ];
+
+  // Ukrainian cities only (for filtering when searching)
+  const ukrainianCities = locations.filter(loc => 
+    ['Київ', 'Дніпро', 'Харків', 'Одеса', 'Львів'].includes(loc.value)
+  );
+
+  // Filtered locations based on search input
+  const filteredLocations = searchValue.trim() === '' 
+    ? locations 
+    : ukrainianCities.filter(loc => 
+        loc.label.toLowerCase().includes(searchValue.toLowerCase()) ||
+        loc.value.toLowerCase().includes(searchValue.toLowerCase())
+      );
 
   const selectedLocationObj = locations.find(loc => loc.value === selectedLocation);
   
@@ -60,16 +75,21 @@ const LocationSelector = () => {
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
           <Command>
-            <CommandInput placeholder={t('location.searchPlaceholder') || "Пошук міста..."} />
+            <CommandInput 
+              placeholder={t('location.searchPlaceholder') || "Пошук міста..."}
+              value={searchValue}
+              onValueChange={setSearchValue}
+            />
             <CommandList>
               <CommandEmpty>{t('location.noResults') || "Нічого не знайдено"}</CommandEmpty>
               <CommandGroup>
-                {locations.map((location) => (
+                {filteredLocations.map((location) => (
                   <CommandItem
                     key={location.value}
                     value={location.value}
                     onSelect={(value) => {
                       setSelectedLocation(value as LocationType);
+                      setSearchValue('');
                       setOpen(false);
                     }}
                     className={cn(
