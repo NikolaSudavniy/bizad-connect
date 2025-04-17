@@ -25,34 +25,49 @@ const LocationSelector = () => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-  // Full list of locations (default options)
-  const locations = [
+  // Full list of default locations (always visible when search is empty)
+  const defaultLocations = [
     { value: 'all', label: t('location.allUkraine'), icon: Globe },
     { value: 'Київ', label: t('location.Kyiv'), icon: MapPin },
     { value: 'Дніпро', label: t('location.Dnipro'), icon: MapPin },
     { value: 'Харків', label: t('location.Kharkov'), icon: MapPin },
     { value: 'Одеса', label: t('location.Odesa'), icon: MapPin },
     { value: 'Львів', label: t('location.Lviv'), icon: MapPin },
-    { value: 'Вінниця', label: t('location.Vinnytsia'), icon: MapPin },
-    { value: 'Херсон', label: t('location.Kherson'), icon: MapPin },
     { value: 'remote', label: t('location.remote'), icon: Clock },
     { value: 'abroad', label: t('location.abroad'), icon: Globe }
   ];
 
-  // Ukrainian cities only (for filtering when searching)
-  const ukrainianCities = locations.filter(loc => 
-    ['Київ', 'Дніпро', 'Харків', 'Одеса', 'Львів', 'Вінниця', 'Херсон'].includes(loc.value)
-  );
+  // Cities that are only shown when searching (hidden initially)
+  const hiddenCities = [
+    { value: 'Вінниця', label: t('location.Vinnytsia'), icon: MapPin },
+    { value: 'Херсон', label: t('location.Kherson'), icon: MapPin },
+  ];
 
-  // Filtered locations based on search input
-  const filteredLocations = searchValue.trim() === '' 
-    ? locations 
-    : ukrainianCities.filter(loc => 
-        loc.label.toLowerCase().includes(searchValue.toLowerCase()) ||
-        loc.value.toLowerCase().includes(searchValue.toLowerCase())
-      );
+  // All Ukrainian cities for search filtering
+  const allUkrainianCities = [
+    ...defaultLocations.filter(loc => 
+      ['Київ', 'Дніпро', 'Харків', 'Одеса', 'Львів'].includes(loc.value)
+    ),
+    ...hiddenCities
+  ];
 
-  const selectedLocationObj = locations.find(loc => loc.value === selectedLocation);
+  // Determine which locations to show based on search input
+  const getFilteredLocations = () => {
+    // If search field is empty, only show default locations
+    if (searchValue.trim() === '') {
+      return defaultLocations;
+    }
+    
+    // If there's search text, show all Ukrainian cities that match the search
+    const searchLower = searchValue.toLowerCase();
+    return allUkrainianCities.filter(loc => 
+      loc.label.toLowerCase().includes(searchLower) ||
+      loc.value.toLowerCase().includes(searchLower)
+    );
+  };
+
+  const filteredLocations = getFilteredLocations();
+  const selectedLocationObj = [...defaultLocations, ...hiddenCities].find(loc => loc.value === selectedLocation);
   
   return (
     <div className="w-full max-w-md mx-auto">
@@ -113,4 +128,3 @@ const LocationSelector = () => {
 };
 
 export default LocationSelector;
-
