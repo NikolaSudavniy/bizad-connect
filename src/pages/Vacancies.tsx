@@ -1,29 +1,13 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import VacancyCard from '@/components/home/VacancyCard';
-import { Briefcase, Search, MapPin, X } from 'lucide-react';
-import { CategoryProvider, useCategory } from '@/contexts/CategoryContext';
-import { useLocation, LocationType } from '@/contexts/LocationContext';
+import { CategoryProvider } from '@/contexts/CategoryContext';
 import CategorySelector from '@/components/home/CategorySelector';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Skeleton } from '@/components/ui/skeleton';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import { cn } from '@/lib/utils';
+import VacancySearch from '@/components/vacancies/VacancySearch';
+import VacancyResults from '@/components/vacancies/VacancyResults';
+import VacancyPagination from '@/components/vacancies/VacancyPagination';
 
 const fetchAllVacancies = async (params: {
   category?: string;
@@ -103,67 +87,13 @@ const saveVacancy = async (vacancyId: number, isFavorite: boolean): Promise<bool
 
 const VacanciesContent = () => {
   const { t } = useLanguage();
-  const { selectedCategory } = useCategory();
-  const { selectedLocation, setSelectedLocation } = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const limit = 9;
-  const [open, setOpen] = useState(false);
-  const [locationSearchValue, setLocationSearchValue] = useState('');
-  
-  const defaultLocations = [
-    { value: 'all', label: t('location.allUkraine')},
-    { value: 'Київ', label: t('location.Kyiv') },
-    { value: 'Дніпро', label: t('location.Dnipro')},
-    { value: 'Харків', label: t('location.Kharkov')},
-    { value: 'Одеса', label: t('location.Odesa')},
-    { value: 'Львів', label: t('location.Lviv')},
-    { value: 'remote', label: t('location.remote')},
-    { value: 'abroad', label: t('location.abroad')}
-  ];
-  
-  const hiddenCities = [
-    { value: 'Вінниця', label: t('location.Vinnytsia') },
-    { value: 'Херсон', label: t('location.Kherson') },
-  ];
-  
-  const allUkrainianCities = [
-    ...defaultLocations.filter(loc => 
-      ['Київ', 'Дніпро', 'Харків', 'Одеса', 'Львів'].includes(loc.value)
-    ),
-    ...hiddenCities
-  ];
-  
-  const getFilteredLocations = () => {
-    if (locationSearchValue.trim() === '') {
-      return defaultLocations;
-    }
-    
-    const searchLower = locationSearchValue.toLowerCase();
-    return allUkrainianCities.filter(loc => 
-      loc.label.toLowerCase().includes(searchLower) ||
-      loc.value.toLowerCase().includes(searchLower)
-    );
-  };
-
-  const filteredLocations = getFilteredLocations();
-  const selectedLocationObj = [...defaultLocations, ...hiddenCities].find(loc => loc.value === selectedLocation);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    refetch();
-  };
-
-  const clearLocation = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setSelectedLocation('all');
-  };
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['allVacancies', selectedCategory, selectedLocation, searchTerm, page, limit],
+    queryKey: ['allVacancies', searchTerm, page, limit],
     queryFn: () => fetchAllVacancies({
-      category: selectedCategory === 'all' ? undefined : selectedCategory,
-      location: selectedLocation === 'all' ? undefined : selectedLocation,
       search: searchTerm,
       page,
       limit
@@ -183,77 +113,10 @@ const VacanciesContent = () => {
         </div>
         
         <div className="mb-8">
-          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-grow rounded-md bg-background border border-border flex items-center">
-              <Search className="h-4 w-4 ml-3 text-muted-foreground" />
-              <input 
-                placeholder={t('vacancies.searchPlaceholder')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-grow py-2 px-3 bg-transparent outline-none text-foreground placeholder:text-muted-foreground"
-              />
-              
-              <div className="border-l border-border h-full flex items-center">
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      role="combobox"
-                      aria-expanded={open}
-                      className="py-1 px-3 h-full rounded-none"
-                    >
-                      <div className="flex items-center">
-                        <MapPin className="h-4 w-4 text-muted-foreground mr-2" />
-                        <span className="text-sm font-medium">
-                          {selectedLocationObj ? selectedLocationObj.label : t('location.allUkraine')}
-                        </span>
-                        {selectedLocation !== 'all' && (
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-6 w-6 ml-1 hover:bg-secondary/80" 
-                            onClick={clearLocation}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        )}
-                      </div>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-full p-0" align="start">
-                    <Command>
-                      <CommandInput 
-                        placeholder={t('location.searchPlaceholder') || "Пошук міста..."} 
-                        value={locationSearchValue}
-                        onValueChange={setLocationSearchValue}
-                      />
-                      <CommandList>
-                        <CommandEmpty>{t('location.noResults') || "Нічого не знайдено"}</CommandEmpty>
-                        <CommandGroup>
-                          {filteredLocations.map((location) => (
-                            <CommandItem
-                              key={location.value}
-                              value={location.value}
-                              onSelect={(value) => {
-                                setSelectedLocation(value as LocationType);
-                                setLocationSearchValue('');
-                                setOpen(false);
-                              }}
-                            >
-                              {location.label}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-              </div>
-            </div>
-            <Button type="submit" className="rounded-md">
-              {t('search.button')}
-            </Button>
-          </form>
+          <VacancySearch 
+            searchTerm={searchTerm}
+            onSearch={setSearchTerm}
+          />
         </div>
         
         <div className="mb-8">
@@ -261,64 +124,18 @@ const VacanciesContent = () => {
           <CategorySelector />
         </div>
         
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array(6).fill(0).map((_, i) => (
-              <Skeleton key={i} className="h-60 w-full" />
-            ))}
-          </div>
-        ) : data?.items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Briefcase className="h-12 w-12 text-muted-foreground/50 mb-4" />
-            <h3 className="text-xl font-medium mb-2">{t('vacancies.noVacanciesFound')}</h3>
-            <p className="text-muted-foreground max-w-md">
-              {t('vacancies.tryDifferentSearch')}
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data?.items.map((vacancy) => (
-                <VacancyCard 
-                  key={vacancy.id} 
-                  vacancy={vacancy} 
-                  onFavoriteToggle={(isFavorite) => saveVacancy(vacancy.id, isFavorite)} 
-                />
-              ))}
-            </div>
-            
-            {data?.pagination.totalPages > 1 && (
-              <div className="flex justify-center mt-12">
-                <div className="flex space-x-2">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => handlePageChange(page - 1)}
-                    disabled={page === 1}
-                  >
-                    {t('pagination.previous')}
-                  </Button>
-                  
-                  {Array.from({ length: data.pagination.totalPages }, (_, i) => i + 1).map((pageNum) => (
-                    <Button
-                      key={pageNum}
-                      variant={pageNum === page ? "default" : "outline"}
-                      onClick={() => handlePageChange(pageNum)}
-                    >
-                      {pageNum}
-                    </Button>
-                  ))}
-                  
-                  <Button 
-                    variant="outline" 
-                    onClick={() => handlePageChange(page + 1)}
-                    disabled={page === data.pagination.totalPages}
-                  >
-                    {t('pagination.next')}
-                  </Button>
-                </div>
-              </div>
-            )}
-          </>
+        <VacancyResults 
+          isLoading={isLoading}
+          items={data?.items}
+          onFavoriteToggle={saveVacancy}
+        />
+        
+        {data && (
+          <VacancyPagination
+            currentPage={page}
+            totalPages={data.pagination.totalPages}
+            onPageChange={handlePageChange}
+          />
         )}
       </div>
     </div>
