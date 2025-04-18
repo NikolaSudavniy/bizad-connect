@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, MapPin, X } from 'lucide-react';
@@ -52,16 +51,45 @@ const VacancySearch = ({ onSearch, searchTerm }: VacancySearchProps) => {
     ...hiddenCities
   ];
 
+  const transliterate = (text: string): string => {
+    const transliterationMap: Record<string, string> = {
+      'k': 'к', 'и': 'y', 'e': 'е', 'o': 'о', 'v': 'в', 'h': 'х', 'l': 'л',
+      'д': 'd', 'н': 'n', 'і': 'i', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+      'ь': '', 'в': 'v', 'и': 'y', 'н': 'n', 'ц': 'ts', 'я': 'ya'
+    };
+    
+    return text.toLowerCase();
+  };
+
   const getFilteredLocations = () => {
-    if (locationSearchValue.trim() === '') {
+    const specialCategories = defaultLocations.filter(loc => 
+      ['all', 'remote', 'abroad'].includes(loc.value)
+    );
+    
+    if (!locationSearchValue.trim()) {
       return defaultLocations;
     }
     
-    const searchLower = locationSearchValue.toLowerCase();
-    return allUkrainianCities.filter(loc => 
-      loc.label.toLowerCase().includes(searchLower) ||
-      loc.value.toLowerCase().includes(searchLower)
-    );
+    const searchLower = transliterate(locationSearchValue.toLowerCase());
+    
+    const cityMatches = allUkrainianCities.filter(loc => {
+      const locValueLower = transliterate(loc.value.toLowerCase());
+      const locLabelLower = transliterate(loc.label.toLowerCase());
+      
+      return locValueLower.includes(searchLower) || 
+             locLabelLower.includes(searchLower);
+    });
+    
+    const combined = [...specialCategories, ...cityMatches];
+    const uniqueValues = new Set();
+    
+    return combined.filter(loc => {
+      if (uniqueValues.has(loc.value)) {
+        return false;
+      }
+      uniqueValues.add(loc.value);
+      return true;
+    });
   };
 
   const filteredLocations = getFilteredLocations();

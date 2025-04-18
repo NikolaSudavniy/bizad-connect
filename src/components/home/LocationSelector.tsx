@@ -51,19 +51,51 @@ const LocationSelector = () => {
     ...hiddenCities
   ];
 
+  // Improved transliteration for search matching
+  const transliterate = (text: string): string => {
+    const transliterationMap: Record<string, string> = {
+      'k': 'к', 'и': 'y', 'e': 'е', 'o': 'о', 'v': 'в', 'h': 'х', 'l': 'л',
+      'д': 'd', 'н': 'n', 'і': 'i', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+      'ь': '', 'в': 'v', 'и': 'y', 'н': 'n', 'ц': 'ts', 'я': 'ya'
+    };
+    
+    return text.toLowerCase();
+  };
+
   // Determine which locations to show based on search input
   const getFilteredLocations = () => {
+    // Always include special categories
+    const specialCategories = defaultLocations.filter(loc => 
+      ['all', 'remote', 'abroad'].includes(loc.value)
+    );
+    
     // If search field is empty, only show default locations
-    if (searchValue.trim() === '') {
+    if (!searchValue.trim()) {
       return defaultLocations;
     }
     
-    // If there's search text, show all Ukrainian cities that match the search
-    const searchLower = searchValue.toLowerCase();
-    return allUkrainianCities.filter(loc => 
-      loc.label.toLowerCase().includes(searchLower) ||
-      loc.value.toLowerCase().includes(searchLower)
-    );
+    // If there's search text, show all cities that match (including hidden ones)
+    const searchLower = transliterate(searchValue.toLowerCase());
+    
+    const cityMatches = allUkrainianCities.filter(loc => {
+      const locValueLower = transliterate(loc.value.toLowerCase());
+      const locLabelLower = transliterate(loc.label.toLowerCase());
+      
+      return locValueLower.includes(searchLower) || 
+             locLabelLower.includes(searchLower);
+    });
+    
+    // Combine with special categories and ensure uniqueness
+    const combined = [...specialCategories, ...cityMatches];
+    const uniqueValues = new Set();
+    
+    return combined.filter(loc => {
+      if (uniqueValues.has(loc.value)) {
+        return false;
+      }
+      uniqueValues.add(loc.value);
+      return true;
+    });
   };
 
   const filteredLocations = getFilteredLocations();

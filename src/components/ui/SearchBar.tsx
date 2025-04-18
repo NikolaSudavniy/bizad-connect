@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, MapPin, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,8 +24,9 @@ const SearchBar = () => {
   const { t } = useLanguage();
   const { selectedLocation, setSelectedLocation } = useLocation();
   const [open, setOpen] = useState(false);
+  const [locationSearchValue, setLocationSearchValue] = useState('');
   
-  const locations = [
+  const defaultLocations = [
     { value: 'all', label: t('location.allUkraine')},
     { value: 'Київ', label: t('location.Kyiv') },
     { value: 'Дніпро', label: t('location.Dnipro')},
@@ -37,8 +37,61 @@ const SearchBar = () => {
     { value: 'abroad', label: t('location.abroad')}
   ];
 
+  const hiddenCities = [
+    { value: 'Вінниця', label: t('location.Vinnytsia') },
+    { value: 'Херсон', label: t('location.Kherson') },
+  ];
 
-  const selectedLocationObj = locations.find(loc => loc.value === selectedLocation);
+  const allUkrainianCities = [
+    ...defaultLocations.filter(loc => 
+      ['Київ', 'Дніпро', 'Харків', 'Одеса', 'Львів'].includes(loc.value)
+    ),
+    ...hiddenCities
+  ];
+
+  const transliterate = (text: string): string => {
+    const transliterationMap: Record<string, string> = {
+      'k': 'к', 'и': 'y', 'e': 'е', 'o': 'о', 'v': 'в', 'h': 'х', 'l': 'л',
+      'д': 'd', 'н': 'n', 'і': 'i', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+      'ь': '', 'в': 'v', 'и': 'y', 'н': 'n', 'ц': 'ts', 'я': 'ya'
+    };
+    
+    return text.toLowerCase();
+  };
+
+  const getFilteredLocations = () => {
+    const specialCategories = defaultLocations.filter(loc => 
+      ['all', 'remote', 'abroad'].includes(loc.value)
+    );
+    
+    if (!locationSearchValue.trim()) {
+      return defaultLocations;
+    }
+    
+    const searchLower = transliterate(locationSearchValue.toLowerCase());
+    
+    const cityMatches = allUkrainianCities.filter(loc => {
+      const locValueLower = transliterate(loc.value.toLowerCase());
+      const locLabelLower = transliterate(loc.label.toLowerCase());
+      
+      return locValueLower.includes(searchLower) || 
+             locLabelLower.includes(searchLower);
+    });
+    
+    const combined = [...specialCategories, ...cityMatches];
+    const uniqueValues = new Set();
+    
+    return combined.filter(loc => {
+      if (uniqueValues.has(loc.value)) {
+        return false;
+      }
+      uniqueValues.add(loc.value);
+      return true;
+    });
+  };
+
+  const filteredLocations = getFilteredLocations();
+  const selectedLocationObj = [...defaultLocations, ...hiddenCities].find(loc => loc.value === selectedLocation);
 
   const clearLocation = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -95,16 +148,21 @@ const SearchBar = () => {
           </PopoverTrigger>
           <PopoverContent className="w-full p-0" align="start">
             <Command>
-              <CommandInput placeholder={t('location.searchPlaceholder') || "Пошук міста..."} />
+              <CommandInput 
+                placeholder={t('location.searchPlaceholder') || "Пошук міста..."} 
+                value={locationSearchValue}
+                onValueChange={setLocationSearchValue}
+              />
               <CommandList>
                 <CommandEmpty>{t('location.noResults') || "Нічого не знайдено"}</CommandEmpty>
                 <CommandGroup>
-                  {locations.map((location) => (
+                  {filteredLocations.map((location) => (
                     <CommandItem
                       key={location.value}
                       value={location.value}
                       onSelect={(value) => {
                         setSelectedLocation(value as LocationType);
+                        setLocationSearchValue('');
                         setOpen(false);
                       }}
                     >
