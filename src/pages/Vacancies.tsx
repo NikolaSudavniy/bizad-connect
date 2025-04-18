@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
@@ -26,7 +25,6 @@ import {
 } from "@/components/ui/command";
 import { cn } from '@/lib/utils';
 
-// API function to fetch all vacancies with pagination and filters
 const fetchAllVacancies = async (params: {
   category?: string;
   location?: string;
@@ -34,13 +32,10 @@ const fetchAllVacancies = async (params: {
   page: number;
   limit: number;
 }) => {
-  // In a real app, this would be an API call to your backend
   console.log('Fetching all vacancies with params:', params);
   
-  // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 800));
   
-  // Mock data for demonstration
   const allVacancies = [
     { id: 1, title: 'Front-end розробник', company: 'Діфоменко О. М., ФОП', location: 'Дніпро', experience: '2 роки', postedTime: '16 год. тому', progress: 6, isNew: true, categories: ['digital', 'social'] },
     { id: 2, title: 'Front-end розробник', company: 'Планета, мебельна майстерня', location: 'Дніпро', salary: '37 000 грн', postedTime: '2 дні тому', categories: ['digital', 'print'] },
@@ -54,32 +49,25 @@ const fetchAllVacancies = async (params: {
     { id: 10, title: 'UX/UI Designer', company: 'Genesis', location: 'Одеса', salary: '1800 - 2800 $', experience: '2+ років', postedTime: '12 днів тому', categories: ['digital'] }
   ];
   
-  // Filter by category
   let filtered = allVacancies;
   if (params.category && params.category !== 'all') {
     filtered = filtered.filter(v => v.categories.includes(params.category));
   }
   
-  // Filter by location
   if (params.location && params.location !== 'all') {
     if (params.location === 'near') {
-      // Simulate "near me" filtering - in a real app, this would use actual geolocation
-      filtered = filtered.filter(v => v.location === 'Дніпро'); // Example: default to Dnipro
+      filtered = filtered.filter(v => v.location === 'Дніпро');
     } else if (params.location === 'remote') {
-      // For remote work - would have a "remote" field in real data
       filtered = filtered.filter(v => v.location.includes('Remote') || v.location.includes('Дистанційно'));
     } else if (params.location === 'abroad') {
-      // For international jobs
       filtered = filtered.filter(v => 
         !['Київ', 'Дніпро', 'Харків', 'Львів', 'Одеса'].includes(v.location)
       );
     } else {
-      // For specific city
       filtered = filtered.filter(v => v.location === params.location);
     }
   }
   
-  // Filter by search term
   if (params.search) {
     const searchLower = params.search.toLowerCase();
     filtered = filtered.filter(v => 
@@ -89,7 +77,6 @@ const fetchAllVacancies = async (params: {
     );
   }
   
-  // Calculate pagination
   const total = filtered.length;
   const startIndex = (params.page - 1) * params.limit;
   const endIndex = startIndex + params.limit;
@@ -106,15 +93,12 @@ const fetchAllVacancies = async (params: {
   };
 };
 
-// Function to save a vacancy (e.g., when marking as favorite)
 const saveVacancy = async (vacancyId: number, isFavorite: boolean): Promise<boolean> => {
-  // In a real app, this would be an API call to your backend
   console.log(`Saving vacancy ${vacancyId} as favorite: ${isFavorite}`);
   
-  // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300));
   
-  return true; // Success
+  return true;
 };
 
 const VacanciesContent = () => {
@@ -125,8 +109,9 @@ const VacanciesContent = () => {
   const [page, setPage] = useState(1);
   const limit = 9;
   const [open, setOpen] = useState(false);
+  const [locationSearchValue, setLocationSearchValue] = useState('');
   
-  const locations = [
+  const defaultLocations = [
     { value: 'all', label: t('location.allUkraine')},
     { value: 'Київ', label: t('location.Kyiv') },
     { value: 'Дніпро', label: t('location.Dnipro')},
@@ -136,10 +121,34 @@ const VacanciesContent = () => {
     { value: 'remote', label: t('location.remote')},
     { value: 'abroad', label: t('location.abroad')}
   ];
+  
+  const hiddenCities = [
+    { value: 'Вінниця', label: t('location.Vinnytsia') },
+    { value: 'Херсон', label: t('location.Kherson') },
+  ];
+  
+  const allUkrainianCities = [
+    ...defaultLocations.filter(loc => 
+      ['Київ', 'Дніпро', 'Харків', 'Одеса', 'Львів'].includes(loc.value)
+    ),
+    ...hiddenCities
+  ];
+  
+  const getFilteredLocations = () => {
+    if (locationSearchValue.trim() === '') {
+      return defaultLocations;
+    }
+    
+    const searchLower = locationSearchValue.toLowerCase();
+    return allUkrainianCities.filter(loc => 
+      loc.label.toLowerCase().includes(searchLower) ||
+      loc.value.toLowerCase().includes(searchLower)
+    );
+  };
 
-  const selectedLocationObj = locations.find(loc => loc.value === selectedLocation);
+  const filteredLocations = getFilteredLocations();
+  const selectedLocationObj = [...defaultLocations, ...hiddenCities].find(loc => loc.value === selectedLocation);
 
-  // Handle search submission
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     refetch();
@@ -150,7 +159,6 @@ const VacanciesContent = () => {
     setSelectedLocation('all');
   };
 
-  // Use React Query to fetch vacancies
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['allVacancies', selectedCategory, selectedLocation, searchTerm, page, limit],
     queryFn: () => fetchAllVacancies({
@@ -162,7 +170,6 @@ const VacanciesContent = () => {
     }),
   });
 
-  // Handle page change
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
@@ -215,16 +222,21 @@ const VacanciesContent = () => {
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0" align="start">
                     <Command>
-                      <CommandInput placeholder={t('location.searchPlaceholder') || "Пошук міста..."} />
+                      <CommandInput 
+                        placeholder={t('location.searchPlaceholder') || "Пошук міста..."} 
+                        value={locationSearchValue}
+                        onValueChange={setLocationSearchValue}
+                      />
                       <CommandList>
                         <CommandEmpty>{t('location.noResults') || "Нічого не знайдено"}</CommandEmpty>
                         <CommandGroup>
-                          {locations.map((location) => (
+                          {filteredLocations.map((location) => (
                             <CommandItem
                               key={location.value}
                               value={location.value}
                               onSelect={(value) => {
                                 setSelectedLocation(value as LocationType);
+                                setLocationSearchValue('');
                                 setOpen(false);
                               }}
                             >
@@ -275,7 +287,6 @@ const VacanciesContent = () => {
               ))}
             </div>
             
-            {/* Pagination */}
             {data?.pagination.totalPages > 1 && (
               <div className="flex justify-center mt-12">
                 <div className="flex space-x-2">
