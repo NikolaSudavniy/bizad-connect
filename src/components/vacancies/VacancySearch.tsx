@@ -52,14 +52,49 @@ const VacancySearch = ({ onSearch, searchTerm }: VacancySearchProps) => {
     ...hiddenCities
   ];
 
+  // Improved transliteration for search matching
   const transliterate = (text: string): string => {
-    const transliterationMap: Record<string, string> = {
-      'k': 'к', 'y': 'и', 'e': 'е', 'o': 'о', 'v': 'в', 'h': 'х', 'l': 'л',
+    // Transliteration maps for bidirectional conversion
+    const cyrillicToLatin: Record<string, string> = {
+      'к': 'k', 'и': 'y', 'е': 'e', 'о': 'o', 'в': 'v', 'х': 'h', 'л': 'l',
       'д': 'd', 'н': 'n', 'і': 'i', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-      'ь': '', 'в': 'v', 'ц': 'ts', 'я': 'ya'
+      'ь': '', 'ц': 'ts', 'я': 'ya', 'й': 'y', 'ї': 'yi', 'є': 'ye',
+      'ж': 'zh', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ю': 'yu', 'а': 'a',
+      'б': 'b', 'г': 'g', 'ґ': 'g', 'з': 'z', 'м': 'm', 'ф': 'f', 'у': 'u'
     };
     
-    return text.toLowerCase();
+    const latinToCyrillic: Record<string, string> = {
+      'k': 'к', 'y': 'и', 'e': 'е', 'o': 'о', 'v': 'в', 'h': 'х', 'l': 'л',
+      'd': 'д', 'n': 'н', 'i': 'і', 'p': 'п', 'r': 'р', 's': 'с', 't': 'т',
+      'ts': 'ц', 'ya': 'я', 'yi': 'ї', 'ye': 'є', 'zh': 'ж', 'ch': 'ч',
+      'sh': 'ш', 'sch': 'щ', 'yu': 'ю', 'a': 'а', 'b': 'б', 'g': 'г',
+      'z': 'з', 'm': 'м', 'f': 'ф', 'u': 'у'
+    };
+    
+    // Normalize text to lowercase for consistent matching
+    const normalizedText = text.toLowerCase();
+    
+    // Create normalized versions of the text: one Latinized, one Cyrillicized
+    let latinized = '';
+    let cyrillicized = '';
+    
+    // Process each character
+    for (let i = 0; i < normalizedText.length; i++) {
+      const char = normalizedText[i];
+      
+      // Determine if it's a Cyrillic character
+      if (/[а-яіїєґ]/.test(char)) {
+        latinized += cyrillicToLatin[char] || char;
+        cyrillicized += char;
+      } else {
+        // It's a Latin character or other
+        cyrillicized += latinToCyrillic[char] || char;
+        latinized += char;
+      }
+    }
+    
+    // Return the original normalized text for comparison
+    return normalizedText + ' ' + latinized + ' ' + cyrillicized;
   };
 
   const getFilteredLocations = () => {
@@ -71,14 +106,17 @@ const VacancySearch = ({ onSearch, searchTerm }: VacancySearchProps) => {
       return defaultLocations;
     }
     
-    const searchLower = transliterate(locationSearchValue.toLowerCase());
+    const searchTerms = transliterate(locationSearchValue.toLowerCase());
     
+    // Include all cities (including hidden ones) in the search
     const cityMatches = allUkrainianCities.filter(loc => {
-      const locValueLower = transliterate(loc.value.toLowerCase());
-      const locLabelLower = transliterate(loc.label.toLowerCase());
+      const locValueTerms = transliterate(loc.value.toLowerCase());
+      const locLabelTerms = transliterate(loc.label.toLowerCase());
       
-      return locValueLower.includes(searchLower) || 
-             locLabelLower.includes(searchLower);
+      return locValueTerms.includes(locationSearchValue.toLowerCase()) || 
+             locLabelTerms.includes(locationSearchValue.toLowerCase()) ||
+             searchTerms.includes(loc.value.toLowerCase()) ||
+             searchTerms.includes(loc.label.toLowerCase());
     });
     
     const combined = [...specialCategories, ...cityMatches];
