@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useLocation, LocationType } from '@/contexts/LocationContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -73,7 +72,7 @@ const LocationSelector = () => {
     // Normalize text to lowercase for consistent matching
     const normalizedText = text.toLowerCase();
     
-    // Create normalized versions of the text: one Latinized, one Cyrillicized
+    // Create normalized versions of the text in both scripts
     let latinized = '';
     let cyrillicized = '';
     
@@ -86,14 +85,14 @@ const LocationSelector = () => {
         latinized += cyrillicToLatin[char] || char;
         cyrillicized += char;
       } else {
-        // It's a Latin character or other
+        // Handle Latin characters
         cyrillicized += latinToCyrillic[char] || char;
         latinized += char;
       }
     }
     
-    // Return the original normalized text for comparison
-    return normalizedText + ' ' + latinized + ' ' + cyrillicized;
+    // Return all versions for comparison
+    return `${normalizedText} ${latinized} ${cyrillicized}`;
   };
 
   // Determine which locations to show based on search input
@@ -108,18 +107,17 @@ const LocationSelector = () => {
       return defaultLocations;
     }
     
-    // If there's search text, show all cities that match (including hidden ones)
-    const searchTerms = transliterate(searchValue.toLowerCase());
+    // Normalize and transliterate the search value
+    const normalizedSearchValue = searchValue.toLowerCase().trim();
+    const searchTerms = transliterate(normalizedSearchValue);
     
     // Include all cities (including hidden ones) in the search
     const cityMatches = allUkrainianCities.filter(loc => {
-      const locValueTerms = transliterate(loc.value.toLowerCase());
-      const locLabelTerms = transliterate(loc.label.toLowerCase());
+      const locTransliterated = transliterate(loc.value);
+      const labelTransliterated = transliterate(loc.label);
       
-      return locValueTerms.includes(searchValue.toLowerCase()) || 
-             locLabelTerms.includes(searchValue.toLowerCase()) ||
-             searchTerms.includes(loc.value.toLowerCase()) ||
-             searchTerms.includes(loc.label.toLowerCase());
+      return locTransliterated.includes(normalizedSearchValue) || 
+             labelTransliterated.includes(normalizedSearchValue);
     });
     
     // Combine with special categories and ensure uniqueness

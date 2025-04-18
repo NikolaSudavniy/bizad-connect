@@ -72,7 +72,7 @@ const SearchBar = () => {
     // Normalize text to lowercase for consistent matching
     const normalizedText = text.toLowerCase();
     
-    // Create normalized versions of the text: one Latinized, one Cyrillicized
+    // Create normalized versions of the text in both scripts
     let latinized = '';
     let cyrillicized = '';
     
@@ -85,14 +85,14 @@ const SearchBar = () => {
         latinized += cyrillicToLatin[char] || char;
         cyrillicized += char;
       } else {
-        // It's a Latin character or other
+        // Handle Latin characters
         cyrillicized += latinToCyrillic[char] || char;
         latinized += char;
       }
     }
     
-    // Return the original normalized text for comparison
-    return normalizedText + ' ' + latinized + ' ' + cyrillicized;
+    // Return all versions for comparison
+    return `${normalizedText} ${latinized} ${cyrillicized}`;
   };
 
   const getFilteredLocations = () => {
@@ -104,17 +104,17 @@ const SearchBar = () => {
       return defaultLocations;
     }
     
-    const searchTerms = transliterate(locationSearchValue.toLowerCase());
+    // Normalize and transliterate the search value
+    const normalizedSearchValue = locationSearchValue.toLowerCase().trim();
+    const searchTerms = transliterate(normalizedSearchValue);
     
     // Include all cities (including hidden ones) in the search
     const cityMatches = allUkrainianCities.filter(loc => {
-      const locValueTerms = transliterate(loc.value.toLowerCase());
-      const locLabelTerms = transliterate(loc.label.toLowerCase());
+      const locTransliterated = transliterate(loc.value);
+      const labelTransliterated = transliterate(loc.label);
       
-      return locValueTerms.includes(locationSearchValue.toLowerCase()) || 
-             locLabelTerms.includes(locationSearchValue.toLowerCase()) ||
-             searchTerms.includes(loc.value.toLowerCase()) ||
-             searchTerms.includes(loc.label.toLowerCase());
+      return locTransliterated.includes(normalizedSearchValue) || 
+             labelTransliterated.includes(normalizedSearchValue);
     });
     
     const combined = [...specialCategories, ...cityMatches];
