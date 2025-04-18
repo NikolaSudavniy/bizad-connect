@@ -54,9 +54,9 @@ const LocationSelector = () => {
   // Improved transliteration for search matching
   const transliterate = (text: string): string => {
     const transliterationMap: Record<string, string> = {
-      'k': 'к', 'и': 'y', 'e': 'е', 'o': 'о', 'v': 'в', 'h': 'х', 'l': 'л',
+      'k': 'к', 'y': 'и', 'e': 'е', 'o': 'о', 'v': 'в', 'h': 'х', 'l': 'л',
       'д': 'd', 'н': 'n', 'і': 'i', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-      'ь': '', 'в': 'v', 'и': 'y', 'н': 'n', 'ц': 'ts', 'я': 'ya'
+      'ь': '', 'в': 'v', 'ц': 'ts', 'я': 'ya'
     };
     
     return text.toLowerCase();
